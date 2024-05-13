@@ -1,1 +1,1 @@
-# Proyecto-CI5652
+# Minimum Graph Coloring Python
