@@ -1,22 +1,19 @@
+import sys
 import igraph as ig
-import matplotlib.pyplot as plt
-import random
+from src.lib.read_graph import read_graph
 
-visual_style = {
-    "edge_width": 0.3,
-    "vertex_size": 15,
-    "palette": "heat",
-    "layout": "fruchterman_reingold"
-}
+def main():
+    # Leemos los argumentos de la línea de comandos
+    file_path: str = sys.argv[1]
+    g: ig.Graph = read_graph(file_path)
+    # print(g)
+    # Muestro la cantidad de lados
+    print("Cantidad de lados: ", len(g.es))
+    # Muestro la cantidad de nodos
+    print("Cantidad de nodos: ", len(g.vs))
 
-random.seed(1)
-gs = [ig.Graph.Barabasi(n=30, m=1) for i in range(4)]
+    for v in g.vs:
+        print(v)
 
-betweenness = [g.betweenness() for g in gs]
-colors = [[int(i * 255 / max(btw)) for i in btw] for btw in betweenness]
-
-fig, axs = plt.subplots(2, 2)
-axs = axs.ravel()
-for g, color, ax in zip(gs, colors, axs):
-    ig.plot(g, target=ax, vertex_color=color, **visual_style)
-plt.show()
+if __name__ == "__main__":
+    main()
