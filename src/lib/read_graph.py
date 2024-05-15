@@ -18,9 +18,12 @@ def read_graph(file_path: str) -> ig.Graph:
             i += 1
             break
     g = ig.Graph(directed=False)
+    
+    g.colors = [str(x) for x in range(nodes)]
+
 
     for i in range(nodes):
-        g.add_vertex(name=str(i+1), color="#")
+        g.add_vertex(name=str(i + 1), color="", saturation=0, index=i)
 
     if format == "edge":
         for j in range(i, len(lines)):
