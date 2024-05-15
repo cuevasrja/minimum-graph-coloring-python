@@ -9,7 +9,7 @@ def read_graph(file_path: str) -> ig.Graph:
     edges: int = 0
     for line in lines:
         if line.startswith("c"):
-            lines.remove(line) 
+            continue
         elif line.startswith("p"):
             format, nodes, edges = line.split(' ')[1:]
             nodes, edges = int(nodes), int(edges)
@@ -26,6 +26,8 @@ def read_graph(file_path: str) -> ig.Graph:
                 g.add_edge(v1, v2)
     else:
         print("\033[91mError: The graph format is not supported.\033[0m")
+        print("\033[91mSupported formats\033[0m: edge")
+        print("\033[91mActual format\033[0m: ", format)
 
     return g
     

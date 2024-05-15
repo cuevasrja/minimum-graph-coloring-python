@@ -1,0 +1,12 @@
+
+# Python bytecode
+*.pyc
+*.pyo
+*.pyd
+
+# C extensions
+*.so
+
+# Distribution / packaging
+.Python
+__pycache__
