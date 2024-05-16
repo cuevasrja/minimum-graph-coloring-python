@@ -2,6 +2,7 @@ import igraph as ig
 from src.lib.methods_for_graph import vertex_with_max_saturation, adjacent_colors, change_color_and_increase_saturation, group_nodes_by_color, is_colored, is_safe_to_color, reset_colors, is_valid_coloring, number_of_colors
 from src.lib.d_satur import d_satur
 from src.lib.backtracking import backtracking
+from src.lib.local_search import GCP_local_search
 
 ig.Graph.number_of_colors = number_of_colors
 ig.Graph.is_valid_coloring = is_valid_coloring
@@ -14,6 +15,7 @@ ig.Graph.change_color_and_increase_saturation = change_color_and_increase_satura
 ig.Graph.d_satur = d_satur
 ig.Graph.backtracking = backtracking
 ig.Graph.group_nodes_by_color = group_nodes_by_color
+ig.Graph.GCP_local_search = GCP_local_search
 
 def read_graph(file_path: str) -> ig.Graph:
     """
