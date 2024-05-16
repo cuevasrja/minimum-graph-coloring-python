@@ -2,13 +2,20 @@ import igraph as ig
 
 
 def read_graph(file_path: str) -> ig.Graph:
+    """
+    Lee un archivo de texto que contiene la descripción de un grafo (en formato DIMACS)
+    y retorna un objeto de tipo igraph.Graph.
+    """
+
     with open(file_path, "r") as f:
         lines = f.readlines()
+
     i: int = 0
     lines: list[str] = [line.strip() for line in lines]
     format: str = ''
     nodes: int = 0
     edges: int = 0
+
     for line in lines:
         if line.startswith("c"):
             i += 1
@@ -18,6 +25,7 @@ def read_graph(file_path: str) -> ig.Graph:
             nodes, edges = int(nodes), int(edges)
             i += 1
             break
+
     g = ig.Graph(directed=False)
 
     g.colors = [str(x) for x in range(nodes)]
