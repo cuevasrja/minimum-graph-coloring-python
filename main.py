@@ -1,11 +1,12 @@
 import sys
 import igraph as ig
 from src.lib.read_graph import read_graph
-from src.lib.methods_for_graph import vertex_with_max_saturation, adjacent_colors, change_color_and_increase_saturation, group_nodes_by_color, is_colored, is_safe_to_color, reset_colors, is_valid_coloring
+from src.lib.methods_for_graph import vertex_with_max_saturation, adjacent_colors, change_color_and_increase_saturation, group_nodes_by_color, is_colored, is_safe_to_color, reset_colors, is_valid_coloring, number_of_colors
 from src.lib.d_satur import d_satur
 from src.lib.backtracking import backtracking
 
 
+ig.Graph.number_of_colors = number_of_colors
 ig.Graph.is_valid_coloring = is_valid_coloring
 ig.Graph.reset_colors = reset_colors
 ig.Graph.is_colored = is_colored

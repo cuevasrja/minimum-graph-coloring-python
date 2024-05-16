@@ -1,6 +1,18 @@
 import igraph as ig
 
 
+def number_of_colors(self: ig.Graph):
+    """
+    Retorna el número de colores utilizados en la coloración del grafo.
+    """
+
+    # Crear un conjunto con los colores de los nodos
+    colors = {v['color'] for v in self.vs if v['color']}
+
+    # Retornar la cantidad de colores
+    return len(colors)
+
+
 def is_valid_coloring(self: ig.Graph):
     """
     Verifica si la coloración del grafo es válida.

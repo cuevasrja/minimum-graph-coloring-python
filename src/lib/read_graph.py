@@ -34,10 +34,11 @@ def read_graph(file_path: str) -> ig.Graph:
         g.add_vertex(name=str(i + 1), color="", saturation=0, index=i)
 
     if format == "edge":
-        for j in range(i, len(lines)):
+        for j in range(0, len(lines)):
             if lines[j].startswith("e"):
                 _, v1, v2 = lines[j].split(' ')
-                g.add_edge(v1, v2)
+                v1, v2 = int(v1), int(v2)
+                g.add_edge(v1 - 1, v2 - 1)
     else:
         print("\033[91mError: The graph format is not supported.\033[0m")
         print("\033[91mSupported formats\033[0m: edge")
