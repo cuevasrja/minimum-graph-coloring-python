@@ -1,5 +1,6 @@
 import igraph as ig
 
+
 def read_graph(file_path: str) -> ig.Graph:
     with open(file_path, "r") as f:
         lines = f.readlines()
@@ -18,9 +19,8 @@ def read_graph(file_path: str) -> ig.Graph:
             i += 1
             break
     g = ig.Graph(directed=False)
-    
-    g.colors = [str(x) for x in range(nodes)]
 
+    g.colors = [str(x) for x in range(nodes)]
 
     for i in range(nodes):
         g.add_vertex(name=str(i + 1), color="", saturation=0, index=i)
@@ -36,4 +36,3 @@ def read_graph(file_path: str) -> ig.Graph:
         print("\033[91mActual format\033[0m: ", format)
 
     return g
-    
