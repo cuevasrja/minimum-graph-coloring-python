@@ -45,16 +45,16 @@ def main():
     print(f"Coloración válida: {g.is_valid_coloring()}")
 
     # Invocando Backtracking
-    print("\nInvocando Backtracking")
+    # print("\nInvocando Backtracking")
 
-    g.reset_colors()
-    m = g.backtracking()
-    if m == -1:
-        print("Error: Backtracking no pudo colorear el grafo")
-        exit()
+    # g.reset_colors()
+    # m = g.backtracking()
+    # if m == -1:
+    #     print("Error: Backtracking no pudo colorear el grafo")
+    #     exit()
 
-    g.group_nodes_by_color()
-    print(f"Coloración válida: {g.is_valid_coloring()}")
+    # g.group_nodes_by_color()
+    # print(f"Coloración válida: {g.is_valid_coloring()}")
 
 
 if __name__ == "__main__":
