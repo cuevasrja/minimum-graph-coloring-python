@@ -1,5 +1,19 @@
 import igraph as ig
+from src.lib.methods_for_graph import vertex_with_max_saturation, adjacent_colors, change_color_and_increase_saturation, group_nodes_by_color, is_colored, is_safe_to_color, reset_colors, is_valid_coloring, number_of_colors
+from src.lib.d_satur import d_satur
+from src.lib.backtracking import backtracking
 
+ig.Graph.number_of_colors = number_of_colors
+ig.Graph.is_valid_coloring = is_valid_coloring
+ig.Graph.reset_colors = reset_colors
+ig.Graph.is_colored = is_colored
+ig.Graph.is_safe_to_color = is_safe_to_color
+ig.Graph.vertex_with_max_saturation = vertex_with_max_saturation
+ig.Graph.adjacent_colors = adjacent_colors
+ig.Graph.change_color_and_increase_saturation = change_color_and_increase_saturation
+ig.Graph.d_satur = d_satur
+ig.Graph.backtracking = backtracking
+ig.Graph.group_nodes_by_color = group_nodes_by_color
 
 def read_graph(file_path: str) -> ig.Graph:
     """
@@ -31,7 +45,7 @@ def read_graph(file_path: str) -> ig.Graph:
     g.colors = [str(x) for x in range(nodes)]
 
     for i in range(nodes):
-        g.add_vertex(name=str(i + 1), color="", saturation=0, index=i)
+        g.add_vertex(name=str(i + 1), color=-1, saturation=0, index=i)
 
     if format == "edge":
         for j in range(0, len(lines)):
