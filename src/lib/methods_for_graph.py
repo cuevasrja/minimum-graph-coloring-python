@@ -144,8 +144,8 @@ def group_nodes_by_color(self: ig.Graph) -> None:
 
     # Imprimir los nodos agrupados por color
     for color, nodes in nodes_by_color.items():
-        print(f"Color {color}: {', '.join(map(str, nodes))}")
+        print(f"\033[94mColor {color}\033[0m: {', '.join(map(str, nodes))}")
 
     # Imprimir el número total de colores
     total_colors: int = len(nodes_by_color)
-    print(f"Número total de colores: {total_colors}")
+    print(f"Número total de colores: \033[94;1m{total_colors}\033[0m")
