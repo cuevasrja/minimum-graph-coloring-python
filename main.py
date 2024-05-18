@@ -2,6 +2,7 @@ import sys
 import igraph as ig
 from src.lib.read_graph import read_graph
 
+
 def main():
     # Leemos los argumentos de la línea de comandos
     file_path: str = sys.argv[1]
@@ -16,7 +17,8 @@ def main():
         print(v)
 
     for e in g.es:
-        print(f"Arista {e.index} entre {e.source} y {e.target}: {e.attributes()}")
+        print(f"Arista {e.index} entre {e.source} y {
+              e.target}: {e.attributes()}")
 
     # Invocando D-Satur
     print("\nInvocando D-Satur")
@@ -48,6 +50,7 @@ def main():
     # g.group_nodes_by_color()
     # print(f"Coloración válida: {g.is_valid_coloring()}")
     # print(f"Colores: {g.number_of_colors()}")
+
 
 if __name__ == "__main__":
     main()

@@ -2,6 +2,7 @@ from typing import List
 import igraph as ig
 import numpy as np
 
+
 def kempe_neighbourhood(self: ig.Graph) -> int:
     """
     ## Kempe neighbourhood.
@@ -14,16 +15,23 @@ def kempe_neighbourhood(self: ig.Graph) -> int:
         Kempe neighbourhood of the graph.
     """
     colors: List[int] = []
-    colors = [v["color"] for v in self.vs if v["color"] and v["color"] not in colors]
+    colors = [v["color"]
+              for v in self.vs if v["color"] and v["color"] not in colors]
+
     if len(colors) == 1:
         return 0
+
     C: List[List[ig.Vertex]] = [[] for _ in range(len(colors))]
+
     for v in self.vs:
         C[int(v["color"])].append(v)
+
     kempe: int = 0
     for c in C:
-        kempe += -(len(c)**2)
+        kempe += -(len(c) ** 2)
+
     return kempe
+
 
 def local_search(self: ig.Graph):
     """
@@ -37,8 +45,3 @@ def local_search(self: ig.Graph):
     self.d_satur()
 
     # TODO: Implement local search
-
-
-
-    
-

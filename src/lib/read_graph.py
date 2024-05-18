@@ -18,6 +18,7 @@ ig.Graph.group_nodes_by_color = group_nodes_by_color
 ig.Graph.kempe_neighbourhood = kempe_neighbourhood
 ig.Graph.local_search = local_search
 
+
 def read_graph(file_path: str) -> ig.Graph:
     """
     Lee un archivo de texto que contiene la descripción de un grafo (en formato DIMACS)
