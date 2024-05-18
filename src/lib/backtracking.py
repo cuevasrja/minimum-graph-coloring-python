@@ -1,10 +1,11 @@
+from typing import List
 import igraph as ig
 
-best_number_of_colors = 0
-best_colors = []
+best_number_of_colors: int = 0
+best_colors: List[str] = []
 
 
-def backtracking(self: ig.Graph):
+def backtracking(self: ig.Graph) -> int:
     """
     Colorea el grafo utilizando el metodo de backtracking (fuerza bruta).
     """
@@ -39,7 +40,7 @@ def backtrack(self: ig.Graph, node_index, color_counts: dict = {}):
         return
 
     for c in range(len(self.vs)):
-        color = f'{c}'
+        color: str = f'{c}'
 
         # Si ya se encontró una coloración con menos colores, se puede podar
         if c > best_number_of_colors - 1:

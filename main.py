@@ -13,13 +13,6 @@ def main():
     # Muestro la cantidad de nodos
     print("Cantidad de nodos: ", len(g.vs))
 
-    for v in g.vs:
-        print(v)
-
-    for e in g.es:
-        print(f"Arista {e.index} entre {e.source} y {
-              e.target}: {e.attributes()}")
-
     # Invocando D-Satur
     print("\nInvocando D-Satur")
 

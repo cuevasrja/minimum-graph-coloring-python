@@ -47,7 +47,7 @@ def read_graph(file_path: str) -> ig.Graph:
             i += 1
             break
 
-    g = ig.Graph(directed=False)
+    g: ig.Graph = ig.Graph(directed=False)
 
     g.colors = [str(x) for x in range(nodes)]
 
