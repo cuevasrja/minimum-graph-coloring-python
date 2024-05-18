@@ -42,14 +42,14 @@ def main():
     # print(f"Coloración válida: {g.is_valid_coloring()}")
 
     # Invocando Local Search
-    # print("\nInvocando Local Search")
+    print("\nInvocando Local Search")
 
-    # g.reset_colors()
-    # g.local_search()
+    g.reset_colors()
+    g.local_search()
 
-    # g.group_nodes_by_color()
-    # print(f"Coloración válida: {g.is_valid_coloring()}")
-    # print(f"Colores: {g.number_of_colors()}")
+    g.group_nodes_by_color()
+    print(f"Coloración válida: {g.is_valid_coloring()}")
+    print(f"Colores: {g.number_of_colors()}")
 
 
 if __name__ == "__main__":

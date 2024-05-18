@@ -1,8 +1,8 @@
 import igraph as ig
-from src.lib.methods_for_graph import vertex_with_max_saturation, adjacent_colors, change_color_and_increase_saturation, group_nodes_by_color, is_colored, is_safe_to_color, reset_colors, is_valid_coloring, number_of_colors
+from src.lib.methods_for_graph import vertex_with_max_saturation, adjacent_colors, change_color_and_increase_saturation, group_nodes_by_color, is_colored, is_safe_to_color, reset_colors, is_valid_coloring, number_of_colors, coloring_as_dict, apply_coloring_dict
 from src.lib.d_satur import d_satur
 from src.lib.backtracking import backtracking
-from src.lib.local_search import local_search, kempe_neighbourhood
+from src.lib.local_search import local_search, kempe_neighbourhood, kempe_sorted
 
 ig.Graph.number_of_colors = number_of_colors
 ig.Graph.is_valid_coloring = is_valid_coloring
@@ -17,6 +17,9 @@ ig.Graph.backtracking = backtracking
 ig.Graph.group_nodes_by_color = group_nodes_by_color
 ig.Graph.kempe_neighbourhood = kempe_neighbourhood
 ig.Graph.local_search = local_search
+ig.Graph.coloring_as_dict = coloring_as_dict
+ig.Graph.kempe_sorted = kempe_sorted
+ig.Graph.apply_coloring_dict = apply_coloring_dict
 
 
 def read_graph(file_path: str) -> ig.Graph:

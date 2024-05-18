@@ -1,6 +1,21 @@
 import igraph as ig
 
 
+def apply_coloring_dict(self: ig.Graph, coloring: dict):
+    """
+    Aplica una coloración al grafo a partir de un diccionario.
+    """
+    for v in self.vs:
+        v['color'] = coloring.get(v.index, '')
+
+
+def coloring_as_dict(self: ig.Graph) -> dict:
+    """
+    Retorna la coloración del grafo como un diccionario.
+    """
+    return {v.index: v['color'] for v in self.vs if v['color']}
+
+
 def number_of_colors(self: ig.Graph):
     """
     Retorna el número de colores utilizados en la coloración del grafo.
