@@ -66,7 +66,7 @@ def is_safe_to_color(self: ig.Graph, node_index, color):
     return True
 
 
-def vertex_with_max_saturation(self: ig.Graph):
+def vertex_with_max_saturation(self: ig.Graph) -> int:
     """
     Retorna el índice del vértice con la saturación máxima entre los vértices 
     que tienen el atributo 'color' como una cadena vacía.
@@ -94,7 +94,7 @@ def adjacent_colors(self: ig.Graph, node_index):
     return colors
 
 
-def change_color_and_increase_saturation(self: ig.Graph, node_index, new_color):
+def change_color_and_increase_saturation(self: ig.Graph, node_index: int, new_color: str):
     """
     Cambia el color del nodo especificado y aumenta en 1 la saturación de los nodos adyacentes.
     """
