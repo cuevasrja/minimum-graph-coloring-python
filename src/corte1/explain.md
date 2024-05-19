@@ -37,21 +37,30 @@ def dsatur(G: Grafo):
 
 ### Búsqueda Exacta (Backtracking)
 
-El algoritmo de Búsqueda Exacta se basa en la técnica de backtracking, donde se prueban todas las posibles combinaciones de colores para los nodos del grafo. Para este algoritmo, se implementó una variante que premite podar el árbol de búsqueda, seleccionando los nodos de forma determinística. La poda se realiza cuando se llega a un nodo que no tiene solución, es decir, cuando se llega a un nodo que no se puede colorear con los colores disponibles, o cuando se llega a una solución que no es mejor que la mejor solución encontrada hasta el momento.
+El algoritmo de Búsqueda Exacta se basa en la técnica de backtracking, donde se prueban todas las posibles combinaciones de colores para los nodos del grafo. Para este algoritmo, se implementó una variante que permite podar el árbol de búsqueda, seleccionando los nodos de forma determinística. La poda se realiza cuando se llega a un nodo que no tiene solución, es decir, cuando se llega a un nodo que no se puede colorear con los colores disponibles, o cuando se llega a una solución que no es mejor que la mejor solución encontrada hasta el momento.
 
 #### Pseudocódigo
 
 ```python
-def backtracking(G: Grafo, colors: Set[str], node: int, color: str):
-    if node == len(G.vs):
-        return True
-    for i in range(colors):
-        if is_valid(G, node, i):
-            G.vs[node]['color'] = i
-            if backtracking(G, colors, node + 1, color):
-                return True
-            G.vs[node]['color'] = -1
-    return False
+mejor_cantidad_colores: int = 0
+mejores_colores: List[str] = []
+
+def backtracking(G: Grafo) -> int:
+    global mejor_cantidad_colores, mejores_colores
+
+    G.reset_colors()
+
+    mejor_cantidad_colores = len(G.vs)
+    # Buscamos la mejor solución para este grafo
+    backtrack(G, 0)
+
+    if len(mejores_colores) > 0:
+        for i, v in enumerate(G.vs):
+            v['color'] = mejores_colores[i]
+
+        return len(mejores_colores)
+
+    return -1
 ```
 
 ### Búsqueda Local con vecindad de Kempe
@@ -61,14 +70,20 @@ El algoritmo de Búsqueda Local con vecindad de Kempe se basa en la técnica de 
 #### Pseudocódigo
 
 ```python
-def busquedaLocalAlt(E: espacio, V: función) -> elemento de E:
-    X = solucionInicial(E)
-    while True:
-        Y = vecindad(X)
-        Z = mejorSolucion(Y, V)
-        if V(Z) >= V(X):
-            return X
-        X = Z
+def busqueda_local(G: Grafo):
+    # Nuestra solución inicial será la salida de D-Satur
+    d_satur(G)
+
+    # Obtenemos la vecindad de Kempe ordenada por evaluación
+    _, mejor, mejor_eval = G.kempe_ordenado()
+
+    # Mientras la evaluación de la mejor solución vecina sea mejor que la actual
+    while mejor is not None and mejor_eval > f(particiones_por_colores(G)):
+        # Aplicamos el mejor vecino
+        G.cambio_colores(mejor)
+
+        # Obtenemos la vecindad de Kempe ordenada por evaluación
+        _, mejor, mejor_eval = G.kempe_ordenado()
 ```
 
 Por otro lado, la vecindad de Kempe se define:
