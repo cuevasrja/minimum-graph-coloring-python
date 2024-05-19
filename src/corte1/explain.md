@@ -157,7 +157,7 @@ El pseudocódigo para hallar la vecindad de Kempe para una coloración $C$ del g
             - Si $C(n) = i$, entonces $C'(n) = j$.
             - Si $C(n) = j$, entonces $C'(n) = i$.
             - Si $C(n) \neq i$ y $C(n) \neq j$, entonces $C'(n) = C(n)$.
-        - $V = V \cup \{C'\}$
+        - Actualizar $V$ agregando $C'$.
 - Retornar $V$.
 
 Se puede demostrar que esta vecinidad solo contiene soluciones válidas. 
