@@ -21,39 +21,18 @@ El algoritmo de D Satur se basa en la técnica de coloreo de nodos por saturaci�
 #### Pseudocódigo
 
 ```python
-def dsatur(graph):
-    used = [False] * self.n
-    c = [-1] * self.n
-    d = [len(self.adj[u]) for u in range(self.n)]
-    adjCols = [set() for u in range(self.n)]
-    Q = []
- 
-    for u in range(self.n):
-        heapq.heappush(Q, (maxSat()(nodeInfo(0, d[u], u)), u))
- 
-    while Q:
-        maxPtr, u = heapq.heappop(Q)
-        while Q and maxPtr == Q[0][0]:
-            _, v = heapq.heappop(Q)
-            heapq.heappush(
-                Q, (maxSat()(nodeInfo(len(adjCols[v]), d[v], v)), v))
- 
-        for v in self.adj[u]:
-            if c[v] != -1:
-                    used[c[v]] = True
-        for i in range(self.n):
-            if not used[i]:
-                break
-        for v in self.adj[u]:
-            if c[v] != -1:
-                used[c[v]] = False
-        c[u] = i
-        for v in self.adj[u]:
-            if c[v] == -1:
-                heapq.heappush(
-                    Q, (maxSat()(nodeInfo(len(adjCols[v]), d[v], v)), v))
-                adjCols[v].add(i)
-                d[v] -= 1
+def dsatur(G: Grafo):
+    while True:
+        max_saturacion: Vertex = vertice_con_mayor_saturacion(G)
+
+        if (max_saturacion == -1):
+            break
+
+        colores_adyacentes: Set[str] = colores_de_adyacentes(G, max_saturacion)
+
+        color_to_paint: str = primer_elemento_no_perteneciente(G.colors, colores_adyacentes)
+
+        cambiar_color_y_aumentar_saturacion(G, max_saturacion, color_to_paint)
 ```
 
 ### Búsqueda Exacta (Backtracking)
@@ -63,15 +42,15 @@ El algoritmo de Búsqueda Exacta se basa en la técnica de backtracking, donde s
 #### Pseudocódigo
 
 ```python
-def backtracking(graph, colors, node, color):
-    if node == len(graph.vs):
+def backtracking(G: Grafo, colors: Set[str], node: int, color: str):
+    if node == len(G.vs):
         return True
     for i in range(colors):
-        if is_valid(graph, node, i):
-            graph.vs[node]['color'] = i
-            if backtracking(graph, colors, node + 1, color):
+        if is_valid(G, node, i):
+            G.vs[node]['color'] = i
+            if backtracking(G, colors, node + 1, color):
                 return True
-            graph.vs[node]['color'] = -1
+            G.vs[node]['color'] = -1
     return False
 ```
 
@@ -98,7 +77,7 @@ Siendo $G = (N, E)$ un grafo y $C$ una coloración de $G$, la vecindad de Kempe 
 
 **Vecindad:**
 
-$V_c = \{c' | \exists n \in N , (\forall m \in N - \{n\}, c'(m) = c(m) \land 0 \leq c'(n) < K \land c'(n) = c(n) \}$
+$V_c = \{c' | \exists n \in N , (\forall m \in N - \{n\}, c'(m) = c(m) \land 0 \leq c'(n) < K \land c'(n) = c(n)) \}$
 
 **Función de evaluación:**
 
