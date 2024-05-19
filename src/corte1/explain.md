@@ -26,11 +26,9 @@ El algoritmo de Búsqueda Exacta se basa en la técnica de backtracking, donde s
 
 El algoritmo de Búsqueda Local con vecindad de Kempe se basa en la técnica de búsqueda local, donde se intercambian los colores de dos nodos vecinos. La vecindad de Kempe se define como el conjunto de nodos que comparten un color con el nodo seleccionado. Para empezar la búsqueda local, se toma un grafo con una coloración válida usando el algoritmo de D Satur. Luego, se seleccionan dos nodos de forma determinística y se intercambian sus colores. Si la solución resultante es mejor que la solución actual, se actualiza la solución actual con la nueva solución. Este proceso se repite hasta que no se puedan encontrar soluciones mejores.
 
-
 ## Pruebas
 
-Los grafos utilizados en las pruebas se encuentran en la carpeta data, en cada archivo además de la información de los vertices y las aristas también está la
-procedencia de cada uno
+Los grafos utilizados en las pruebas se encuentran en la carpeta data, en cada archivo además de la información de los vertices y las aristas también está la procedencia de cada uno
 
 ### Tabla de grafos
 
@@ -87,6 +85,6 @@ SO: Windows 11
 
 En general, el algoritmo DSatur demostró ser capaz de dar soluciones muy buenas en un tiempo muy corto. 
 
-La busqueda local es bastante útil para optimizar estas soluciones, no siempre mejora la solución obtenida con DSatur, pero, en algunos casos puede mejorar la solución previa y su tiempo de ejecució, a pesar de ser más grande que el tiempo de la busqueda inicial, sigue siendo practico. 
+La busqueda local es bastante útil para optimizar estas soluciones, no siempre mejora la solución obtenida con DSatur, pero, en algunos casos puede mejorar la solución previa y su tiempo de ejecución, a pesar de ser más grande que el tiempo de la busqueda inicial, sigue siendo practico. 
 
 El backtracking obtiene soluciones perfectas pero por lo general no es aplicable en grafos grandes, los tiempos de ejecución son demasiado altos, solo hace sentido aplicarlo en grafos pequeños
