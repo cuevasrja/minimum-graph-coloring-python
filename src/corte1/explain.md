@@ -162,7 +162,7 @@ El pseudocódigo para hallar la vecindad de Kempe para una coloración $C$ del g
 
 Se puede demostrar que esta vecinidad solo contiene soluciones válidas. 
 
-Para la implementación de búsqueda local, es necesario definir una función de evaluación que permita comparar dos soluciones. En este caso, se utilizó la función de evaluación $f(C) = \sum |N_i|^2$ para $0 \leq i \leq k, donde $N_i$ es el conjunto de nodos que tienen el color $i$ en la coloración $C$. Cuando de maximiza esta función, se minimiza la cantidad de colores utilizados.
+Para la implementación de búsqueda local, es necesario definir una función de evaluación que permita comparar dos soluciones. En este caso, se utilizó la función de evaluación $f(C) = \sum |N_i|^2$ para $0 \leq i \leq k$, donde $N_i$ es el conjunto de nodos que tienen el color $i$ en la coloración $C$. Cuando de maximiza esta función, se minimiza la cantidad de colores utilizados.
 
 Como solución inicial, se utilizó la salida del algoritmo de D-Satur.
 
