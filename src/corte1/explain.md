@@ -16,19 +16,97 @@ Para la implementación de estos algoritmos se utilizó el lenguaje de programac
 
 ### D Satur
 
-El algoritmo de D Satur se basa en la técnica de coloreo de nodos por saturación. La saturación de un nodo es la cantidad de colores diferentes que tiene en sus vecinos. El algoritmo selecciona el nodo con mayor saturación y le asigna el color que minimice la cantidad de conflictos. 
+El algoritmo de D Satur se basa en la técnica de coloreo de nodos por saturación. La saturación de un nodo es la cantidad de colores diferentes que tiene en sus vecinos. El algoritmo selecciona el nodo con mayor saturación y le asigna el color que minimice la cantidad de conflictos.
+
+#### Pseudocódigo
+
+```python
+def dsatur(graph):
+    used = [False] * self.n
+    c = [-1] * self.n
+    d = [len(self.adj[u]) for u in range(self.n)]
+    adjCols = [set() for u in range(self.n)]
+    Q = []
+ 
+    for u in range(self.n):
+        heapq.heappush(Q, (maxSat()(nodeInfo(0, d[u], u)), u))
+ 
+    while Q:
+        maxPtr, u = heapq.heappop(Q)
+        while Q and maxPtr == Q[0][0]:
+            _, v = heapq.heappop(Q)
+            heapq.heappush(
+                Q, (maxSat()(nodeInfo(len(adjCols[v]), d[v], v)), v))
+ 
+        for v in self.adj[u]:
+            if c[v] != -1:
+                    used[c[v]] = True
+        for i in range(self.n):
+            if not used[i]:
+                break
+        for v in self.adj[u]:
+            if c[v] != -1:
+                used[c[v]] = False
+        c[u] = i
+        for v in self.adj[u]:
+            if c[v] == -1:
+                heapq.heappush(
+                    Q, (maxSat()(nodeInfo(len(adjCols[v]), d[v], v)), v))
+                adjCols[v].add(i)
+                d[v] -= 1
+```
 
 ### Búsqueda Exacta (Backtracking)
 
 El algoritmo de Búsqueda Exacta se basa en la técnica de backtracking, donde se prueban todas las posibles combinaciones de colores para los nodos del grafo. Para este algoritmo, se implementó una variante que premite podar el árbol de búsqueda, seleccionando los nodos de forma determinística. La poda se realiza cuando se llega a un nodo que no tiene solución, es decir, cuando se llega a un nodo que no se puede colorear con los colores disponibles, o cuando se llega a una solución que no es mejor que la mejor solución encontrada hasta el momento.
 
+#### Pseudocódigo
+
+```python
+def backtracking(graph, colors, node, color):
+    if node == len(graph.vs):
+        return True
+    for i in range(colors):
+        if is_valid(graph, node, i):
+            graph.vs[node]['color'] = i
+            if backtracking(graph, colors, node + 1, color):
+                return True
+            graph.vs[node]['color'] = -1
+    return False
+```
+
 ### Búsqueda Local con vecindad de Kempe
 
 El algoritmo de Búsqueda Local con vecindad de Kempe se basa en la técnica de búsqueda local, donde se intercambian los colores de dos nodos vecinos. La vecindad de Kempe se define como el conjunto de nodos que comparten un color con el nodo seleccionado. Para empezar la búsqueda local, se toma un grafo con una coloración válida usando el algoritmo de D Satur. Luego, se seleccionan dos nodos de forma determinística y se intercambian sus colores. Si la solución resultante es mejor que la solución actual, se actualiza la solución actual con la nueva solución. Este proceso se repite hasta que no se puedan encontrar soluciones mejores.
 
+#### Pseudocódigo
+
+```python
+def busquedaLocalAlt(E: espacio, V: función) -> elemento de E:
+    X = solucionInicial(E)
+    while True:
+        Y = vecindad(X)
+        Z = mejorSolucion(Y, V)
+        if V(Z) >= V(X):
+            return X
+        X = Z
+```
+
+Por otro lado, la vecindad de Kempe se define:
+
+Siendo $G = (N, E)$ un grafo y $C$ una coloración de $G$, la vecindad de Kempe de $C$ es el conjunto de coloraciones $C'$ que se obtienen de $C$ intercambiando los colores de dos nodos vecinos.
+
+**Vecindad:**
+
+$V_c = \{c' | \exists n \in N , (\forall m \in N - \{n\}, c'(m) = c(m) \land 0 \leq c'(n) < K \land c'(n) = c(n) \}$
+
+**Función de evaluación:**
+
+$f(c)=\sum_{i=1}^{k} |C_i|^2$
+
 ## Pruebas
 
-Los grafos utilizados en las pruebas se encuentran en la carpeta data, en cada archivo además de la información de los vertices y las aristas también está la procedencia de cada uno
+Los grafos utilizados en las pruebas se encuentran en la carpeta data, en cada archivo además de la información de los vertices y las aristas también está la procedencia de cada uno.
 
 ### Tabla de grafos
 
