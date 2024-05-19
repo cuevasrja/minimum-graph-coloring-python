@@ -14,7 +14,7 @@ def kempe_neighbourhood(self: ig.Graph) -> List[Dict[int, str]]:
     # Inicializar la vecindad de Kempe
     kempe: List[Dict[int, str]] = []
 
-    # Obetener los colores utilizados en la coloración
+    # Obtener los colores utilizados en la coloración
     colors: Set[str] = {v['color'] for v in self.vs if v['color'] and v['color'] != ''}
 
     # Construir conjunto de pares no-ordenados de colores
