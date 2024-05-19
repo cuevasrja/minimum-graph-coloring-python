@@ -54,7 +54,13 @@ procedencia de cada uno
 
 ## Resultados
 
-Por temas de practicidad, le dimos a cada algoritmo un tiempo máximo de 5 minutos para correr. El algoritmo de busqueda local utiliza el resultado de DSatur como punto de partida
+Por temas de practicidad, le dimos a cada algoritmo un tiempo máximo de 5 minutos para correr. El algoritmo de busqueda local utiliza el resultado de DSatur como punto de partida 
+
+Las pruebas fueron realizadas en un equipo con las siguientes caracteristicas
+
+Procesador: Ryzen 7 7735H
+Memoria ram: 32GB
+SO: Windows 11 
 
 ### Tabla de grafos
 
