@@ -58,3 +58,11 @@ Para la primera entrega, se implementaron los siguientes algoritmos:
 - **Busqueda Exacta (Backtracking)**: Este algoritmo se basa en el algoritmo de backtracking, donde se prueban todas las posibles combinaciones de colores para los nodos del grafo. Para este algoritmo, se implementó una variante que permite podar el árbol de búsqueda, podando aquellas coloraciones parciales que no sean válidas ó que produzcan soluciones con mayor numero de colores que la mejor solucion hasta el momento.
 
 Además, se realizaron pruebas para evaluar el desempeño de los algoritmos implementados. Para más información sobre los algoritmos y las pruebas realizadas, se puede consultar el archivo `explain.md` en la carpeta de este corte. Puede acceder a este archivo [aquí](src/corte1/explain.md).
+
+## Entrega 2
+
+Para la segunda entrega, se implementaron los siguientes algoritmos:
+
+<!-- Colocar algoritmos -->
+
+Además, se realizaron pruebas para evaluar el desempeño de los algoritmos implementados. Para más información sobre los algoritmos y las pruebas realizadas, se puede consultar el archivo `explain.md` en la carpeta de este corte. Puede acceder a este archivo [aquí](src/corte2/explain.md)
