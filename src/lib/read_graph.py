@@ -3,6 +3,7 @@ from src.lib.methods_for_graph import vertex_with_max_saturation, adjacent_color
 from src.lib.d_satur import d_satur
 from src.lib.backtracking import backtracking
 from src.lib.local_search import local_search, kempe_neighbourhood, kempe_sorted
+from src.lib.grasp import grasp
 
 ig.Graph.number_of_colors = number_of_colors
 ig.Graph.is_valid_coloring = is_valid_coloring
@@ -20,6 +21,7 @@ ig.Graph.local_search = local_search
 ig.Graph.coloring_as_dict = coloring_as_dict
 ig.Graph.kempe_sorted = kempe_sorted
 ig.Graph.apply_coloring_dict = apply_coloring_dict
+ig.Graph.grasp = grasp
 
 
 def read_graph(file_path: str) -> ig.Graph:

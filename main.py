@@ -4,7 +4,6 @@ from src.lib.read_graph import read_graph
 import time
 import threading
 
-
 def run_with_timeout(func, timeout):
     """
     Ejecuta una función con un límite de tiempo y devuelve True si se completó a tiempo, False si se excedió el tiempo.
@@ -99,6 +98,25 @@ def main():
             ) else "\033[91mFalse"
             print(f"Coloración válida: {is_valid}\033[0m")
 
+    # Invocando GRASP
+    print("\n\033[100;1mInvocando GRASP...\033[0m")
+
+    g.reset_colors()
+
+    if len(g.vs) == 0:
+        print("\033[91;1mError:\033[0m GRASP no pudo colorear el grafo")
+    else:
+        start_time = time.time()
+
+        if run_with_timeout(g.grasp, 300):
+            end_time = time.time()
+            execution_time = end_time - start_time
+            print(f"Tiempo de ejecución: {execution_time} segundos")
+
+            g.group_nodes_by_color()
+
+            is_valid: str = "\033[92;1mTrue" if g.is_valid_coloring() else "\033[91mFalse"
+            print(f"Coloración válida: {is_valid}\033[0m")
 
 if __name__ == "__main__":
     main()

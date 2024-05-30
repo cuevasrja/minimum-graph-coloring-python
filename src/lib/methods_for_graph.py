@@ -98,7 +98,7 @@ def vertex_with_max_saturation(self: ig.Graph) -> int:
     return max_saturation_vertex["index"]
 
 
-def adjacent_colors(self: ig.Graph, node_index) -> Set[str]:
+def adjacent_colors(self: ig.Graph, node_index: int) -> Set[str]:
     """
     Retorna los colores de los nodos adyacentes al nodo especificado.
     """
@@ -107,7 +107,6 @@ def adjacent_colors(self: ig.Graph, node_index) -> Set[str]:
     colors: Set[str] = {self.vs[neighbor]['color']
               for neighbor in adjacent_indices if self.vs[neighbor]['color']}
     return colors
-
 
 def change_color_and_increase_saturation(self: ig.Graph, node_index: int, new_color: str) -> None:
     """
