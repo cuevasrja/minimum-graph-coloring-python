@@ -52,8 +52,11 @@ def main():
     g.ils()
 
     
-'''
+
     g.reset_colors()
+    
+    '''    
+    
     start_time = time.time()
 
     if run_with_timeout(g.d_satur, 300):
@@ -62,6 +65,7 @@ def main():
         print(f"Tiempo de ejecución: {execution_time} segundos")
 
         g.group_nodes_by_color()
+        g.count_colors()
 
         is_valid: str = "\033[92;1mTrue" if g.is_valid_coloring(
         ) else "\033[91mFalse"

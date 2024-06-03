@@ -2,6 +2,25 @@ from typing import List, Dict, Set
 import igraph as ig
 from src.lib.external_functions import filter_elements_of_array, delete_random_value_from_list
 import random
+from collections import Counter
+
+def count_colors(self: ig.Graph) -> None:
+    """
+    Cuenta el número de veces que aparece cada color en el grafo
+    e imprime el resultado.
+    """
+
+    # Crear un contador para almacenar la frecuencia de cada color
+    color_counter: Counter = Counter()
+
+    # Iterar sobre todos los nodos y contar la frecuencia de cada color
+    for v in self.vs:
+        color: str = v['color']
+        color_counter[color] += 1
+
+    # Imprimir el número de veces que cada color aparece
+    for color, count in color_counter.items():
+        print(f"Color {color}: {count} veces")
 
 def colors_used(self):
     """
@@ -212,6 +231,7 @@ def group_nodes_by_color(self: ig.Graph) -> None:
 
     # Imprimir el número total de colores
     total_colors: int = len(nodes_by_color)
+    print(nodes_by_color)
     print(f"Número total de colores: \033[94;1m{total_colors}\033[0m")
 
 def get_amount_of_colors(self: ig.Graph) -> int:
