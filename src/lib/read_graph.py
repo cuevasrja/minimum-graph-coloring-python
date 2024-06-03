@@ -5,6 +5,7 @@ from src.lib.backtracking import backtracking
 from src.lib.local_search import local_search, kempe_neighbourhood, kempe_sorted
 from src.lib.grasp import grasp
 from src.lib.genetic import genetic_algorithm
+from src.lib.annealing import simulated_annealing
 
 ig.Graph.number_of_colors = number_of_colors
 ig.Graph.is_valid_coloring = is_valid_coloring
@@ -24,6 +25,7 @@ ig.Graph.kempe_sorted = kempe_sorted
 ig.Graph.apply_coloring_dict = apply_coloring_dict
 ig.Graph.grasp = grasp
 ig.Graph.genetic_algorithm = genetic_algorithm
+ig.Graph.simulated_annealing = simulated_annealing
 
 
 def read_graph(file_path: str) -> ig.Graph:

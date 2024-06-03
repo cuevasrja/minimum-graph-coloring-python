@@ -4,6 +4,7 @@ from src.lib.read_graph import read_graph
 import time
 import threading
 
+
 def run_with_timeout(func, timeout):
     """
     Ejecuta una función con un límite de tiempo y devuelve True si se completó a tiempo, False si se excedió el tiempo.
@@ -77,26 +78,26 @@ def main():
         ) else "\033[91mFalse"
         print(f"Coloración válida: {is_valid}\033[0m")
 
-    # Invocando Backtracking
-    print("\n\033[100;1mInvocando Backtracking...\033[0m")
+    # # Invocando Backtracking
+    # print("\n\033[100;1mInvocando Backtracking...\033[0m")
 
-    g.reset_colors()
+    # g.reset_colors()
 
-    if len(g.vs) == 0:
-        print("\033[91;1mError:\033[0m Backtracking no pudo colorear el grafo")
-    else:
-        start_time = time.time()
+    # if len(g.vs) == 0:
+    #     print("\033[91;1mError:\033[0m Backtracking no pudo colorear el grafo")
+    # else:
+    #     start_time = time.time()
 
-        if run_with_timeout(g.backtracking, 120):
-            end_time = time.time()
-            execution_time = end_time - start_time
-            print(f"Tiempo de ejecución: {execution_time} segundos")
+    #     if run_with_timeout(g.backtracking, 120):
+    #         end_time = time.time()
+    #         execution_time = end_time - start_time
+    #         print(f"Tiempo de ejecución: {execution_time} segundos")
 
-            g.group_nodes_by_color()
+    #         g.group_nodes_by_color()
 
-            is_valid: str = "\033[92;1mTrue" if g.is_valid_coloring(
-            ) else "\033[91mFalse"
-            print(f"Coloración válida: {is_valid}\033[0m")
+    #         is_valid: str = "\033[92;1mTrue" if g.is_valid_coloring(
+    #         ) else "\033[91mFalse"
+    #         print(f"Coloración válida: {is_valid}\033[0m")
 
     # Invocando GRASP
     print("\n\033[100;1mInvocando GRASP...\033[0m")
@@ -115,7 +116,8 @@ def main():
 
             g.group_nodes_by_color()
 
-            is_valid: str = "\033[92;1mTrue" if g.is_valid_coloring() else "\033[91mFalse"
+            is_valid: str = "\033[92;1mTrue" if g.is_valid_coloring(
+            ) else "\033[91mFalse"
             print(f"Coloración válida: {is_valid}\033[0m")
 
     # Invocando Algoritmo Genético
@@ -124,7 +126,8 @@ def main():
     g.reset_colors()
 
     if len(g.vs) == 0:
-        print("\033[91;1mError:\033[0m Algoritmo Genético no pudo colorear el grafo")
+        print(
+            "\033[91;1mError:\033[0m Algoritmo Genético no pudo colorear el grafo")
     else:
         start_time = time.time()
 
@@ -135,8 +138,32 @@ def main():
 
             g.group_nodes_by_color()
 
-            is_valid: str = "\033[92;1mTrue" if g.is_valid_coloring() else "\033[91mFalse"
+            is_valid: str = "\033[92;1mTrue" if g.is_valid_coloring(
+            ) else "\033[91mFalse"
             print(f"Coloración válida: {is_valid}\033[0m")
+
+    g.reset_colors()
+
+    # Invocando Simulated Annealing
+    print("\n\033[100;1mInvocando Simulated Annealing...\033[0m")
+
+    if len(g.vs) == 0:
+        print(
+            "\033[91;1mError:\033[0m Simulated Annealing no pudo colorear el grafo")
+    else:
+        start_time = time.time()
+
+        if run_with_timeout(g.simulated_annealing, 300):
+            end_time = time.time()
+            execution_time = end_time - start_time
+            print(f"Tiempo de ejecución: {execution_time} segundos")
+
+            g.group_nodes_by_color()
+
+            is_valid: str = "\033[92;1mTrue" if g.is_valid_coloring(
+            ) else "\033[91mFalse"
+            print(f"Coloración válida: {is_valid}\033[0m")
+
 
 if __name__ == "__main__":
     main()

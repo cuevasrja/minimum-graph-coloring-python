@@ -1,6 +1,8 @@
 from typing import List, Dict, Set, Tuple, Callable
 import igraph as ig
 
+from src.lib.eval_functions import eval_sum_of_squared_color_sizes
+
 
 def kempe_neighbourhood(self: ig.Graph) -> List[Dict[int, str]]:
     """
@@ -15,10 +17,12 @@ def kempe_neighbourhood(self: ig.Graph) -> List[Dict[int, str]]:
     kempe: List[Dict[int, str]] = []
 
     # Obtener los colores utilizados en la coloración
-    colors: Set[str] = {v['color'] for v in self.vs if v['color'] and v['color'] != ''}
+    colors: Set[str] = {v['color']
+                        for v in self.vs if v['color'] and v['color'] != ''}
 
     # Construir conjunto de pares no-ordenados de colores
-    pairs: List[Tuple[str, str]] = [(c1, c2) for c1 in colors for c2 in colors if c1 < c2]
+    pairs: List[Tuple[str, str]] = [(c1, c2)
+                                    for c1 in colors for c2 in colors if c1 < c2]
 
     # Iterar sobre los pares de colores
     for c1, c2 in pairs:
@@ -62,34 +66,7 @@ def kempe_neighbourhood(self: ig.Graph) -> List[Dict[int, str]]:
     return kempe
 
 
-def eval_sum_of_squared_color_sizes(coloring: dict[int, str]) -> int:
-    """
-    Evalúa una coloración de un grafo sumando el cuadrado de la 
-    cantidad de nodos que tienen cada color.
-
-    Si se maximiza esta función, implica que se minimiza la cantidad de colores.
-    """
-    # Obtener los colores utilizados en la coloración (a partir de coloring)
-    colors: Set[str] = {color for color in coloring.values()}
-
-    # Inicializar la suma de cuadrados de tamaños de colores
-    sum_of_squared_color_sizes: int = 0
-
-    # Iterar sobre los colores
-    for color in colors:
-        # Hallar los nodos que tienen el color actual
-        nodes: List[int] = [node for node, c in coloring.items() if c == color]
-
-        # Calcular el cuadrado de la cantidad de nodos
-        squared_size: int = len(nodes) ** 2
-
-        # Sumar el cuadrado al total
-        sum_of_squared_color_sizes += squared_size
-
-    return sum_of_squared_color_sizes
-
-
-def kempe_sorted(self: ig.Graph) -> Tuple[List[Dict[int, str]], Dict[int, str], int|None]:
+def kempe_sorted(self: ig.Graph) -> Tuple[List[Dict[int, str]], Dict[int, str], int | None]:
     """
     Retorna la vecindad de Kempe de una coloración ordenada por evaluación.
 
@@ -106,7 +83,7 @@ def kempe_sorted(self: ig.Graph) -> Tuple[List[Dict[int, str]], Dict[int, str], 
 
     # Obtener el mejor vecino
     best: Dict[int, str] = neighbours[0] if len(neighbours) > 0 else None
-    best_eval: int|None = evals[0] if len(evals) > 0 else None
+    best_eval: int | None = evals[0] if len(evals) > 0 else None
 
     return neighbours, best, best_eval
 
