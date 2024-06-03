@@ -1,10 +1,14 @@
 import igraph as ig
-from src.lib.methods_for_graph import vertex_with_max_saturation, adjacent_colors, change_color_and_increase_saturation, group_nodes_by_color, is_colored, is_safe_to_color, reset_colors, is_valid_coloring, number_of_colors, coloring_as_dict, apply_coloring_dict,count_and_sort_colors, number_of_colors_used, uncolor, get_amount_of_colors
+from src.lib.methods_for_graph import vertex_with_max_saturation, adjacent_colors, change_color_and_increase_saturation, group_nodes_by_color, is_colored, is_safe_to_color, reset_colors, is_valid_coloring, number_of_colors, coloring_as_dict, apply_coloring_dict,count_and_sort_colors, number_of_colors_used, uncolor, get_amount_of_colors, random_color_graph
 from src.lib.d_satur import d_satur
 from src.lib.ils import ils
 from src.lib.backtracking import backtracking
 from src.lib.local_search import local_search, kempe_neighbourhood, kempe_sorted
+from src.lib.grasp import grasp
+from src.lib.genetic import genetic_algorithm
+from src.lib.annealing import simulated_annealing
 
+ig.Graph.random_color_graph = random_color_graph
 ig.Graph.ils = ils
 ig.Graph.get_amount_of_colors = get_amount_of_colors
 ig.Graph.uncolor = uncolor
@@ -26,6 +30,9 @@ ig.Graph.local_search = local_search
 ig.Graph.coloring_as_dict = coloring_as_dict
 ig.Graph.kempe_sorted = kempe_sorted
 ig.Graph.apply_coloring_dict = apply_coloring_dict
+ig.Graph.grasp = grasp
+ig.Graph.genetic_algorithm = genetic_algorithm
+ig.Graph.simulated_annealing = simulated_annealing
 
 
 def read_graph(file_path: str) -> ig.Graph:

@@ -1,5 +1,17 @@
 from typing import List, Dict, Set
 import igraph as ig
+from src.lib.external_functions import filter_elements_of_array, delete_random_value_from_list
+import random
+
+def random_color_graph(self: ig.Graph) -> None:
+    nodes_indexes = list(range(self.vcount()))
+    
+    while len(nodes_indexes) > 0:
+        node_to_color = delete_random_value_from_list(nodes_indexes)
+        adjacent_colors_to_current_node = self.adjacent_colors(node_to_color)
+        list_of_possible_colors_for_node = filter_elements_of_array(self.colors, adjacent_colors_to_current_node)
+        random_color = random.choice(list_of_possible_colors_for_node)
+        self.change_color_and_increase_saturation(node_to_color, random_color)
 
 def uncolor(self: ig.Graph, color: str) -> None:
     """
@@ -128,7 +140,8 @@ def vertex_with_max_saturation(self: ig.Graph) -> int:
     """
 
     # Filtrar los vértices que tienen el atributo 'color' como una cadena vacía
-    filtered_vertices: List[ig.Vertex] = [v for v in self.vs if v['color'] == '']
+    filtered_vertices: List[ig.Vertex] = [
+        v for v in self.vs if v['color'] == '']
     if not filtered_vertices:
         return -1  # Retorna None si no hay vértices con color como cadena vacía
     # Encontrar el vértice con la saturación máxima entre los filtrados
@@ -138,14 +151,14 @@ def vertex_with_max_saturation(self: ig.Graph) -> int:
     return max_saturation_vertex["index"]
 
 
-def adjacent_colors(self: ig.Graph, node_index) -> Set[str]:
+def adjacent_colors(self: ig.Graph, node_index: int) -> Set[str]:
     """
     Retorna los colores de los nodos adyacentes al nodo especificado.
     """
-    
+
     adjacent_indices: List[int] = self.neighbors(node_index, mode="ALL")
     colors: Set[str] = {self.vs[neighbor]['color']
-              for neighbor in adjacent_indices if self.vs[neighbor]['color']}
+                        for neighbor in adjacent_indices if self.vs[neighbor]['color']}
     return colors
 
 
@@ -183,8 +196,8 @@ def group_nodes_by_color(self: ig.Graph) -> None:
             nodes_by_color[color] = [v.index]
 
     # Imprimir los nodos agrupados por color
-    for color, nodes in nodes_by_color.items():
-        print(f"\033[94mColor {color}\033[0m: {', '.join(map(str, nodes))}")
+    # for color, nodes in nodes_by_color.items():
+    #     print(f"\033[94mColor {color}\033[0m: {', '.join(map(str, nodes))}")
 
     # Imprimir el número total de colores
     total_colors: int = len(nodes_by_color)
