@@ -1,5 +1,5 @@
 from typing import List, Set
-
+import igraph as ig
 
 def eval_sum_of_squared_color_sizes(coloring: dict[int, str]) -> int:
     """
@@ -26,3 +26,24 @@ def eval_sum_of_squared_color_sizes(coloring: dict[int, str]) -> int:
         sum_of_squared_color_sizes += squared_size
 
     return sum_of_squared_color_sizes
+
+def eval_sum_of_conflicts(graph: ig.Graph, coloring: dict[int, str]) -> int:
+    """
+    Evalúa una coloración de un grafo sumando la cantidad de conflictos
+    entre nodos adyacentes que tienen el mismo color.
+    """
+    # Inicializar la cantidad de conflictos
+    conflicts: int = 0
+
+    # Iterar sobre los arcos del grafo
+    for edge in graph.es:
+        # Obtener los nodos que conecta el arco
+        node1: int = edge.source
+        node2: int = edge.target
+
+        # Verificar si los nodos tienen el mismo color
+        if coloring[node1] == coloring[node2]:
+            # Si tienen el mismo color, incrementar la cantidad de conflictos
+            conflicts += 1
+
+    return conflicts

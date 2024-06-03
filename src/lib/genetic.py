@@ -2,16 +2,16 @@ from typing import List
 import igraph as ig
 import random
 from typing import Dict, Callable, List
-from src.lib.eval_functions import eval_sum_of_squared_color_sizes
+from src.lib.eval_functions import eval_sum_of_conflicts
 
 def genetic_algorithm(self: ig.Graph, population_size: int = 100, generations: int = 100, mutation_rate: float = 0.01):
     # Generar población inicial
     population: List[Dict[int, str]] = create_population(self, population_size)
     
     # Evaluar la población inicial
-    eval_sol: Callable[[Dict[int, str]], int] = eval_sum_of_squared_color_sizes
-    best_solution: Dict[int, str] = min(population, key=eval_sol)
-    best_score: int = eval_sol(best_solution)
+    eval_sol: Callable[[ig.Graph, Dict[int, str]], int] = eval_sum_of_conflicts
+    best_solution: Dict[int, str] = min(population, key=lambda sol: eval_sol(self, sol))
+    best_score: int = eval_sol(self, best_solution)
 
     # Evolución de la población
     for _ in range(generations):
@@ -25,11 +25,11 @@ def genetic_algorithm(self: ig.Graph, population_size: int = 100, generations: i
         child = mutate(self, child, mutation_rate)
         
         # Evaluar hijo
-        child_score: int = eval_sol(child)
+        child_score: int = eval_sol(self, child)
         
         # Reemplazar peor solución
-        worst_solution: Dict[int, str] = max(population, key=eval_sol)
-        worst_score: int = eval_sol(worst_solution)
+        worst_solution: Dict[int, str] = max(population, key=lambda sol: eval_sol(self, sol))
+        worst_score: int = eval_sol(self, worst_solution)
         if child_score < worst_score:
             population.remove(worst_solution)
             population.append(child)
@@ -43,8 +43,8 @@ def genetic_algorithm(self: ig.Graph, population_size: int = 100, generations: i
     self.apply_coloring_dict(best_solution)
 
 def get_parents(self: ig.Graph, population: List[Dict[int, str]]) -> List[Dict[int, str]]:
-    eval_sol: Callable[[Dict[int, str]], int] = eval_sum_of_squared_color_sizes
-    return random.choices(population, weights=[1/eval_sol(sol) for sol in population], k=2)
+    eval_sol: Callable[[ig.Graph, Dict[int, str]], int] = eval_sum_of_conflicts
+    return random.choices(population, weights=[1/(eval_sol(self, sol) + 1) for sol in population], k=2)
 
 def crossover(self: ig.Graph, parents: List[Dict[int, str]]) -> Dict[int, str]:
     crossover_point: int = random.randint(0, len(self.vs))
