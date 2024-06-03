@@ -1,53 +1,62 @@
-from typing import Set
+from typing import Set, List
 import igraph as ig
 from src.lib.external_functions import first_element_not_in_set
 import copy
+import math
+import random
 
-def clonar_instancia(instancia):
-    return copy.deepcopy(instancia)
-
-def obtener_primeros_elementos(tuplas, n):
+def calculate_rounded_percentages(number: int) -> List[int]:
     """
-    Obtiene los primeros elementos de las primeras n tuplas de una lista de tuplas.
+    Calcula los porcentajes de un número en incrementos de 0.05 desde 0.05 hasta 0.8 y redondea hacia arriba.
     
-    :param tuplas: Lista de tuplas.
-    :param n: Número de tuplas de las que se quieren obtener los primeros elementos.
-    :return: Lista con los primeros elementos de las primeras n tuplas.
+    Args:
+        number (int): El número del cual calcular los porcentajes.
+        
+    Returns:
+        List[int]: Una lista de los porcentajes redondeados hacia arriba.
     """
-    return [t[0] for t in tuplas[:n]]
+    percentages = []
+    # Iterar sobre los valores de porcentaje en incrementos de 0.05 desde 0.05 hasta 0.8
+    for percent in range(10,35, 5):
+        # Calcular el porcentaje correspondiente y redondear hacia arriba
+        percentage_value = math.ceil(number * percent / 100)
+        percentages.append(percentage_value)
+        
+    return percentages
 
+def get_random_values(array, n):
+    # Verificar que n no sea mas grande que el tamaño del array
+    n = min(n, len(array))
+    # Obtener n valores random del array
+    random_values = random.sample(array, n)
+    return random_values
 
 def ils(self: ig.Graph):
-  
-    """
-    Colorea el grafo utilizando el algoritmo heuristico D-Satur.
-    """    
-    self.d_satur()
-    # new_graph = clonar_instancia(self)
     
-    colors_by_use = self.count_and_sort_colors()
-    list_of_numbers_to_test = list(range(1, self.number_of_colors_used() // 2 + 1))
-    amount_of_color = self.get_amount_of_colors()
-        
-    iteracion = 10
+    self.random_color_graph()
+    amount_of_colors = self.number_of_colors()
 
-    for number_of_nodes_to_uncolor in list_of_numbers_to_test:
-        colors_by_use = self.count_and_sort_colors()
-        for i in range(0, number_of_nodes_to_uncolor):
-            self.uncolor(colors_by_use[i])
-            
-        while True:
-            node_with_max_saturation: int = self.vertex_with_max_saturation()
-
-            if (node_with_max_saturation == -1):
-                break
-
-            adjacent_colors_of_current_node: Set[str] = self.adjacent_colors(node_with_max_saturation)
-
-            color_to_paint: str|None = first_element_not_in_set(self.colors, adjacent_colors_of_current_node)
-
-            self.change_color_and_increase_saturation(node_with_max_saturation, color_to_paint)
-            
-        self.local_search()
-            
-        print("New amount of colors ", self.get_amount_of_colors())
+    current_colors_in_graph = self.colors_used()
+    iterations_percentage = calculate_rounded_percentages(amount_of_colors)
+    print(iterations_percentage)
+    current_vertex_state = self.save_vertex_state()    
+    i = 0
+    
+    while i < len(iterations_percentage):
+        list_of_colors_to_eliminate = get_random_values(current_colors_in_graph, i)
+        for color_of_node in list_of_colors_to_eliminate:
+            self.uncolor(color_of_node)
+    
+        self.d_satur()
+        new_amount_of_colors_used = self.get_amount_of_colors()
+    
+        if new_amount_of_colors_used < amount_of_colors:
+            amount_of_colors = new_amount_of_colors_used
+            current_colors_in_graph = self.colors_used()
+            current_vertex_state = self.save_vertex_state()
+            print("Number ", amount_of_colors)
+            i = 0  # Reiniciar el contador 
+        else:
+            self.load_vertex_state(current_vertex_state)
+        i += 1
+    

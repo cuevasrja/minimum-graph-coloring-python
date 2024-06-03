@@ -1,18 +1,21 @@
 import igraph as ig
-from src.lib.methods_for_graph import vertex_with_max_saturation, adjacent_colors, change_color_and_increase_saturation, group_nodes_by_color, is_colored, is_safe_to_color, reset_colors, is_valid_coloring, number_of_colors, coloring_as_dict, apply_coloring_dict,count_and_sort_colors, number_of_colors_used, uncolor, get_amount_of_colors, random_color_graph
+from src.lib.methods_for_graph import vertex_with_max_saturation, adjacent_colors, change_color_and_increase_saturation, group_nodes_by_color, is_colored, is_safe_to_color, reset_colors, is_valid_coloring, number_of_colors, coloring_as_dict, apply_coloring_dict,count_and_sort_colors, uncolor, get_amount_of_colors, random_color_graph, colors_used, save_vertex_state, load_vertex_state
 from src.lib.d_satur import d_satur
 from src.lib.ils import ils
 from src.lib.backtracking import backtracking
-from src.lib.local_search import local_search, kempe_neighbourhood, kempe_sorted
+from src.lib.local_search import local_search, kempe_neighbourhood, kempe_sorted, local_search_without_d_satur
 from src.lib.grasp import grasp
 from src.lib.genetic import genetic_algorithm
 from src.lib.annealing import simulated_annealing
 
+ig.Graph.local_search_without_d_satur = local_search_without_d_satur
+ig.Graph.save_vertex_state = save_vertex_state
+ig.Graph.load_vertex_state = load_vertex_state
+ig.Graph.colors_used = colors_used
 ig.Graph.random_color_graph = random_color_graph
 ig.Graph.ils = ils
 ig.Graph.get_amount_of_colors = get_amount_of_colors
 ig.Graph.uncolor = uncolor
-ig.Graph.number_of_colors_used = number_of_colors_used
 ig.Graph.count_and_sort_colors = count_and_sort_colors
 ig.Graph.number_of_colors = number_of_colors
 ig.Graph.is_valid_coloring = is_valid_coloring

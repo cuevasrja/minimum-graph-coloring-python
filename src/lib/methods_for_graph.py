@@ -3,6 +3,24 @@ import igraph as ig
 from src.lib.external_functions import filter_elements_of_array, delete_random_value_from_list
 import random
 
+def colors_used(self):
+    """
+    Regresa una lista de los colores usandos en el grafo
+    """
+    # Obtiene colores del grafo
+    unique_colors = set(v["color"] for v in self.vs)
+    # Convierte colores en lista y los regresa
+    return list(unique_colors)
+
+def save_vertex_state(self):
+    # Guardar el estado actual de los vértices
+    return [vertex.attributes().copy() for vertex in self.vs]
+
+def load_vertex_state(self, new_vertex_state):
+    # Guarda los nuevos estados de los vertices
+    for vertex, state in zip(self.vs, new_vertex_state):
+            vertex.attributes().update(state)
+
 def random_color_graph(self: ig.Graph) -> None:
     nodes_indexes = list(range(self.vcount()))
     
@@ -29,13 +47,6 @@ def uncolor(self: ig.Graph, color: str) -> None:
         for neighbor_index in neighbors:
             if self.vs[neighbor_index]["saturation"] > 0:
                 self.vs[neighbor_index]["saturation"] -= 1
-
-def number_of_colors_used(self: ig.Graph) -> int:
-    """
-    Retorna el número de colores utilizados en el grafo.
-    """
-    unique_colors = set(v["color"] for v in self.vs)
-    return len(unique_colors)
 
 def count_and_sort_colors(g: ig.Graph) -> list:
     """

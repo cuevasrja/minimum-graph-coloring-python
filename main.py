@@ -46,7 +46,13 @@ def main():
     
     # Invocando D-Satur
     print("\n\033[100;1mInvocando D-Satur...\033[0m")
+    
+    g.reset_colors()
+        
+    g.ils()
 
+    
+'''
     g.reset_colors()
     start_time = time.time()
 
@@ -164,6 +170,7 @@ def main():
             ) else "\033[91mFalse"
             print(f"Coloración válida: {is_valid}\033[0m")
 
+    '''
 
 if __name__ == "__main__":
     main()
