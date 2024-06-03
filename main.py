@@ -43,20 +43,11 @@ def main():
     # Se muestran la cantidad de nodos
     print("\033[103;1mCantidad de nodos:\033[0m \033[93m",
           len(g.vs), "\033[0m")
-    
+
     # Invocando D-Satur
     print("\n\033[100;1mInvocando D-Satur...\033[0m")
-    
-    g.reset_colors()
-        
-    g.ils()
-
-    
 
     g.reset_colors()
-    
-    '''    
-    
     start_time = time.time()
 
     if run_with_timeout(g.d_satur, 300):
@@ -65,7 +56,6 @@ def main():
         print(f"Tiempo de ejecución: {execution_time} segundos")
 
         g.group_nodes_by_color()
-        g.count_colors()
 
         is_valid: str = "\033[92;1mTrue" if g.is_valid_coloring(
         ) else "\033[91mFalse"
@@ -174,7 +164,6 @@ def main():
             ) else "\033[91mFalse"
             print(f"Coloración válida: {is_valid}\033[0m")
 
-    '''
 
 if __name__ == "__main__":
     main()

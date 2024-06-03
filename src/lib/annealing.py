@@ -37,8 +37,9 @@ def simulated_annealing(self: ig.Graph):
     simulated annealing con vecindad de Kempe.
     """
     eval_sol: Callable[[Dict[int, str]], int] = eval_sum_of_squared_color_sizes
+    mode = 'MAX'
 
-    temperature: float = 8.0
+    temperature: float = 8.0  # TODO: Tweak this after fix
     cooling_rate: float = 0.1  # efectivamente sera (1 - cooling_rate) = 0.9
     freezing_temperature: float = 0.02  # Cerca de 50 iteraciones
 
@@ -73,7 +74,7 @@ def simulated_annealing(self: ig.Graph):
             for neighbour in neighbours:
                 # Calcular la probabilidad de aceptar el movimiento
                 prob = movement_probability(
-                    current_coloring, neighbour, temperature, 'MAX')
+                    current_coloring, neighbour, temperature, mode)
 
                 # Si el movimiento es aceptado
                 if random.random() < prob:
@@ -81,7 +82,7 @@ def simulated_annealing(self: ig.Graph):
                     self.apply_coloring_dict(current_coloring)
 
                     # Actualizar la mejor solución
-                    if eval_sol(current_coloring) < best_eval:
+                    if (mode == 'MAX' and eval_sol(current_coloring) > best_eval) or (mode == 'MIN' and eval_sol(current_coloring) < best_eval):
                         best_coloring = current_coloring
                         best_eval = eval_sol(best_coloring)
                         best_changed = True

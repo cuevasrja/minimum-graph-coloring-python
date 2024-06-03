@@ -6,10 +6,10 @@ import random
 
 def calculate_rounded_percentages(number: int) -> List[int]:
     """
-    Calcula los porcentajes de un número en incrementos de 0.05 desde 0.05 hasta 0.85 y redondea hacia arriba.
+    Calcula los porcentajes de un número en incrementos de 0.05 desde 0.05 hasta 0.50 y redondea hacia arriba.
     """
     percentages = []
-    # Iterar sobre los valores de porcentaje en incrementos de 0.05 desde 0.05 hasta 0.4
+    # Iterar sobre los valores de porcentaje en incrementos de 0.05 desde 0.05 hasta 0.5
     for percent in range(5,50, 5):
         # Calcular el porcentaje correspondiente y redondear hacia arriba
         percentage_value = math.ceil(number * percent / 100)
@@ -63,17 +63,5 @@ def ils(self: ig.Graph):
          
         else:
             self.load_vertex_state(current_vertex_state)
-            i += 1
-            
-        '''
-        elif i == len(iterations_percentage) - 1:
-            self.local_search()
-            new_amount_of_colors_used = self.get_amount_of_colors()
-            if(new_amount_of_colors_used < amount_of_colors):
-                amount_of_colors = new_amount_of_colors_used
-                current_colors_in_graph = self.colors_used()
-                current_vertex_state = self.save_vertex_state()
-                print("Number Local", amount_of_colors)
-                i = 0  # Reiniciar el contador     
-        '''          
+            i += 1       
     
