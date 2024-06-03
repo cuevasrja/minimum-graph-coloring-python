@@ -43,7 +43,7 @@ def main():
     # Se muestran la cantidad de nodos
     print("\033[103;1mCantidad de nodos:\033[0m \033[93m",
           len(g.vs), "\033[0m")
-    
+
     # Invocando D-Satur
     print("\n\033[100;1mInvocando D-Satur...\033[0m")
 
