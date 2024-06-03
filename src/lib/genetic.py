@@ -1,8 +1,9 @@
 from typing import List
 import igraph as ig
 import random
+import threading
 from typing import Dict, Callable, List
-from src.lib.eval_functions import eval_sum_of_squared_color_sizes, eval_scaled_number_of_conflics
+from src.lib.eval_functions import eval_scaled_number_of_conflics
 
 
 def genetic_algorithm(self: ig.Graph,
@@ -132,3 +133,37 @@ def create_population(self: ig.Graph, population_size: int) -> List[Dict[int, st
         self.reset_colors()
 
     return population
+
+# def create_population(self: ig.Graph, population_size: int) -> List[Dict[int, str]]:
+#     population: List[Dict[int, str]] = []
+
+#     # Random color graph 90% of the initial population with threads. 10% per thread
+#     def random_color():
+#         for _ in range(population_size // 10):
+#             self.random_color_graph()
+#             population.append(self.coloring_as_dict())
+#             self.reset_colors()
+
+#     # D-Satur rest of the initial population
+#     def d_satur():
+#         for _ in range(population_size // 10):
+#             self.d_satur()
+#             population.append(self.coloring_as_dict())
+#             self.reset_colors()
+
+#     threads = []
+#     for i in range(10):
+#         if i == 9:
+#             threads.append(threading.Thread(target=d_satur))
+#         else:
+#             threads.append(threading.Thread(target=random_color))
+
+#     for thread in threads:
+#         thread.start()
+
+#     for thread in threads:
+#         thread.join()
+
+#     self.reset_colors()
+
+#     return population
