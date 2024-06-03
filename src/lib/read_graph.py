@@ -1,9 +1,15 @@
 import igraph as ig
-from src.lib.methods_for_graph import vertex_with_max_saturation, adjacent_colors, change_color_and_increase_saturation, group_nodes_by_color, is_colored, is_safe_to_color, reset_colors, is_valid_coloring, number_of_colors, coloring_as_dict, apply_coloring_dict
+from src.lib.methods_for_graph import vertex_with_max_saturation, adjacent_colors, change_color_and_increase_saturation, group_nodes_by_color, is_colored, is_safe_to_color, reset_colors, is_valid_coloring, number_of_colors, coloring_as_dict, apply_coloring_dict,count_and_sort_colors, number_of_colors_used, uncolor, get_amount_of_colors
 from src.lib.d_satur import d_satur
+from src.lib.ils import ils
 from src.lib.backtracking import backtracking
 from src.lib.local_search import local_search, kempe_neighbourhood, kempe_sorted
 
+ig.Graph.ils = ils
+ig.Graph.get_amount_of_colors = get_amount_of_colors
+ig.Graph.uncolor = uncolor
+ig.Graph.number_of_colors_used = number_of_colors_used
+ig.Graph.count_and_sort_colors = count_and_sort_colors
 ig.Graph.number_of_colors = number_of_colors
 ig.Graph.is_valid_coloring = is_valid_coloring
 ig.Graph.reset_colors = reset_colors

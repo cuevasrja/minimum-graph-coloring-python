@@ -1,6 +1,46 @@
 from typing import List, Dict, Set
 import igraph as ig
 
+def uncolor(self: ig.Graph, color: str) -> None:
+    """
+    Cambia el color de todos los nodos con el color especificado a una cadena vacía "",
+    y reduce en 1 el valor de saturación de cada nodo conectado por una arista a uno de esos nodos.
+    
+    :param g: El grafo en el que se cambiarán los colores.
+    :param color: El color que se va a cambiar a "" (como string).
+    """
+    vertices_to_uncolor = [v.index for v in self.vs if v["color"] == color]
+
+    for v_index in vertices_to_uncolor:
+        self.vs[v_index]["color"] = ""
+        neighbors = self.neighbors(v_index)
+        for neighbor_index in neighbors:
+            if self.vs[neighbor_index]["saturation"] > 0:
+                self.vs[neighbor_index]["saturation"] -= 1
+
+def number_of_colors_used(self: ig.Graph) -> int:
+    """
+    Retorna el número de colores utilizados en el grafo.
+    """
+    unique_colors = set(v["color"] for v in self.vs)
+    return len(unique_colors)
+
+def count_and_sort_colors(g: ig.Graph) -> list:
+    """
+    Cuenta la cantidad de colores usados en el grafo y retorna una lista de colores
+    ordenada de menos común a más común.
+    """
+    color_count = {}
+    for v in g.vs:
+        color = v["color"]
+        if color not in color_count:
+            color_count[color] = 0
+        color_count[color] += 1
+
+    sorted_colors = sorted(color_count.items(), key=lambda item: item[1])
+
+    return sorted_colors
+
 def apply_coloring_dict(self: ig.Graph, coloring: dict) -> None:
     """
     Aplica una coloración al grafo a partir de un diccionario.
@@ -149,3 +189,21 @@ def group_nodes_by_color(self: ig.Graph) -> None:
     # Imprimir el número total de colores
     total_colors: int = len(nodes_by_color)
     print(f"Número total de colores: \033[94;1m{total_colors}\033[0m")
+
+def get_amount_of_colors(self: ig.Graph) -> int:
+    """
+    Agrupa los nodos del grafo por color y muestra el numero de colores utilizados
+    """
+    # Crear un diccionario para almacenar los nodos agrupados por color
+    nodes_by_color: Dict[str, List[int]] = {}
+
+    # Iterar sobre todos los nodos
+    for v in self.vs:
+        color: str = v['color']
+        if color in nodes_by_color:
+            nodes_by_color[color].append(v.index)
+        else:
+            nodes_by_color[color] = [v.index]
+
+    total_colors: int = len(nodes_by_color)
+    return total_colors

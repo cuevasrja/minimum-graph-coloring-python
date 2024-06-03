@@ -52,6 +52,7 @@ def main():
     g.reset_colors()
     
     # Invocando Local Search
+    """"
     print("\n\033[100;1mInvocando Local Search...\033[0m")       
     start_time = time.time()
     
@@ -61,9 +62,29 @@ def main():
         print(f"Tiempo de ejecución: {execution_time} segundos")
         g.group_nodes_by_color()
         is_valid: str = "\033[92;1mTrue" if g.is_valid_coloring() else "\033[91mFalse"
-        print(f"Coloración válida: {is_valid}\033[0m")         
-
+        print(f"Coloración válida: {is_valid}\033[0m")
+        
+    g.reset_colors()
+    """""
+          
+    start_time = time.time()
+    
+    if run_with_timeout(g.ils, 300):
+        end_time = time.time()
+        execution_time = end_time - start_time
+        print(f"Tiempo de ejecución: {execution_time} segundos")
+        g.group_nodes_by_color()
+        is_valid: str = "\033[92;1mTrue" if g.is_valid_coloring() else "\033[91mFalse"
+        print(f"Coloración válida: {is_valid}\033[0m")
+        
+    print(g.count_and_sort_colors())
+    g.reset_colors()    
+    
+    
+        
+             
     # Invocando Backtracking
+    """
     print("\n\033[100;1mInvocando Backtracking...\033[0m")
 
     g.reset_colors()
@@ -80,6 +101,6 @@ def main():
             g.group_nodes_by_color()
             is_valid: str = "\033[92;1mTrue" if g.is_valid_coloring() else "\033[91mFalse"
             print(f"Coloración válida: {is_valid}\033[0m")        
-
+    """
 if __name__ == "__main__":
     main()
