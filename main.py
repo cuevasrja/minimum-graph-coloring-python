@@ -164,6 +164,28 @@ def main():
             ) else "\033[91mFalse"
             print(f"Coloración válida: {is_valid}\033[0m")
 
+    # Invocando Iterated Local Search
+    print("\n\033[100;1mInvocando Iterated Local Search...\033[0m")
+
+    g.reset_colors()
+
+    if len(g.vs) == 0:
+        print(
+            "\033[91;1mError:\033[0m Iterated Local Search no pudo colorear el grafo")
+    else:
+        start_time = time.time()
+
+        if run_with_timeout(g.ils, 300):
+            end_time = time.time()
+            execution_time = end_time - start_time
+            print(f"Tiempo de ejecución: {execution_time} segundos")
+
+            g.group_nodes_by_color()
+
+            is_valid: str = "\033[92;1mTrue" if g.is_valid_coloring(
+            ) else "\033[91mFalse"
+            print(f"Coloración válida: {is_valid}\033[0m")
+
 
 if __name__ == "__main__":
     main()
