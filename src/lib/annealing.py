@@ -39,7 +39,7 @@ def simulated_annealing(self: ig.Graph):
     eval_sol: Callable[[Dict[int, str]], int] = eval_sum_of_squared_color_sizes
     mode = 'MAX'
 
-    temperature: float = 8.0  # TODO: Tweak this after fix
+    temperature: float = 16.0
     cooling_rate: float = 0.1  # efectivamente sera (1 - cooling_rate) = 0.9
     freezing_temperature: float = 0.02  # Cerca de 50 iteraciones
 
