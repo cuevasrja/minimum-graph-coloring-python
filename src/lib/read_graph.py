@@ -7,6 +7,7 @@ from src.lib.local_search import local_search, kempe_neighbourhood, kempe_sorted
 from src.lib.grasp import grasp
 from src.lib.genetic import genetic_algorithm
 from src.lib.annealing import simulated_annealing
+from src.lib.tabu_search import tabu_search
 
 ig.Graph.count_colors = count_colors
 ig.Graph.local_search_without_d_satur = local_search_without_d_satur
@@ -37,7 +38,7 @@ ig.Graph.apply_coloring_dict = apply_coloring_dict
 ig.Graph.grasp = grasp
 ig.Graph.genetic_algorithm = genetic_algorithm
 ig.Graph.simulated_annealing = simulated_annealing
-
+ig.Graph.tabu_search = tabu_search
 
 def read_graph(file_path: str) -> ig.Graph:
     """
