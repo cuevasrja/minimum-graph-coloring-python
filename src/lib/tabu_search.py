@@ -14,9 +14,7 @@ def conflicted_vertexs(g: ig.Graph, coloring: Dict[int, str]) -> List[int]:
 
 def random_color_graph(g: ig.Graph) -> None:
     n: int = len(g.vs)
-    colors: List[int] = []
-    for node in range(n):
-        colors.append(random.randint(0, n-1))
+    colors: List[int] = [random.randint(0, n-1) for _ in range(n)]
     for i, color in enumerate(colors):
         g.vs[i]['color'] = color
 
@@ -73,7 +71,7 @@ def tabu_search(self: ig.Graph, tabu_size: int = 10, max_iter: int = 100, reps: 
                         tabu_list.remove((v, new_color))
 
         # add the new solution to the tabu list
-        tabu_list.append(v, best_sol[v])
+        tabu_list.append((v, best_sol[v]))
         if len(tabu_list) > tabu_size:
             tabu_list.pop(0)
 
