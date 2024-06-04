@@ -1,84 +1,111 @@
 from typing import List, Set, Dict
-import random
 import igraph as ig
 
-def conflicted_vertexs(g: ig.Graph, coloring: Dict[int, str]) -> List[int]:
-    conflicted: Set[int] = set()
-    for e in g.es:
-        source_color: str = coloring[e.source]
-        target_color: str = coloring[e.target]
-        if source_color == target_color:
-            conflicted.add(e.source)
-            conflicted.add(e.target)
-    return list(conflicted)
+def get_adjacent_colors(graph: ig.Graph, node_index: int, solution: Dict[int, str]) -> Set[str]:
+    """
+    Obtiene los colores de los nodos adyacentes a un nodo.
+    """
+    adjacent_indices: List[int] = graph.neighbors(node_index, mode="ALL")
+    colors: Set[str] = {solution[neighbor] for neighbor in adjacent_indices if neighbor in solution}
+    return colors
 
-def random_color_graph(g: ig.Graph) -> None:
-    n: int = len(g.vs)
-    colors: List[int] = [random.randint(0, n-1) for _ in range(n)]
-    for i, color in enumerate(colors):
-        g.vs[i]['color'] = color
+def get_neighbors(graph: ig.Graph, solution: Dict[int, str]) -> List[Dict[int, str]]:
+    """
+    Obtiene los vecinos de una solución de coloración.
+    """
+    neighbors: List[Dict[int, str]] = []
+
+    # Iterar sobre todos los nodos
+    for node_index in range(len(graph.vs)):
+        # Obtener los colores de los nodos adyacentes
+        adjacent_colors: Set[str] = get_adjacent_colors(graph, node_index, solution)
+
+        # Iterar sobre todos los colores
+        for color in adjacent_colors:
+            # Crear un vecino intercambiando el color del nodo actual por un color adyacente
+            neighbor: Dict[int, str] = solution.copy()
+            neighbor[node_index] = color
+            neighbors.append(neighbor)
+
+    return neighbors
+
+def get_fitness(graph: ig.Graph, solution: Dict[int, str]) -> int:
+    """
+    Calcula el fitness de una solución de coloración.
+    """
+    fitness: int = 0
+
+    # Iterar sobre todos los nodos
+    for node_index in range(len(graph.vs)):
+        # Obtener los colores de los nodos adyacentes
+        adjacent_colors: Set[str] = get_adjacent_colors(graph, node_index, solution)
+
+        # Incrementar el fitness si el color del nodo actual es igual a un color adyacente
+        if solution[node_index] in adjacent_colors:
+            fitness += 1
+
+    return fitness
+
 
 def tabu_search(self: ig.Graph, tabu_size: int = 10, max_iter: int = 100, reps: int = 50) -> None:
-    random_color_graph(self)
-    prev_sol: Dict[int, str] = self.coloring_as_dict()
-    self.reset_colors()
+    """
+    Realiza una búsqueda tabú para colorear el grafo.
+    """
+    # Inicializar la lista tabú
+    tabu_list: List[Dict[int, str]] = []
 
-    colors: List[int] = list(set(prev_sol.values()))
+    # Inicializar la mejor solución encontrada
+    self.d_satur()
+    best_solution: Dict[int, str] = self.coloring_as_dict()
+    best_fitness: int = get_fitness(self, best_solution)
 
-    best_sol: Dict[int, str] = prev_sol.copy()
-    best_sol_conflicts: int = len(conflicted_vertexs(self, best_sol))
-    tabu_list: List[Dict[int, str]] = [prev_sol]
-    
-    # Aspiration level A(z), represented by a mapping: f(s) -> best f(s') seen so far
-    aspiration_level = dict()
+    # Inicializar la mejor solución local
+    best_local_solution: Dict[int, str] = best_solution
+    best_local_fitness: int = best_fitness
 
-    for _ in range(max_iter):
-        move_candidates: List[int] = conflicted_vertexs(self, best_sol)
+    # Inicializar el contador de iteraciones
+    iter_count: int = 0
 
-        if len(move_candidates) == 0:
-            break
+    # Realizar la búsqueda tabú
+    while iter_count < max_iter:
+        # Incrementar el contador de iteraciones
+        iter_count += 1
 
-        new_solution: Dict[int, str] = {}
-        for r in range(reps):
-            # choose a random vertex to move
-            v: int = random.choice(move_candidates)
+        # Inicializar la mejor solución local de la iteración
+        best_local_solution = best_solution
+        best_local_fitness = best_fitness
 
-            # choose a random color to move to
-            new_color: int = random.choice(colors)
-            while new_color == best_sol[v]:
-                new_color = random.choice(colors)
-            
-            # move the vertex to the new color
-            new_solution: Dict[int, str] = best_sol.copy()
-            new_solution[v] = new_color
+        # Obtener los vecinos de la mejor solución local
+        neighbors: List[Dict[int, str]] = get_neighbors(self, best_local_solution)
 
-            # check if the new solution is in the tabu list
-            if new_solution in tabu_list:
-                continue
+        # Seleccionar el vecino con mejor fitness
+        for neighbor in neighbors:
+            # Si el vecino no está en la lista tabú
+            if neighbor not in tabu_list:
+                # Calcular el fitness del vecino
+                neighbor_fitness: int = get_fitness(self, neighbor)
 
-            # check if the new solution is better than the best solution
-            new_conflicts: int = len(conflicted_vertexs(self, new_solution))
-            if new_conflicts < best_sol_conflicts:
-                if new_conflicts <= aspiration_level.setdefault(best_sol_conflicts, best_sol_conflicts - 1):
-                    # Set A(z) to the best f(s') seen so far
-                    aspiration_level[best_sol_conflicts] = new_conflicts - 1
-                    best_sol = new_solution
-                    if (v, new_color) in tabu_list:
-                        tabu_list.remove((v, new_color))
-                        break
-                else:
-                    if (v, new_color) in tabu_list:
-                        tabu_list.remove((v, new_color))
+                # Actualizar la mejor solución local
+                if neighbor_fitness < best_local_fitness:
+                    best_local_solution = neighbor
+                    best_local_fitness = neighbor_fitness
 
-        # add the new solution to the tabu list
-        tabu_list.append((v, best_sol[v]))
+        # Actualizar la mejor solución global
+        if best_local_fitness < best_fitness:
+            best_solution = best_local_solution
+            best_fitness = best_local_fitness
+
+        # Actualizar la lista tabú
+        tabu_list.append(best_local_solution)
         if len(tabu_list) > tabu_size:
             tabu_list.pop(0)
 
-        best_sol_conflicts = len(conflicted_vertexs(self, best_sol))
-        best_sol = new_solution.copy()
+        # Imprimir el fitness de la mejor solución global
+        print(f"Iteración {iter_count}: Fitness = {best_fitness}")
 
-    if best_sol_conflicts != 0:
-        print('No solution found')
-    else:
-        self.apply_coloring_dict(best_sol) 
+        # Si se alcanza el fitness óptimo, terminar la búsqueda
+        if best_fitness == 0:
+            break
+
+    # Colorear el grafo con la mejor solución encontrada
+    self.apply_coloring_dict(best_solution)
