@@ -2,6 +2,19 @@ from typing import List, Set
 import igraph as ig
 import random
 
+def select_random_permutation(g: ig.Graph, colors: List[int], n: int, alpha: float) -> int:
+    color_count: int = 0
+    # Seleccionar un nodo aleatorio y asignarle un color
+    for node in random.sample(range(n), n):
+        available_colors: Set[int] = set(range(color_count)) - {colors[neighbor] for neighbor in g.neighbors(node)}
+        if not available_colors:
+            available_colors = {color_count}
+            color_count += 1
+        available_colors = list(available_colors)
+        cutoff = int(alpha * len(available_colors))
+        colors[node] = random.choice(available_colors[:cutoff+1])
+    return color_count
+
 def grasp(self: ig.Graph, max_iter: int = 100, alpha: float = 0.5) -> None:
     n: int = len(self.vs)
     colors: List[int] = []
@@ -10,15 +23,7 @@ def grasp(self: ig.Graph, max_iter: int = 100, alpha: float = 0.5) -> None:
     for _ in range(max_iter):
         # Fase de construcción
         colors = [-1] * n
-        color_count: int = 0
-        for node in random.sample(range(n), n):
-            available_colors: Set[int] = set(range(color_count)) - {colors[neighbor] for neighbor in self.neighbors(node)}
-            if not available_colors:
-                available_colors = {color_count}
-                color_count += 1
-            available_colors = list(available_colors)
-            cutoff = int(alpha * len(available_colors))
-            colors[node] = random.choice(available_colors[:cutoff+1])
+        color_count: int = select_random_permutation(self, colors, n, alpha)
 
         # Fase de búsqueda local
         for node in random.sample(range(n), n):
