@@ -192,8 +192,7 @@ def genetic_algorithm(graph):
     mode = 'MIN'
 
     def find_best_solution(population):
-        return min(
-            population, key=f) if mode == 'MIN' else max(population, key=f)
+        return min(population, key=f) if mode == 'MIN' else max(population, key=f)
 
     # Generar población inicial
     population: List[Dict[int, str]] = create_population(graph, population_size)
@@ -206,12 +205,10 @@ def genetic_algorithm(graph):
     for i in range(generations):
         # Seleccionar K  parejas de padres
         K = population_size // 2
-        parents: List[List[Dict[int, str]]] = get_parents(
-            population, K, f, mode)
+        parents: List[List[Dict[int, str]]] = get_parents(population, K, f, mode)
 
         # Cruzar las parejas de padres para obtener K hijos
-        children: List[Dict[int, str]] = [
-            crossover(graph, p) for p in parents]
+        children: List[Dict[int, str]] = [crossover(graph, p) for p in parents]
 
         # Mutar a los K hijos
         children = [mutate(graph, c, mutation_rate) for c in children]
@@ -275,6 +272,8 @@ def grasp(G: Graph, max_iter: int = 100, alpha: float = 0.5) -> None:
 ```
 
 ## Experimentos y Resultados
+
+## Comparación con Corte Anterior
 
 ## Conclusiones
 

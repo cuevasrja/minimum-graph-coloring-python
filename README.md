@@ -63,6 +63,17 @@ Además, se realizaron pruebas para evaluar el desempeño de los algoritmos impl
 
 Para la segunda entrega, se implementaron los siguientes algoritmos:
 
-<!-- Colocar algoritmos -->
+- **Algoritmo de Búsqueda Local Iterativa**: Este algoritmo es una mejora del algoritmo de búsqueda local, donde se ejecuta la búsqueda local varias veces con distintas soluciones iniciales, y se selecciona la mejor solución encontrada.
+  
+- **Algoritmo de Búsqueda Tabú**: Este algoritmo es una mejora del algoritmo de búsqueda local, donde se evitan soluciones que ya han sido visitadas recientemente. Para esto, se mantiene una lista de soluciones tabú, las cuales no se pueden visitar en un número determinado de iteraciones.
+  
+- **Algoritmo de Recocido Simulado**: Este algoritmo es una mejora del algoritmo de búsqueda local, donde se aceptan soluciones peores con una probabilidad que disminuye con el tiempo. Para esto, se utiliza una función de probabilidad que depende de la diferencia de costos entre la solución actual y la solución vecina.
+
+- **Algoritmo Genético**: Este algoritmo es una heurística inspirada en la evolución biológica, donde se generan soluciones iniciales aleatorias, y se seleccionan las mejores soluciones para generar nuevas soluciones. Para esto, se utilizan operadores de cruce y mutación para generar nuevas soluciones.
+
+- **Algoritmo GRASP**: Este algoritmo es una heurística que combina la construcción de soluciones aleatorias con la búsqueda local. Para esto, se selecciona un porcentaje de los nodos del grafo, y se les asigna un color aleatorio. Luego, se ejecuta la búsqueda local para mejorar la solución.
 
 Además, se realizaron pruebas para evaluar el desempeño de los algoritmos implementados. Para más información sobre los algoritmos y las pruebas realizadas, se puede consultar el archivo `explain.md` en la carpeta de este corte. Puede acceder a este archivo [aquí](src/corte2/explain.md)
+
+> [!NOTE] Nota:
+> Se realizó una comparación de los algoritmos implementados en la primera y segunda entrega. Para más información sobre la comparación, se puede consultar el archivo `explain.md` en la carpeta de este corte. Puede acceder a este archivo [aquí](src/corte2/explain.md#comparación-con-corte-anterior)
