@@ -284,9 +284,7 @@ El algoritmo GRASP (Greedy Randomized Adaptive Search Procedure) es una técnica
 
 Para esta implementación el la construcción voraz base es aquella que asiga el color disponible más bajo a cada nodo, recorriendo los nodos en orden aleatorio.
 
-Para esta implementación el método de mejora ...
-
-Particularmente, en el problema de coloración de grafos, construye una solución desde cero, asignando colores aleatorios a los nodos y mejorando iterativamente la solución mediante una búsqueda local. En cada iteración, se selecciona un nodo aleatorio y se le asigna un color aleatorio. Si la solución resultante es mejor que la anterior, se actualiza la solución actual. Este proceso se repite hasta que no se puedan mejorar más las soluciones.
+Para esta implementación el método de mejora es un método de búsqueda local que recorre los nodos en orden aleatorio y para cada nodo, recorre los colores disponibles en orden aleatorio y asigna el primer color que no genere conflictos.
 
 Para representar la solución, se utilizó una lista de colores, donde cada color representa el color asignado a un nodo, mientras que el índice de la lista representa el nodo.
 
