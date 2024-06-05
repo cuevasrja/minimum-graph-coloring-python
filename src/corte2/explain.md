@@ -17,7 +17,36 @@ Para la implementación de estos algoritmos se utilizó el lenguaje de programac
 
 ## Benchmark para el problema de coloración de grafos
 
-<!-- TODO -->
+Un benchmark es un conjunto de instancias de un problema que se utilizan para comparar diferentes algoritmos y evaluar su rendimiento. 
+
+Para el problema de coloración de grafos, en la literatura es comun utilizar un conjunto de instancias seleccionadas por el DIMACS (Center for Discrete Mathematics and Theoretical Computer Science) para evaluar los algoritmos de coloración de grafos. El conjunto de instancias DIMACS contiene grafos con diferentes tamaños y densidades, que a su vez provienen de diferentes aplicaciones, esto permite evaluar el rendimiento de los algoritmos en diferentes escenarios.
+
+Este benchmark se diseñó para [el segundo desafío de coloración de grafos de DIMACS](http://dimacs.rutgers.edu/archive/Challenges/#:~:text=NP-,Hard,-Problems%3A%20Maximum%20Clique). Para este corte, se utilizaron algunas instancias de este benchmark para evaluar los algoritmos implementados. 
+
+En concreto se seleccionaron instancias DIMACS asociadas a las siguientes fuentes:
+
+- **DSJC**: Generados por David Johnson, grafos utilizados en su articulo con Aragon, McGeoch y Schevon, _"Optimization by Simulated Annealing: An Experimental Evaluation; Part II, Graph Coloring and Number Partitioning"_, Operations Research 39, 378-406, 1991. Son grafos $(n, p)$ aleatorios estándar con densidad de aristas $p$.
+- **REG**: Generados por Gary Lewandowski, son grafos asociados al problema de _"Register Allocation"_, los grafos provienen de programas reales.
+- **LEI**: Generados por Craig Morgenstern. Son grafos de Leighton con tamaño de coloración garantizado. Una referencia es F.T. Leighton, Journal of Research of the National Bureau of Standards, 84: 489--505 (1979).
+- **SGB queen**: Grafos asociados al [problema de las n-reinas](https://en.wikipedia.org/wiki/Eight_queens_puzzle) para tableros de ajedrez de tamaño $n \times n$.
+
+Los grafos seleccionados se encuentran en la carpeta [data](../../data/) y se describen a continuación:
+
+### Tabla de instancias
+
+| Grafo   | Archivo         | Número de nodos | Número de lados | Fuente          | Número cromático |
+|---------|-----------------|-----------------|-----------------|-----------------|------------------|
+| Grafo 1 | DSJC250.5.col   | 250             | 15668           | **DSJC**        | Desconocido      |
+| Grafo 2 | DSJC250.9.col   | 250             | 27897           | **DSJC**        | Desconocido      |
+| Grafo 3 | le450_15b.col   | 450             | 8169            | **LEI**         | 15               |
+| Grafo 4 | le450_15c.col   | 450             | 16680           | **LEI**         | 15               |
+| Grafo 5 | le450_25c.col   | 450             | 17343           | **LEI**         | 25               |
+| Grafo 6 | queen5_5.col    | 25              | 320             | **SGB queen**   | 5                |
+| Grafo 7 | fpsol2.i.1.col  | 496             | 11654           | **REG**         | 65               |
+| Grafo 8 | fpsol2.i.2.col  | 451             | 8691            | **REG**         | 30               |
+| Grafo 9 | zeroin.i.3.col  | 206             | 3540            | **REG**         | 30               |
+| Grafo 10| mulsol.i.1.col  | 197             | 3925            | **REG**         | 49               |
+
 
 ## Soluciones implementadas
 
@@ -126,65 +155,50 @@ Donde $C_i$ es el conjunto de nodos de color $i$ y $n$ es el número de colores 
 def simulated_annealing(graph):
     mode = 'MAX'
 
-    temperature: float = 16.0
+    temperature: float = 16.0 # Temperatura inicial
     cooling_rate: float = 0.1  # efectivamente sera (1 - cooling_rate) = 0.9
     freezing_temperature: float = 0.02  # Cerca de 50 iteraciones
-
-    freezing_counter: int = 0
-
+    freezing_counter: int = 0 # Contador de congelamiento
     # La solución inicial es D-Satur
     graph.d_satur()
-
     # Constantes del algoritmo
-    FREEZE_LIM = 3
+    FREEZE_LIM = 3 # Numero de veces que la temperatura debe ser menor a freezing_temperature
     TRIALS_LIM = 100  # Numero de exploraciones por valor de temperatura
-
     # Mejor solución encontrada
     best_coloring: Dict[int, str] = graph.coloring_as_dict()
     best_eval: int = f(best_coloring)
 
     current_coloring: Dict[int, str] = best_coloring
-
     # Criterio de congelamiento
     while freezing_counter < FREEZE_LIM:
         trials = 0
         best_changed = False
-
         # Criterio de parada
         while trials < TRIALS_LIM:
             # Obtenemos la vecindad de Kempe
             neighbours = graph.kempe_neighbourhood()
-
             # Random shuffle a la vecindad
             random.shuffle(neighbours)
-
             for neighbour in neighbours:
                 # Calcular la probabilidad de aceptar el movimiento
-                prob = movement_probability(
-                    current_coloring, neighbour, temperature, mode)
-
+                prob = movement_probability(current_coloring, neighbour, temperature, mode)
                 # Si el movimiento es aceptado
                 if random.random() < prob:
                     current_coloring = neighbour
                     graph.apply_coloring_dict(current_coloring)
-
                     # Actualizar la mejor solución
                     if (mode == 'MAX' and f(current_coloring) > best_eval) or (mode == 'MIN' and f(current_coloring) < best_eval):
                         best_coloring = current_coloring
                         best_eval = f(best_coloring)
                         best_changed = True
-
                 trials += 1
                 if trials >= TRIALS_LIM:
                     break
-
         # Actualizar la temperatura
         temperature *= 1 - cooling_rate
-
         # Actualizar el contador de congelamiento
         if temperature < freezing_temperature and not best_changed:
             freezing_counter += 1
-
     # Aplicar la mejor solución encontrada
     graph.apply_coloring_dict(best_coloring)
 ```
@@ -204,50 +218,38 @@ Donde $N$ es el conjunto de nodos del grafo y $\text{conflicts}(v)$ es el númer
 ```python
 def genetic_algorithm(graph):
     mode = 'MIN'
-
     def find_best_solution(population):
         return min(population, key=f) if mode == 'MIN' else max(population, key=f)
 
     # Generar población inicial
     population: List[Dict[int, str]] = create_population(graph, population_size)
-
     # Evaluar la población inicial
     best_solution: Dict[int, str] = find_best_solution(population)
     best_score: int = f(best_solution)
-
     # Evolución de la población
     for i in range(generations):
         # Seleccionar K  parejas de padres
         K = population_size // 2
         parents: List[List[Dict[int, str]]] = get_parents(population, K, f, mode)
-
         # Cruzar las parejas de padres para obtener K hijos
         children: List[Dict[int, str]] = [crossover(graph, p) for p in parents]
-
         # Mutar a los K hijos
         children = [mutate(graph, c, mutation_rate) for c in children]
-
         # Agregar a la población a los K hijos
         population.extend(children)
-
         # Seleccionar K + 1 individuos de la población según que tan malo es su desempeño
         killed = random.choices(population, k=K + 1, weights=[
-            f(c) if mode == 'MIN' else 1 / f(c)
-            for c in population
+            f(c) if mode == 'MIN' else 1 / f(c) for c in population
         ])
         population = [p for p in population if p not in killed]
-
         # Actualizar la mejor solución
         generation_best = find_best_solution(population)
         generation_best_score = f(generation_best)
-
         if (mode == 'MIN' and generation_best_score < best_score) or (mode == 'MAX' and generation_best_score > best_score):
             best_solution = generation_best
             best_score = generation_best_score
-
         # Agregar a la mejor solución a la población (intensificación)
         population.append(best_solution)
-
     # Aplicar mejor solución
     graph.apply_coloring_dict(best_solution)
 ```
