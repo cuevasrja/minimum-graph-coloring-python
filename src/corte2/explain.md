@@ -262,7 +262,7 @@ def genetic_algorithm(graph: Graph):
         population.extend(children)
         # Seleccionar K + 1 individuos de la población según que tan malo es su desempeño
         killed = random.choices(population, k=K + 1, weights=[
-            1 / f(c) for c in population
+            f(c) for c in population
         ])
         # Eliminar los K + 1 seleccionados
         population = [p for p in population if p not in killed]
