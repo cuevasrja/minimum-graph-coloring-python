@@ -100,8 +100,6 @@ def tabu_search(self: ig.Graph, tabu_size: int = 5, max_iter: int = 5) -> None:
         if len(tabu_list) > tabu_size:
             tabu_list.pop(0)
 
-        # Imprimir el fitness de la mejor solución global
-        print(f"Iteración {iter_count}: Fitness = {best_fitness}")
 
     # Colorear el grafo con la mejor solución encontrada
     self.apply_coloring_dict(best_solution)
