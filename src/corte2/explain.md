@@ -286,6 +286,10 @@ Para esta implementación el la construcción voraz base es aquella que asiga el
 
 Para esta implementación el método de mejora ...
 
+Particularmente, en el problema de coloración de grafos, construye una solución desde cero, asignando colores aleatorios a los nodos y mejorando iterativamente la solución mediante una búsqueda local. En cada iteración, se selecciona un nodo aleatorio y se le asigna un color aleatorio. Si la solución resultante es mejor que la anterior, se actualiza la solución actual. Este proceso se repite hasta que no se puedan mejorar más las soluciones.
+
+Para representar la solución, se utilizó una lista de colores, donde cada color representa el color asignado a un nodo, mientras que el índice de la lista representa el nodo.
+
 #### Pseudocódigo
 
 ```python
@@ -304,19 +308,21 @@ def grasp(g: Graph) -> None:
 
         # Fase de mejora
         for node in random.sample(range(n), n):
+            # Iteramos sobre los colores
             for color in range(color_count):
+                # Si el color no es el mismo que el actual y no hay conflictos
                 if color != colors[node] and all(colors[neighbor] != color for neighbor in G.neighbors(node)):
+                    # Asignamos el color al nodo
                     old_color: int = colors[node]
                     colors[node] = color
+                    # Actualizamos el número de colores
                     if old_color not in colors:
                         color_count -= 1
                     break
-
         # Actualización de la mejor solución
         if color_count < best_number_of_colors:
             best_number_of_colors = color_count
             best_colors = colors
-
     # Aplicación de la mejor solución
     for i, color in enumerate(best_colors):
         self.vs[i]["color"] = color
