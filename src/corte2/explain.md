@@ -56,7 +56,7 @@ Para este corte se decidio utilizar solamente aquellos grafos en donde DSatur no
 
 Este algoritmo se basa en aplicar búsqueda local iterativamente perturbando la solución actual con la esperanza de mover la solución hacia otra región del espacio de soluciones en cuya localidad pueda existir una mejor solución. Se comienza haciendo una búsqueda local en la solución inicial y luego se perturba la solución actual para explorar nuevas soluciones. Si se encuentra una solución mejor que la anterior, se actualiza la solución actual. Este proceso se repite hasta que no se puedan mejorar más las soluciones.
 
-La perturbación utilizada en la implementación de este algoritmo toma una solución y selecciona `N` colores al azar para eliminarlos de la solución. Luego, se aplica el algoritmo D-Satur para colorear los nodos con los colores restantes. Finalmente, se aplica búsqueda local para mejorar la solución.
+La perturbación utilizada en la implementación de este algoritmo toma una solución y selecciona `N` colores al azar para eliminarlos de la solución. Luego, se aplica el algoritmo D-Satur para re-colorear a los nodos cuyos colores fueron eliminados. Finalmente, se aplica búsqueda local para mejorar la solución.
 
 La cantidad de colores a eliminar se aumenta con el tiempo, de manera que se exploran soluciones más diversas a medida que avanza el algoritmo. Esto permite explorar el espacio de soluciones de manera más amplia y evitar caer en óptimos locales.
 
