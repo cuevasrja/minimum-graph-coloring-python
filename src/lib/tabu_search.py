@@ -47,7 +47,7 @@ def get_fitness(graph: ig.Graph, solution: Dict[int, str]) -> int:
     return fitness
 
 
-def tabu_search(self: ig.Graph, tabu_size: int = 10, max_iter: int = 50) -> None:
+def tabu_search(self: ig.Graph, tabu_size: int = 5, max_iter: int = 5) -> None:
     """
     Realiza una búsqueda tabú para colorear el grafo.
     """
