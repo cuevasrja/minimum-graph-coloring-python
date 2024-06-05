@@ -88,6 +88,7 @@ def iterative_local_search(graph: Graph):
         # Perturbar la solución eliminando colores
         graph.uncolor(colors_to_clear)
         # Rellenar los colores eliminados con D-Satur y búsqueda local
+        graph.d_satur()
         graph.local_search()
         amount_of_colors, current_colors_in_graph = graph.colors_used()
         # Actualizar la mejor solución
