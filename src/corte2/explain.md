@@ -36,8 +36,8 @@ Los grafos seleccionados se encuentran en la carpeta [data](../../data/) y se de
 
 | Grafo   | Archivo         | Número de nodos | Número de lados | Fuente          | Número cromático |
 |---------|-----------------|-----------------|-----------------|-----------------|------------------|
-| Grafo 1 | DSJC250.5.col   | 250             | 15668           | **DSJC**        | Desconocido      |
-| Grafo 2 | DSJC250.9.col   | 250             | 27897           | **DSJC**        | Desconocido      |
+| Grafo 1 | DSJC250.5.col   | 250             | 15668           | **DSJC**        | 31               |
+| Grafo 2 | DSJC250.9.col   | 250             | 27897           | **DSJC**        | 75               |
 | Grafo 3 | le450_15b.col   | 450             | 8169            | **LEI**         | 15               |
 | Grafo 4 | le450_15c.col   | 450             | 16680           | **LEI**         | 15               |
 | Grafo 5 | le450_25c.col   | 450             | 17343           | **LEI**         | 25               |
