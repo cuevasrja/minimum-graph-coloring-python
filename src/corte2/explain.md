@@ -313,7 +313,7 @@ fpsol2.i.2.col| 425 | 8688	| 30 |	0,2381|	30 | 41,206	| 30 | 1,004  | 30 | 65,58
 
 ## Comparación con Corte Anterior
 
-Con la implementación de los nuevos algoritmos pudimos mejorar nuestra solución previa en algunos de los casos. Sin embargo, por lo general, estas mejoras no fueron muy significativas y, en general, requirieron una mayor cantidad de recursos computacionales. El motivo principal por el cual las mejoras no fueron tan destacadas es porque el algoritmo de DSatur que usamos para obtener el caso base en la mayoria de las casos, ya nos daba una solucion bastante buena
+Con la implementación de los nuevos algoritmos pudimos mejorar nuestra solución previa en algunos de los casos. Sin embargo, por lo general, estas mejoras no fueron muy significativas y, en la mayoria de los casos, requirieron una mayor cantidad de recursos computacionales. El motivo principal por el cual las mejoras no fueron tan destacadas es porque el algoritmo de DSatur que usamos para obtener el caso base en la mayoria de las casos, ya nos daba una solucion bastante buena
 
 Particularmente, el algoritmo GRASP (Greedy Randomized Adaptive Search Procedure) mostró una mejora en un caso específico, logrando una solución mejor en comparación con la anterior. No obstante, en términos generales, GRASP ofreció soluciones bastante peores. Esto es comprensible dado que GRASP no utiliza DSatur como base, lo que limita su capacidad para encontrar soluciones óptimas de manera consistente.
 
