@@ -48,7 +48,7 @@ Los grafos seleccionados se encuentran en la carpeta [data](../../data/) y se de
 | Grafo 10| mulsol.i.1.col  | 197             | 3925            | **REG**         | 49               |
 
 
-Para este corte se decidio utilizar solamente aquellos grafos en donde DSatur no daba una solución óptima, para poder evaluar el rendimiento de los nuevos algoritmos implementados.
+**Para este corte se decidio utilizar solamente aquellos grafos en donde DSatur no daba una solución óptima, para poder evaluar el rendimiento de los nuevos algoritmos implementados.**
 
 ## Soluciones implementadas
 
