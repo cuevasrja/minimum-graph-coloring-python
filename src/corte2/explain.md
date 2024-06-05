@@ -7,15 +7,17 @@
 
 En este corte se implementaron soluciones para el problema de coloración mínima de grafos. En particular, se implementaron los siguientes algoritmos:
 
-- Algoritmo de Búsqueda Local Iterativa
-- Algoritmo de Búsqueda Tabú
-- Algoritmo de Recocido Simulado
+- Búsqueda Local Iterativa
+- Búsqueda Tabú
+- Recocido Simulado
 - Algoritmo Genético
-- Algoritmo GRASP
+- GRASP
 
 Para la implementación de estos algoritmos se utilizó el lenguaje de programación Python, y se utilizó la librería iGraph para la representación de grafos y algunas operaciones sobre estos.
 
 ## Benchmark para el problema de coloración de grafos
+
+<!-- TODO -->
 
 ## Soluciones implementadas
 
@@ -34,12 +36,9 @@ Donde $C_i$ es el conjunto de nodos de color $i$ y $n$ es el número de colores 
 ```python
 def iterative_local_search(graph):
     # Primera iteración de la busqueda local
-    d_satur(graph)
     local_search(graph)
-
     # Calcular porcentajes de iteraciones
-    amount_of_colors = graph.number_of_colors()
-    current_colors_in_graph = graph.colors_used()
+    amount_of_colors, current_colors_in_graph = graph.colors_used()
     iterations_percentage = calculate_rounded_percentages(amount_of_colors)
     # Guardar la mejor solución
     best_solution = graph.coloring_as_dict()
@@ -52,22 +51,12 @@ def iterative_local_search(graph):
     for clear_pct in iterations_percentage:
         # Calcular cuantos colores se deben eliminar
         expeted_to_clear = int(clear_pct * amount_of_colors / 100)
-        colors_to_clear = get_random_values(
-            current_colors_in_graph, expeted_to_clear)
-
+        colors_to_clear = get_random_values(current_colors_in_graph, expeted_to_clear)
         # Perturbar la solución eliminando colores
-        for color in colors_to_clear:
-            graph.uncolor(color)
-
-        # Rellenar los colores eliminados con D-Satur
-        graph.d_satur()
-
-        # Mejorar la solución con búsqueda local
+        graph.uncolor(colors_to_clear)
+        # Rellenar los colores eliminados con D-Satur y búsqueda local
         graph.local_search()
-
-        amount_of_colors = graph.number_of_colors()
-        current_colors_in_graph = graph.colors_used()
-
+        amount_of_colors, current_colors_in_graph = graph.colors_used()
         # Actualizar la mejor solución
         if amount_of_colors < best_number_of_colors:
             best_solution = graph.coloring_as_dict()
@@ -75,10 +64,8 @@ def iterative_local_search(graph):
             non_improvement_count = 0
         else:
             non_improvement_count += 1
-
         if non_improvement_count >= NON_IMPROVEMENT_LIMIT:
             break
-
     graph.apply_coloring_dict(best_solution)
 ```
 
@@ -300,7 +287,19 @@ def grasp(G: Graph, max_iter: int = 100, alpha: float = 0.5) -> None:
 
 ## Experimentos y Resultados
 
+Por motivos de practicidad, se le asignó a cada algoritmo un tiempo máximo de 5 minutos para terminar su ejecución.
+
+Las pruebas fueron realizadas en un equipo con las siguientes características: 
+
+- **Procesador**: Ryzen 7 7735H 
+- **Memoria RAM**: 32GB 
+- **SO**: Windows 11 con WSL
+
+
 ## Comparación con Corte Anterior
+
+<!-- TODO -->
 
 ## Conclusiones
 
+<!-- TODO -->
