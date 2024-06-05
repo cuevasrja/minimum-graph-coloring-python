@@ -280,7 +280,7 @@ def genetic_algorithm(graph: Graph):
 
 ### Algoritmo GRASP
 
-El algoritmo GRASP (Greedy Randomized Adaptive Search Procedure) es una técnica que toma inspiración en el proceso de construcción de soluciones voraces, en donde dependiendo de un parámetro de aleatoridad $\alpha$, se altera la lista de candidatos para los componentes de la solución. En cada construcción se selecciona un candidato aleatorio de la lista de candidatos y se añade a la solución. Luego, se realiza algun método para mejorar la solución. Este proceso se repite durante un número determinado de iteraciones, y se selecciona la mejor solución encontrada.
+El algoritmo GRASP (Greedy Randomized Adaptive Search Procedure) es una técnica que toma inspiración en el proceso de construcción de soluciones voraces, en donde dependiendo de un parámetro de aleatoriedad $\alpha$, se altera la lista de candidatos para los componentes de la solución. En cada construcción se selecciona un candidato aleatorio de la lista de candidatos y se añade a la solución. Luego, se realiza algún método para mejorar la solución. Este proceso se repite durante un número determinado de iteraciones, y se selecciona la mejor solución encontrada.
 
 Para esta implementación la construcción voraz base es aquella que asiga el color disponible más bajo a cada nodo, recorriendo los nodos en orden aleatorio. Además, el método de mejora es un método de búsqueda local que recorre una permutación aleatoria de los nodos y para cada nodo, recorre los colores disponibles y asigna el color que minimiza la cantidad de conflictos.
 
