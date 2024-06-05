@@ -300,8 +300,13 @@ Las pruebas fueron realizadas en un equipo con las siguientes características:
 
 ## Comparación con Corte Anterior
 
-<!-- TODO -->
+Con la implementación de los nuevos algoritmos pudimos mejorar nuestra solución previa en algunos de los casos. Sin embargo, por lo general, estas mejoras no fueron muy significativas y, en general, requirieron una mayor cantidad de recursos computacionales. El motivo principal por el cual las mejoras no fueron tan destacadas es porque el algoritmo de DSatur que usamos para obtener el caso base en la mayoria de las casos, ya nos daba una solucion bastante buena
+
+Particularmente, el algoritmo GRASP (Greedy Randomized Adaptive Search Procedure) mostró una mejora en un caso específico, logrando una solución mejor en comparación con la anterior. No obstante, en términos generales, GRASP ofreció soluciones bastante peores. Esto es comprensible dado que GrASP no utiliza DSatur como base, lo que limita su capacidad para encontrar soluciones óptimas de manera consistente.
+
+Los mejores resultados se observaron con los algoritmos Iterative Local Search (ILS) y Tabu Search. Estos algoritmos lograron mejoras bastante buenas en algunos casos. ILS, con su enfoque en mejorar soluciones a través de iteraciones locales, y Tabu Search, con su capacidad para evitar ciclos y explorar nuevas áreas del espacio de soluciones, demostraron ser efectivos en la obtención de mejores soluciones en comparación con los métodos anteriores.
 
 ## Conclusiones
 
 <!-- TODO -->
+
