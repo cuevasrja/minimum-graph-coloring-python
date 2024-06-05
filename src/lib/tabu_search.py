@@ -47,7 +47,7 @@ def get_fitness(graph: ig.Graph, solution: Dict[int, str]) -> int:
     return fitness
 
 
-def tabu_search(self: ig.Graph, tabu_size: int = 10, max_iter: int = 100, reps: int = 50) -> None:
+def tabu_search(self: ig.Graph, tabu_size: int = 10, max_iter: int = 50) -> None:
     """
     Realiza una búsqueda tabú para colorear el grafo.
     """
@@ -102,10 +102,6 @@ def tabu_search(self: ig.Graph, tabu_size: int = 10, max_iter: int = 100, reps: 
 
         # Imprimir el fitness de la mejor solución global
         print(f"Iteración {iter_count}: Fitness = {best_fitness}")
-
-        # Si se alcanza el fitness óptimo, terminar la búsqueda
-        if best_fitness == 0:
-            break
 
     # Colorear el grafo con la mejor solución encontrada
     self.apply_coloring_dict(best_solution)
