@@ -48,7 +48,7 @@ Los grafos seleccionados se encuentran en la carpeta [data](../../data/) y se de
 | Grafo 10| mulsol.i.1.col  | 197             | 3925            | **REG**         | 49               |
 
 
-**Para este corte se decidio utilizar solamente aquellos grafos en donde DSatur no daba una solución óptima, para poder evaluar el rendimiento de los nuevos algoritmos implementados.**
+**Para este corte se decidió remover algunos grafos en donde DSatur no daba una solución óptima, para poder evaluar significativamente el rendimiento de los nuevos algoritmos implementados.**
 
 ## Soluciones implementadas
 
@@ -338,10 +338,10 @@ Las pruebas fueron realizadas en un equipo con las siguientes características:
 |Nombre del grafo |	Numero de nodos | Numero de aristas |	Numero cromatico |	Tiempo Dsatur |	Resultado D_Satur |	Tiempo Busqueda local |	Resultado Busqueda local |	Tiempo GRASP |	Resultado GRASP |	Tiempo Tabu Search |	Resultado Tabu Search |	Tiempo Algoritmo Genetico |	Resultado Algoritmo Genetico |	Tiempo Recocido |	Resultado Recocido |	Tiempo ILS |	Resultado ILS |
 |-----------------|------------------|-------------------|------------------|----------------|-------------------|----------------------|-------------------------|--------------|------------------|-------------------|-----------------------|---------------------------|-----------------------------|-----------------|-------------------|------------|----------------|
 DSJC250.5.col |	250 | 15668 | 31 | 0,1034 | 42 | 25,222 | 41 | 2,6273 | 46 | 126,7123 | 39 | 106,488 | 40 | 57,473 | 40 | 44,921       | 38
-DSJC250.9.col | 250 | 27897 | 75 |	0,237 |	97 | 104,971| 92 | 8,133  | 102| 291,069  | 88 | 88,432	 | 91 | 202,129| 91 | 140,437      | 89
+DSJC250.9.col | 250 | 27897 | 75 |	0,237 |	97 | 104,971| 92 | 8,133  | 102| 291,069  | 88 | 88,432	 | 91 | 202,129| 88 | 140,437      | 89
 le450_15b.col | 450 | 8169  | 15 |	0,2379|	18 | 8,354  | 18 | 1,045  | 18 | 51,5     | 18 | 38,9419 | 18 | 14,144 | 18	| 9,4014       | 18
-le450_15c.col | 450 | 16680 | 15 |	0,2136|	26 | 19,8454| 25 | 2,4803 | 34 | 146,57	  | 26 | 74,4244 | 26 | 27,7845| 26	| 31,375       | 26
-le450_25c.col | 450 | 17343 | 25 |	0,213 |	31 | 39,06	| 29 | 2,7481 | 40 | 173,471  | 31 | 81,335	 | 31 | 38,643 | 31	| 61,526       | 31
+le450_15c.col | 450 | 16680 | 15 |	0,2136|	26 | 19,8454| 25 | 2,4803 | 34 | 146,57	  | 26 | 74,4244 | 26 | 27,7845| 26	| 31,375       | 25
+le450_25c.col | 450 | 17343 | 25 |	0,213 |	31 | 39,06	| 29 | 2,7481 | 40 | 173,471  | 31 | 81,335	 | 31 | 38,643 | 31	| 61,526       | 29
 queen5_5.col  | 25  | 320   | 5	 |  0,003 |	8  | 0,018	| 7	 | 0,046  | 6  | 0,068    | 7  | 1,939	 | 7  | 4,194  | 7	| 0,082	       | 7
 fpsol2.i.1.col| 496 | 11654 | 65 |	0,1567|	65 | 272,937| 65 | 2,057  | 65 | 155,209  | 65 | 43,048	 | 65 | 131,645| 65	| Mas de 5 min | ?
 zeroin.i.3.col| 206 | 3540	| 30 |	0,088 |	30 | 7,46	| 30 | 0,435  | 31 | 11,842	  | 30 | 16,478	 | 30 | 24,177 | 30	| 12,2738	   | 30
