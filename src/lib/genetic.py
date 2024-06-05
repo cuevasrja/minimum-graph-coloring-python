@@ -79,7 +79,7 @@ def get_parents(population: List[Dict[int, str]],
 
     best_sample = random.choices(
         population, k=K, weights=[
-            eval_sol(c) if mode == 'MIN' else 1 / eval_sol(c)
+            eval_sol(c) if mode == 'MAX' else 1 / eval_sol(c)
             for c in population
         ]
     )

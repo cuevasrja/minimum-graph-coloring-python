@@ -48,22 +48,26 @@ Los grafos seleccionados se encuentran en la carpeta [data](../../data/) y se de
 | Grafo 10| mulsol.i.1.col  | 197             | 3925            | **REG**         | 49               |
 
 
+Para este corte se decidio utilizar solamente aquellos grafos en donde DSatur no daba una solución óptima, para poder evaluar el rendimiento de los nuevos algoritmos implementados.
+
 ## Soluciones implementadas
 
 ### Algoritmo de Búsqueda Local Iterativa
 
-Este algoritmo se basa en la idea de que se puede mejorar una solución inicial iterativamente, cambiando los colores de los nodos de manera local. En cada iteración, se selecciona un nodo aleatorio y se le asigna un color aleatorio. Si la solución resultante es mejor que la anterior, se actualiza la solución actual. Este proceso se repite hasta que no se puedan mejorar más las soluciones.
+Este algoritmo se basa en aplicar búsqueda local iterativamente perturbando la solución actual con la esperanza de mover la solución hacia otra región del espacio de soluciones en cuya localidad pueda existir una mejor solución. Se comienza haciendo una búsqueda local en la solución inicial y luego se perturba la solución actual para explorar nuevas soluciones. Si se encuentra una solución mejor que la anterior, se actualiza la solución actual. Este proceso se repite hasta que no se puedan mejorar más las soluciones.
 
-Para la implementación de este algoritmo, se utilizó una función de evaluación que mide la calidad de una solución en términos de la cantidad de vértices en cada partición. En particular, se utilizó la siguiente función de evaluación:
+La perturbación utilizada en la implementación de este algoritmo toma una solución y selecciona `N` colores al azar para eliminarlos de la solución. Luego, se aplica el algoritmo D-Satur para colorear los nodos con los colores restantes. Finalmente, se aplica búsqueda local para mejorar la solución.
 
-$$f(\text{coloring}) = \sum_{i=1}^{n} C_i^{2}$$
+La cantidad de colores a eliminar se aumenta con el tiempo, de manera que se exploran soluciones más diversas a medida que avanza el algoritmo. Esto permite explorar el espacio de soluciones de manera más amplia y evitar caer en óptimos locales.
 
-Donde $C_i$ es el conjunto de nodos de color $i$ y $n$ es el número de colores utilizados. Nótese que son particiones de los nodos, por lo que la función de evaluación es el cuadrado de la cantidad de nodos de cada color.
+La implementación de búsqueda local utilizada es la misma del corte anterior, es decir, una que utiliza como función de evaluación la suma de los cuadrados de las clases de colores, y como vecinidad la vecindad de Kempe.
+
+Para limitar las iteraciones en caso de que no se mejore la solución, se utiliza un contador de no mejora que se incrementa cada vez que no se mejora la solución. Si el contador llega a un límite predefinido (5 iteraciones), se detiene el algoritmo.
 
 #### Pseudocódigo
 
 ```python
-def iterative_local_search(graph):
+def iterative_local_search(graph: Graph):
     # Primera iteración de la busqueda local
     local_search(graph)
     # Calcular porcentajes de iteraciones
@@ -111,19 +115,19 @@ Donde $\text{conflicts}(v)$ es el número de conflictos del nodo $v$, es decir, 
 #### Pseudocódigo
 
 ```python
-def tabu_search(graph):
+def tabu_search(graph: Graph):
     # Inicializar la lista tabú
     tabu_list: List[Dict[int, str]] = []
 
     # Inicializar la mejor solución encontrada
-    self.d_satur()
-    best_solution: Dict[int, str] = self.coloring_as_dict()
-    best_fitness: int = get_fitness(self, best_solution)
+    graph.d_satur()
+    best_solution: Dict[int, str] = graph.coloring_as_dict()
+    best_fitness: int = get_fitness(graph, best_solution)
 
     # Realizar la búsqueda tabú
     for iter_count in range(max_iter):
-        # Seleccionar el vecino con mejor fitness
-        best_local_solution, best_local_fitness = get_best_neighbor(self, best_solution)
+        # Seleccionar el vecino con mejor fitness que no esté en la lista tabú
+        best_local_solution, best_local_fitness = get_best_neighbor(graph, best_solution, tabu_list)
 
         # Actualizar la mejor solución global
         if best_local_fitness < best_fitness:
@@ -136,7 +140,7 @@ def tabu_search(graph):
             tabu_list.pop(0)
 
     # Colorear el grafo con la mejor solución encontrada
-    self.apply_coloring_dict(best_solution)
+    graph.apply_coloring_dict(best_solution)
 ```
 
 ### Algoritmo de Recocido Simulado
@@ -149,12 +153,14 @@ $$f(\text{coloring}) = \sum_{i=1}^{n} C_i^{2}$$
 
 Donde $C_i$ es el conjunto de nodos de color $i$ y $n$ es el número de colores utilizados. Nótese que son particiones de los nodos, por lo que la función de evaluación es el cuadrado de la cantidad de nodos de cada color.
 
+Si se maximiza la función de evaluación, se minimiza la cantidad de nodos de cada color, efectivamente minimizando la cantidad de colores utilizados.
+
+La vecindad utilizada en este algoritmo es la vecindad de Kempe. Adicionalmente, la formula para calcular la probabilidad de aceptar un movimiento es la que se vió en clase.
+
 #### Pseudocódigo
 
 ```python
-def simulated_annealing(graph):
-    mode = 'MAX'
-
+def simulated_annealing(graph: Graph):
     temperature: float = 16.0 # Temperatura inicial
     cooling_rate: float = 0.1  # efectivamente sera (1 - cooling_rate) = 0.9
     freezing_temperature: float = 0.02  # Cerca de 50 iteraciones
@@ -187,7 +193,7 @@ def simulated_annealing(graph):
                     current_coloring = neighbour
                     graph.apply_coloring_dict(current_coloring)
                     # Actualizar la mejor solución
-                    if (mode == 'MAX' and f(current_coloring) > best_eval) or (mode == 'MIN' and f(current_coloring) < best_eval):
+                    if f(current_coloring) > best_eval:
                         best_coloring = current_coloring
                         best_eval = f(best_coloring)
                         best_changed = True
@@ -209,17 +215,33 @@ Un algoritmo genético es una técnica de optimización inspirada en la evoluci�
 
 En este caso, se utilizó la siguiente función de evaluación la suma de los conflictos de cada nodo:
 
-$$f(\text{coloring}) = \sum_{v \in N} \text{conflicts}(v)$$
+$$f(\text{coloring}) = \left(\left(\sum_{v \in N} \text{conflicts}(v, \text{coloring})\right) + 1\right) \cdot \text{ncolors}(\text{coloring})$$
 
-Donde $N$ es el conjunto de nodos del grafo y $\text{conflicts}(v)$ es el número de conflictos del nodo $v$, es decir, el número de nodos adyacentes al nodo $v$ que tienen el mismo color.
+Donde $N$ es el conjunto de nodos del grafo, $\text{conflicts}(v, \text{coloring})$ es el número de conflictos del nodo $v$ en la coloración, es decir, el número de nodos adyacentes al nodo $v$ que tienen el mismo color, y $\text{ncolors}(\text{coloring})$ es el número de colores utilizados en la coloración.
+
+Esta función de evaluación penaliza las soluciones con conflictos y favorece las soluciones con menos colores. 
+
+La población inicial se genera con un 90% de coloraciones aleatorias y un 10% de coloraciones obtenidas con el algoritmo DSatur. 
+
+Los pares de padres de cada generación se seleccionan escogiendo el primer padre aleatoriamente segun su valor de fitness (mientras mejor sea la solución, mayor probabilidad de ser seleccionada) y el segundo padre se selecciona aleatoriamente. En cada generación se seleccionan $K = \text{floor}(\frac{1}{2}|\text{poblacion}|)$ padres y se generan K hijos.
+
+El operador de cruce utilizado es el cruce de un punto, donde se selecciona un punto aleatorio y se intercambian los colores de los nodos a partir de ese punto. 
+
+El operador de mutación es el de mutación de puntos, donde cada nodo tiene una probabilidad de ser mutado. Si un nodo es mutado, se le asigna un color aleatorio.
+
+En cada iteracion se seleccionan K + 1 individuos de la población aleatoriamente según que tan malo es su desempeño. Luego se eliminan los K individuos con peor desempeño y se agrega la mejor solución de la generación anterior a la población para intensificar la búsqueda.
 
 #### Pseudocódigo
 
 ```python
-def genetic_algorithm(graph):
-    mode = 'MIN'
+def genetic_algorithm(graph: Graph):
+    # Hiperparámetros del algoritmo genético
+    population_size: int = 100
+    generations: int = 100
+    mutation_rate: float = 0.5
+
     def find_best_solution(population):
-        return min(population, key=f) if mode == 'MIN' else max(population, key=f)
+        return min(population, key=f)
 
     # Generar población inicial
     population: List[Dict[int, str]] = create_population(graph, population_size)
@@ -230,7 +252,7 @@ def genetic_algorithm(graph):
     for i in range(generations):
         # Seleccionar K  parejas de padres
         K = population_size // 2
-        parents: List[List[Dict[int, str]]] = get_parents(population, K, f, mode)
+        parents: List[List[Dict[int, str]]] = get_parents(population, K, f)
         # Cruzar las parejas de padres para obtener K hijos
         children: List[Dict[int, str]] = [crossover(graph, p) for p in parents]
         # Mutar a los K hijos
@@ -239,13 +261,14 @@ def genetic_algorithm(graph):
         population.extend(children)
         # Seleccionar K + 1 individuos de la población según que tan malo es su desempeño
         killed = random.choices(population, k=K + 1, weights=[
-            f(c) if mode == 'MIN' else 1 / f(c) for c in population
+            1 / f(c) for c in population
         ])
+        # Eliminar los K + 1 seleccionados
         population = [p for p in population if p not in killed]
         # Actualizar la mejor solución
         generation_best = find_best_solution(population)
         generation_best_score = f(generation_best)
-        if (mode == 'MIN' and generation_best_score < best_score) or (mode == 'MAX' and generation_best_score > best_score):
+        if generation_best_score < best_score:
             best_solution = generation_best
             best_score = generation_best_score
         # Agregar a la mejor solución a la población (intensificación)
@@ -256,21 +279,29 @@ def genetic_algorithm(graph):
 
 ### Algoritmo GRASP
 
-El algoritmo GRASP (Greedy Randomized Adaptive Search Procedure) es una técnica de búsqueda local que combina la exploración de soluciones con la explotación de soluciones. En cada iteración, se construye una solución de manera aleatoria, y se mejora iterativamente mediante una búsqueda local. Además, se mantiene una lista de soluciones tabú, que son soluciones que no se pueden visitar nuevamente en un número determinado de iteraciones. Este proceso se repite durante un número determinado de iteraciones, y se selecciona la mejor solución encontrada. Adicionalmente, se utiliza un valor alpha para controlar la cantidad de aleatoriedad en la construcción de las soluciones.
+El algoritmo GRASP (Greedy Randomized Adaptive Search Procedure) es una técnica que toma inspiración en el proceso de construcción de soluciones voraces, en donde dependiendo de un parámetro de aleatoridad $\alpha$, se altera la lista de candidatos para los componentes de la solución. En cada construcción se selecciona un candidato aleatorio de la lista de candidatos y se añade a la solución. Luego, se realiza algun método para mejorar la solución. Este proceso se repite durante un número determinado de iteraciones, y se selecciona la mejor solución encontrada.
+
+Para esta implementación el la construcción voraz base es aquella que asiga el color disponible más bajo a cada nodo, recorriendo los nodos en orden aleatorio.
+
+Para esta implementación el método de mejora ...
 
 #### Pseudocódigo
 
 ```python
-def grasp(G: Graph, max_iter: int = 100, alpha: float = 0.5) -> None:
-    n: int = len(G.vs)
+def grasp(g: Graph) -> None:
+    max_iter: int = 100
+    alpha: float = 0.5
+
+    n: int = len(g.vs)
     colors: List[int] = []
     best_number_of_colors: int = n
     best_colors: List[int] = []
+
     for _ in range(max_iter):
         # Fase de construcción
-        colors, color_count = select_random_permutation(G, n, alpha)
+        colors, color_count = greedy_RCL(g, n, alpha)
 
-        # Fase de búsqueda local
+        # Fase de mejora
         for node in random.sample(range(n), n):
             for color in range(color_count):
                 if color != colors[node] and all(colors[neighbor] != color for neighbor in G.neighbors(node)):
@@ -279,12 +310,15 @@ def grasp(G: Graph, max_iter: int = 100, alpha: float = 0.5) -> None:
                     if old_color not in colors:
                         color_count -= 1
                     break
-    if color_count < best_number_of_colors:
-        best_number_of_colors = color_count
-        best_colors = colors
 
+        # Actualización de la mejor solución
+        if color_count < best_number_of_colors:
+            best_number_of_colors = color_count
+            best_colors = colors
+
+    # Aplicación de la mejor solución
     for i, color in enumerate(best_colors):
-        G.vs[i]["color"] = color
+        self.vs[i]["color"] = color
 ```
 
 ## Experimentos y Resultados

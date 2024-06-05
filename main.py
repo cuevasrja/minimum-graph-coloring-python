@@ -186,7 +186,6 @@ def main():
             ) else "\033[91mFalse"
             print(f"Coloración válida: {is_valid}\033[0m")
 
-
     # Invocando Tabu Search
     print("\n\033[100;1mInvocando Tabu Search...\033[0m")
 
@@ -197,7 +196,7 @@ def main():
     else:
         start_time = time.time()
 
-        if run_with_timeout(g.tabu_search,300):
+        if run_with_timeout(g.tabu_search, 300):
             end_time = time.time()
             execution_time = end_time - start_time
             print(f"Tiempo de ejecución: {execution_time} segundos")
@@ -207,6 +206,7 @@ def main():
             is_valid: str = "\033[92;1mTrue" if g.is_valid_coloring(
             ) else "\033[91mFalse"
             print(f"Coloración válida: {is_valid}\033[0m")
+
 
 if __name__ == "__main__":
     main()
