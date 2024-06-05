@@ -226,7 +226,7 @@ La población inicial se genera con un 90% de coloraciones aleatorias y un 10% d
 
 Los pares de padres de cada generación se seleccionan escogiendo el primer padre aleatoriamente segun su valor de fitness (mientras mejor sea la solución, mayor probabilidad de ser seleccionada) y el segundo padre se selecciona aleatoriamente. En cada generación se seleccionan $K = \text{floor}(\frac{1}{2}|\text{poblacion}|)$ padres y se generan K hijos.
 
-El operador de cruce utilizado es el cruce de un punto, donde se selecciona un punto aleatorio y se intercambian los colores de los nodos a partir de ese punto. 
+El operador de cruce utilizado es el cruce de un punto, donde se selecciona un punto aleatorio y se construyen un hijo con la coloración del primer padre hasta el punto y la coloración del segundo padre después del punto.
 
 El operador de mutación es el de mutación de puntos, donde cada nodo tiene una probabilidad de ser mutado. Si un nodo es mutado, se le asigna un color aleatorio.
 
