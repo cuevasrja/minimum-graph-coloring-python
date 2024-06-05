@@ -23,6 +23,12 @@ Para la implementación de estos algoritmos se utilizó el lenguaje de programac
 
 Este algoritmo se basa en la idea de que se puede mejorar una solución inicial iterativamente, cambiando los colores de los nodos de manera local. En cada iteración, se selecciona un nodo aleatorio y se le asigna un color aleatorio. Si la solución resultante es mejor que la anterior, se actualiza la solución actual. Este proceso se repite hasta que no se puedan mejorar más las soluciones.
 
+Para la implementación de este algoritmo, se utilizó una función de evaluación que mide la calidad de una solución en términos de la cantidad de vértices en cada partición. En particular, se utilizó la siguiente función de evaluación:
+
+$$f(\text{coloring}) = \sum_{i=1}^{n} C_i^{2}$$
+
+Donde $C_i$ es el conjunto de nodos de color $i$ y $n$ es el número de colores utilizados. Nótese que son particiones de los nodos, por lo que la función de evaluación es el cuadrado de la cantidad de nodos de cada color.
+
 #### Pseudocódigo
 
 ```python
@@ -78,27 +84,48 @@ def iterative_local_search(graph):
 
 ### Algoritmo de Búsqueda Tabú
 
-Este algoritmo se basa en la idea de que se puede mejorar una solución iterativamente, cambiando los colores de los nodos de manera local. En cada iteración, se selecciona un nodo aleatorio y se le asigna un color aleatorio. Si la solución resultante es mejor que la anterior, se actualiza la solución actual. Además, se mantiene una lista de soluciones tabú, que son soluciones que no se pueden visitar nuevamente en un número determinado de iteraciones.
+Similar al algoritmo de búsqueda local iterativa, el algoritmo de búsqueda tabú se basa en la idea de que se puede mejorar una solución iterativamente, cambiando los colores de los nodos de manera local. Sin embargo, en este caso, se mantiene una lista de soluciones tabú, que son soluciones que no se pueden visitar nuevamente en un número determinado de iteraciones. Esto permite explorar el espacio de soluciones de manera más amplia y evitar caer en óptimos locales.
+
+Para la implementación de este algoritmo, se utilizó una lista de soluciones tabú, que se actualiza cada vez que se encuentra una solución mejor que la anterior. Además, se utilizó una función de evaluación que mide la calidad de una solución en términos de la cantidad de conflictos entre los nodos.
+
+$$\text{fitness}(\text{coloring}) = \sum_{v \in N} \text{conflicts}(v)$$
+
+Donde $\text{conflicts}(v)$ es el número de conflictos del nodo $v$, es decir, el número de nodos adyacentes al nodo $v$ que tienen el mismo color.
 
 #### Pseudocódigo
 
 ```python
 def tabu_search(graph):
-    best_solution = initial_solution(graph)
-    tabu_list = []
-    while True:
-        new_solution = perturb(best_solution)
-        if new_solution < best_solution and new_solution not in tabu_list:
-            best_solution = new_solution
-            tabu_list.append(new_solution)
-        else:
-            break
-    return best_solution
+    # Inicializar la lista tabú
+    tabu_list: List[Dict[int, str]] = []
+
+    # Inicializar la mejor solución encontrada
+    self.d_satur()
+    best_solution: Dict[int, str] = self.coloring_as_dict()
+    best_fitness: int = get_fitness(self, best_solution)
+
+    # Realizar la búsqueda tabú
+    for iter_count in range(max_iter):
+        # Seleccionar el vecino con mejor fitness
+        best_local_solution, best_local_fitness = get_best_neighbor(self, best_solution)
+
+        # Actualizar la mejor solución global
+        if best_local_fitness < best_fitness:
+            best_solution = best_local_solution
+            best_fitness = best_local_fitness
+
+        # Actualizar la lista tabú
+        tabu_list.append(best_local_solution)
+        if len(tabu_list) > tabu_size:
+            tabu_list.pop(0)
+
+    # Colorear el grafo con la mejor solución encontrada
+    self.apply_coloring_dict(best_solution)
 ```
 
 ### Algoritmo de Recocido Simulado
 
-El algoritmo de recocido simulado se basa en la idea de que se puede mejorar una solución iterativamente, cambiando los colores de los nodos de manera local. En cada iteración, se selecciona un nodo aleatorio y se le asigna un color aleatorio. Si la solución resultante es mejor que la anterior, se actualiza la solución actual. Además, se aceptan soluciones peores con una probabilidad determinada. Esta probabilidad disminuye con el tiempo, lo que permite explorar el espacio de soluciones de manera más amplia.
+El algoritmo de recocido simulado es una técnica de optimización que se inspira en el proceso de recocido de los metales. En este algoritmo, se mantiene una temperatura que controla la probabilidad de aceptar movimientos peores. En cada iteración, se genera un movimiento aleatorio, y se calcula la probabilidad de aceptar el movimiento. Si la probabilidad es mayor que un número aleatorio, se acepta el movimiento. Este proceso se repite durante un número determinado de iteraciones, y la temperatura se reduce gradualmente. De esta manera, el algoritmo puede escapar de óptimos locales y explorar el espacio de soluciones de manera más amplia.
 
 Como función de evaluación se utilizó la siguiente función:
 
