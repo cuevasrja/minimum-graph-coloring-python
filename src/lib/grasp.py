@@ -19,7 +19,8 @@ def RCL_select(G: ig.Graph, alpha: float) -> int:
         return -1
 
     # Obtener el grado de saturación de los nodos no coloreados
-    saturations = [v['saturation'] for v in G.vs if v['color'] == '']
+    # Multiplicamos por -1 para que el máximo sea el mínimo
+    saturations = [-v['saturation'] for v in G.vs if v['color'] == '']
 
     # Calcular el umbral de la RCL
     max_saturation = max(saturations)
@@ -28,7 +29,7 @@ def RCL_select(G: ig.Graph, alpha: float) -> int:
 
     # Construir la RCL, modo maximización
     RCL = [uncolored_nodes[i] for i in range(len(uncolored_nodes))
-           if saturations[i] >= threshold]
+           if threshold <= saturations[i]]
 
     # Seleccionar un nodo aleatorio de la RCL
     return random.choice(RCL)
@@ -69,8 +70,8 @@ def grasp(self: ig.Graph) -> None:
     """
     Implementa el algoritmo GRASP para colorear grafos.
     """
-    N_iter = 30  # Número de iteraciones
-    alpha = 0.8  # Parámetro alpha
+    N_iter = 10  # Número de iteraciones
+    alpha = 0.7  # Parámetro alpha
 
     # La solucion inicial es una coloración aleatoria
     self.random_color_graph()
@@ -85,7 +86,7 @@ def grasp(self: ig.Graph) -> None:
         grasp_build(self, alpha)
 
         # Mejorar la solución con local search
-        self.local_search_without_d_satur(strict=True)
+        self.local_search_without_d_satur(strict=True, max_strict_iters=2)
 
         # Si la solución es mejor que la mejor solución encontrada
         if self.number_of_colors() < best_n_colors:

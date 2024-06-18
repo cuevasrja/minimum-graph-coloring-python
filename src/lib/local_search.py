@@ -110,7 +110,7 @@ def local_search(self: ig.Graph):
         _, best, best_eval = self.kempe_sorted()
 
 
-def local_search_without_d_satur(self: ig.Graph, strict: bool = False):
+def local_search_without_d_satur(self: ig.Graph, strict: bool = False, max_strict_iters: int = 3):
     """
     Coloración local del grafo utilizando busqueda local con la vecindad de Kempe.
     """
@@ -119,19 +119,24 @@ def local_search_without_d_satur(self: ig.Graph, strict: bool = False):
 
     # Guardamos el numero de colores antes de empezar
     best_n_colors = self.number_of_colors()
+    strict_iters = 0
 
     # Obtenemos la vecindad de Kempe ordenada por evaluación
     _, best, best_eval = self.kempe_sorted()
 
     # Mientras la evaluación de la mejor solución vecina sea mejor que la actual
     while best is not None and best_eval > eval_sol(self.coloring_as_dict()):
-        # Si strict es True, solo se aceptan soluciones mejores
+        # Si strict es True, se detiene si no se mejora en max_strict_iters iteraciones
         # Esto para utilizar busqueda local como metodo de mejora
         next_n_colors = len(set(best.values()))
-        if strict and next_n_colors >= best_n_colors:
-            break
-        else:
-            best_n_colors = next_n_colors
+        if strict:
+            if next_n_colors >= best_n_colors:
+                strict_iters += 1
+                if strict_iters >= max_strict_iters:
+                    break
+            else:
+                best_n_colors = next_n_colors
+                strict_iters = 0
 
         # Aplicamos el mejor vecino
         self.apply_coloring_dict(best)
