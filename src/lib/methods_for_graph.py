@@ -4,6 +4,7 @@ from src.lib.external_functions import filter_elements_of_array, delete_random_v
 import random
 from collections import Counter
 
+
 def count_colors(self: ig.Graph) -> None:
     """
     Cuenta el número de veces que aparece cada color en el grafo
@@ -22,6 +23,7 @@ def count_colors(self: ig.Graph) -> None:
     for color, count in color_counter.items():
         print(f"Color {color}: {count} veces")
 
+
 def colors_used(self):
     """
     Regresa una lista de los colores usandos en el grafo
@@ -31,30 +33,35 @@ def colors_used(self):
     # Convierte colores en lista y los regresa
     return list(unique_colors)
 
+
 def save_vertex_state(self):
     # Guardar el estado actual de los vértices
     return [vertex.attributes().copy() for vertex in self.vs]
 
+
 def load_vertex_state(self, new_vertex_state):
     # Guarda los nuevos estados de los vertices
     for vertex, state in zip(self.vs, new_vertex_state):
-            vertex.attributes().update(state)
+        vertex.attributes().update(state)
+
 
 def random_color_graph(self: ig.Graph) -> None:
     nodes_indexes = list(range(self.vcount()))
-    
+
     while len(nodes_indexes) > 0:
         node_to_color = delete_random_value_from_list(nodes_indexes)
         adjacent_colors_to_current_node = self.adjacent_colors(node_to_color)
-        list_of_possible_colors_for_node = filter_elements_of_array(self.colors, adjacent_colors_to_current_node)
+        list_of_possible_colors_for_node = filter_elements_of_array(
+            self.colors, adjacent_colors_to_current_node)
         random_color = random.choice(list_of_possible_colors_for_node)
         self.change_color_and_increase_saturation(node_to_color, random_color)
+
 
 def uncolor(self: ig.Graph, color: str) -> None:
     """
     Cambia el color de todos los nodos con el color especificado a una cadena vacía "",
     y reduce en 1 el valor de saturación de cada nodo conectado por una arista a uno de esos nodos.
-    
+
     :param g: El grafo en el que se cambiarán los colores.
     :param color: El color que se va a cambiar a "" (como string).
     """
@@ -66,6 +73,7 @@ def uncolor(self: ig.Graph, color: str) -> None:
         for neighbor_index in neighbors:
             if self.vs[neighbor_index]["saturation"] > 0:
                 self.vs[neighbor_index]["saturation"] -= 1
+
 
 def count_and_sort_colors(g: ig.Graph) -> list:
     """
@@ -83,6 +91,7 @@ def count_and_sort_colors(g: ig.Graph) -> list:
 
     return sorted_colors
 
+
 def apply_coloring_dict(self: ig.Graph, coloring: dict) -> None:
     """
     Aplica una coloración al grafo a partir de un diccionario.
@@ -95,7 +104,7 @@ def coloring_as_dict(self: ig.Graph) -> Dict[int, str]:
     """
     Retorna la coloración del grafo como un diccionario.
     """
-    return {v.index: v['color'] for v in self.vs if v['color']}
+    return {v.index: v['color'] for v in self.vs if v['color'] != ''}
 
 
 def number_of_colors(self: ig.Graph) -> int:
@@ -104,7 +113,7 @@ def number_of_colors(self: ig.Graph) -> int:
     """
 
     # Crear un conjunto con los colores de los nodos
-    colors: List[str] = {v['color'] for v in self.vs if v['color']}
+    colors: Set[str] = {v['color'] for v in self.vs if v['color']}
 
     # Retornar la cantidad de colores
     return len(colors)
@@ -188,7 +197,7 @@ def adjacent_colors(self: ig.Graph, node_index: int) -> Set[str]:
 
     adjacent_indices: List[int] = self.neighbors(node_index, mode="ALL")
     colors: Set[str] = {self.vs[neighbor]['color']
-                        for neighbor in adjacent_indices if self.vs[neighbor]['color']}
+                        for neighbor in adjacent_indices if self.vs[neighbor]['color'] != ''}
     return colors
 
 
@@ -233,6 +242,7 @@ def group_nodes_by_color(self: ig.Graph) -> None:
     total_colors: int = len(nodes_by_color)
     print(nodes_by_color)
     print(f"Número total de colores: \033[94;1m{total_colors}\033[0m")
+
 
 def get_amount_of_colors(self: ig.Graph) -> int:
     """

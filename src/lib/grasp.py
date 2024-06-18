@@ -3,52 +3,95 @@ import igraph as ig
 import random
 
 
-def greedy_first_available_RCL(g: ig.Graph, colors: List[int], n: int, alpha: float) -> int:
-    color_count: int = 0
+def RCL_select(G: ig.Graph, alpha: float) -> int:
+    """
+    Construye la lista de candidatos restringida (RCL) y selecciona un nodo aleatorio de ella.
 
-    # Algoritmo voraz que aplica el primer color disponible a cada nodo
-    # Modificado para extender la lista de colores disponibles (RCL) en función de alpha
-    for node in random.sample(range(n), n):
-        available_colors: Set[int] = set(
-            range(color_count)) - {colors[neighbor] for neighbor in g.neighbors(node)}
+    La funcion de costo asociada es el grado de saturación de los nodos.
 
-        if not available_colors:
-            available_colors = {color_count}
-            color_count += 1
+    Retorna el índice del nodo seleccionado.
+    """
+    # Obtener los índices de los nodos no coloreados
+    uncolored_nodes = [v.index for v in G.vs if v['color'] == '']
 
-        available_colors = list(available_colors)
-        cutoff = int(alpha * len(available_colors))
-        colors[node] = random.choice(available_colors[:cutoff+1])
+    # Si no hay nodos no coloreados, retornar -1
+    if len(uncolored_nodes) == 0:
+        return -1
 
-    return color_count
+    # Obtener el grado de saturación de los nodos no coloreados
+    saturations = [v['saturation'] for v in G.vs if v['color'] == '']
+
+    # Calcular el umbral de la RCL
+    max_saturation = max(saturations)
+    min_saturation = min(saturations)
+    threshold = min_saturation + alpha * (max_saturation - min_saturation)
+
+    # Construir la RCL, modo maximización
+    RCL = [uncolored_nodes[i] for i in range(len(uncolored_nodes))
+           if saturations[i] >= threshold]
+
+    # Seleccionar un nodo aleatorio de la RCL
+    return random.choice(RCL)
 
 
-def grasp(self: ig.Graph, max_iter: int = 100, alpha: float = 0.5) -> None:
-    n: int = len(self.vs)
-    colors: List[int] = []
-    best_number_of_colors: int = n
-    best_colors: List[int] = []
+def grasp_build(self: ig.Graph, alpha: float = 0.5) -> None:
+    """
+    Implementa la fase de construcción del algoritmo GRASP para colorear grafos.
+    """
+    # Inicializar los atributos de los nodos
+    for v in self.vs:
+        v['color'] = ''
+        v['saturation'] = 0
 
-    for _ in range(max_iter):
-        # Fase de construcción
-        colors = [-1] * n
-        color_count: int = greedy_first_available_RCL(self, colors, n, alpha)
+    # Mientras haya nodos sin colorear
+    while True:
+        # Seleccionar un nodo aleatorio de la RCL
+        node_index = RCL_select(self, alpha)
 
-        # Fase de mejora
-        for node in random.sample(range(n), n):
-            for color in range(color_count):
-                if color != colors[node] and all(colors[neighbor] != color for neighbor in self.neighbors(node)):
-                    old_color: int = colors[node]
-                    colors[node] = color
-                    if old_color not in colors:
-                        color_count -= 1
-                    break
+        # Si no hay nodos no coloreados, terminar
+        if node_index == -1:
+            break
 
-        # Actualización de la mejor solución
-        if color_count < best_number_of_colors:
-            best_number_of_colors = color_count
-            best_colors = colors
+        # Obtener los colores de los nodos adyacentes
+        adjacent_colors = self.adjacent_colors(node_index)
 
-    # Aplicación de la mejor solución
-    for i, color in enumerate(best_colors):
-        self.vs[i]["color"] = color
+        # Seleccionar el color más pequeño que no esté en los nodos adyacentes
+        color = min(
+            set(range(len(self.vs))) -
+            set([int(c) for c in adjacent_colors])
+        )
+
+        # Cambiar el color del nodo y aumentar la saturación de los nodos adyacentes
+        self.change_color_and_increase_saturation(node_index, f'{color}')
+
+
+def grasp(self: ig.Graph) -> None:
+    """
+    Implementa el algoritmo GRASP para colorear grafos.
+    """
+    N_iter = 30  # Número de iteraciones
+    alpha = 0.8  # Parámetro alpha
+
+    # La solucion inicial es una coloración aleatoria
+    self.random_color_graph()
+
+    # Inicializar la mejor solución
+    best_solution = self.coloring_as_dict()
+    best_n_colors = self.number_of_colors()
+
+    # Iterar N_iter veces
+    for _ in range(N_iter):
+        # Construir una solución
+        grasp_build(self, alpha)
+
+        # Mejorar la solución con local search
+        self.local_search_without_d_satur(strict=True)
+
+        # Si la solución es mejor que la mejor solución encontrada
+        if self.number_of_colors() < best_n_colors:
+            # Actualizar la mejor solución
+            best_solution = self.coloring_as_dict()
+            best_n_colors = self.number_of_colors()
+
+    # Aplicar la mejor solución encontrada
+    self.apply_coloring_dict(best_solution)
