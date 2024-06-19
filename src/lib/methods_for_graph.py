@@ -5,6 +5,17 @@ import random
 from collections import Counter
 
 
+def refresh_saturations(self: ig.Graph) -> None:
+    """
+    Actualiza los valores de saturación de los nodos del grafo.
+    """
+    for v in self.vs:
+        v['saturation'] = 0
+        for neighbor in self.neighbors(v.index):
+            if self.vs[neighbor]['color'] != '':
+                v['saturation'] += 1
+
+
 def count_colors(self: ig.Graph) -> None:
     """
     Cuenta el número de veces que aparece cada color en el grafo

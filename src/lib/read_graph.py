@@ -1,5 +1,5 @@
 import igraph as ig
-from src.lib.methods_for_graph import vertex_with_max_saturation, adjacent_colors, change_color_and_increase_saturation, group_nodes_by_color, is_colored, is_safe_to_color, reset_colors, is_valid_coloring, number_of_colors, coloring_as_dict, apply_coloring_dict, count_and_sort_colors, uncolor, get_amount_of_colors, random_color_graph, colors_used, save_vertex_state, load_vertex_state, count_colors
+from src.lib.methods_for_graph import vertex_with_max_saturation, adjacent_colors, change_color_and_increase_saturation, group_nodes_by_color, is_colored, is_safe_to_color, reset_colors, is_valid_coloring, number_of_colors, coloring_as_dict, apply_coloring_dict, count_and_sort_colors, uncolor, get_amount_of_colors, random_color_graph, colors_used, save_vertex_state, load_vertex_state, count_colors, refresh_saturations
 from src.lib.d_satur import d_satur
 from src.lib.ils import ils
 from src.lib.backtracking import backtracking
@@ -9,6 +9,7 @@ from src.lib.genetic import genetic_algorithm
 from src.lib.annealing import simulated_annealing
 from src.lib.tabu_search import tabu_search
 from src.lib.ant_colony import ant_colony
+from src.lib.memetic import memetic_algorithm
 
 ig.Graph.count_colors = count_colors
 ig.Graph.local_search_without_d_satur = local_search_without_d_satur
@@ -41,6 +42,8 @@ ig.Graph.genetic_algorithm = genetic_algorithm
 ig.Graph.simulated_annealing = simulated_annealing
 ig.Graph.tabu_search = tabu_search
 ig.Graph.ant_colony = ant_colony
+ig.Graph.refresh_saturations = refresh_saturations
+ig.Graph.memetic_algorithm = memetic_algorithm
 
 
 def read_graph(file_path: str) -> ig.Graph:
