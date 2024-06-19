@@ -207,6 +207,25 @@ def main():
             ) else "\033[91mFalse"
             print(f"Coloración válida: {is_valid}\033[0m")
 
+    # Invocando Ant colony optimization
+    print("\n\033[100;1mInvocando Ant colony optimization...\033[0m")
+
+    g.reset_colors()
+    start_time = time.time()
+
+    if run_with_timeout(g.ant_colony, 500):
+        end_time = time.time()
+        execution_time = end_time - start_time
+        print(f"Tiempo de ejecución: {execution_time} segundos")
+
+        g.group_nodes_by_color()
+
+        is_valid: str = "\033[92;1mTrue" if g.is_valid_coloring(
+        ) else "\033[91mFalse"
+        print(f"Coloración válida: {is_valid}\033[0m")
+
+    g.reset_colors()
+
 
 if __name__ == "__main__":
     main()

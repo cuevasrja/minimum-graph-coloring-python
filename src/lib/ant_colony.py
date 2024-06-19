@@ -1,6 +1,7 @@
 from typing import List, Set
 import igraph as ig
 import random
+import threading
 
 
 class Ant:
@@ -120,8 +121,11 @@ class Ant:
                 ) ** 0.5
             )
             *
-            # Cuadrado del tamaño de la clase de equivalencia del color
-            (self.color_classes_sizes[color] + 1) ** 2
+            # Penalizacion por introducir un nuevo color
+            (
+                1 if self.color_classes_sizes[color] != 0 else (1 /
+                                                                len(self.all_colors))
+            )
         )
 
         return (
@@ -156,11 +160,13 @@ def ant_colony(self: ig.Graph) -> None:
     Implementa el algoritmo de colonia de hormigas para colorear grafos.
     """
 
-    N_ANTS = 3
-    N_ITERATIONS = 5
-    ALPHA = 2.5
-    BETA = 1.6
+    N_ANTS = 8
+    N_ITERATIONS = 3
+    ALPHA = 1.5
+    BETA = 5.0
     RHO = 0.1
+
+    N_THREADS = 8
 
     # Reset graph
     for v in self.vs:
@@ -182,19 +188,37 @@ def ant_colony(self: ig.Graph) -> None:
         Ant(self.copy()) for _ in range(N_ANTS)
     ]
 
+    # Agrupar las hormigas N_THREADS grupos
+    ants_groups = [
+        ants_solutions[i * N_ANTS // N_THREADS: (i + 1) * N_ANTS // N_THREADS]
+        for i in range(N_THREADS)
+    ]
+
     best_solution = None
     best_n_colors = float('inf')
 
-    for iter in range(N_ITERATIONS):
-        print(f"Iteration {iter + 1}", "Best number of colors:", best_n_colors)
+    # Definir el target de los threads
+    def thread_fn(ants_group: List[Ant], i: int, epoch: int):
+        for _ in range(len(self.vs) - 1):
+            print(f"Epoch {epoch + 1}: Thread {i + 1} moving ants, step {_ +
+                  1} / {len(self.vs) - 1}, best n colors: {best_n_colors}")
 
-        # Mover las hormigas hasta que todas hayan coloreado el grafo
-        for n in range(len(self.vs) - 1):
-            print(f"Moving ants, step {n + 1} / {len(self.vs) - 1}")
-            for ant in ants_solutions:
+            for ant in ants_group:
                 ant.move(
                     pheromones_nodes, pheromones_pairs, ALPHA, BETA
                 )
+
+    for epoch in range(N_ITERATIONS):
+        # Crear threads para mover las hormigas
+        threads = []
+        for i, ants_group in enumerate(ants_groups):
+            thread = threading.Thread(
+                target=thread_fn, args=(ants_group, i, epoch))
+            threads.append(thread)
+            thread.start()
+
+        for thread in threads:
+            thread.join()
 
         # Actualizar las feromonas
         for i in range(len(self.vs)):
