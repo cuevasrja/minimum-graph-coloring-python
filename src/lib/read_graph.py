@@ -10,6 +10,7 @@ from src.lib.annealing import simulated_annealing
 from src.lib.tabu_search import tabu_search
 from src.lib.ant_colony import ant_colony
 from src.lib.memetic import memetic_algorithm
+from src.lib.disperse_search import disperse_search
 
 ig.Graph.count_colors = count_colors
 ig.Graph.local_search_without_d_satur = local_search_without_d_satur
@@ -44,6 +45,7 @@ ig.Graph.tabu_search = tabu_search
 ig.Graph.ant_colony = ant_colony
 ig.Graph.refresh_saturations = refresh_saturations
 ig.Graph.memetic_algorithm = memetic_algorithm
+ig.Graph.disperse_search = disperse_search
 
 
 def read_graph(file_path: str) -> ig.Graph:

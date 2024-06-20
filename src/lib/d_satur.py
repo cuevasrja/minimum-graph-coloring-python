@@ -7,7 +7,8 @@ def d_satur(self: ig.Graph):
     """
     Colorea el grafo utilizando el algoritmo heuristico D-Satur.
     """
-    
+    colors = [str(x) for x in range(len(self.vs))]
+
     while True:
         node_with_max_saturation: int = self.vertex_with_max_saturation()
 
@@ -17,8 +18,8 @@ def d_satur(self: ig.Graph):
         adjacent_colors_of_current_node: Set[str] = self.adjacent_colors(
             node_with_max_saturation)
 
-        color_to_paint: str|None = first_element_not_in_set(
-            self.colors, adjacent_colors_of_current_node)
+        color_to_paint: str | None = first_element_not_in_set(
+            colors, adjacent_colors_of_current_node)
 
         self.change_color_and_increase_saturation(
             node_with_max_saturation, color_to_paint)

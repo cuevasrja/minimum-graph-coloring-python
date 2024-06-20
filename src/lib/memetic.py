@@ -77,6 +77,113 @@ def triple_point_crossover(self: ig.Graph, parents: List[Dict[int, str]]) -> Dic
     return child
 
 
+def triple_partition_crossover(self: ig.Graph, parents: List[Dict[int, str]]) -> Dict[int, str]:
+    """
+    Cruza a tres padres utilizando el metodo de cruze voraz de particiones.
+
+    Adicionalmente, mantiene un blacklist que asegura que no se use un padre m veces seguidas.
+
+    Esto representa una implementación sencilla de AMPaX para n = 3.
+    """
+    M = 2
+
+    blacklist = {
+        1: 0,  # Padre 1
+        2: 0,  # Padre 2
+        3: 0  # Padre 3
+    }
+    parent_1, parent_2, parent_3 = parents
+
+    parent_1_graph = self.copy()
+    parent_1_graph.apply_coloring_dict(parent_1)
+    parent_2_graph = self.copy()
+    parent_2_graph.apply_coloring_dict(parent_2)
+    parent_3_graph = self.copy()
+    parent_3_graph.apply_coloring_dict(parent_3)
+
+    result_graph = self.copy()
+    for v in result_graph.vs:
+        v['color'] = ''
+
+    def compute_color_classes(graph: ig.Graph, parent_index: int) -> Dict[str, List[int]]:
+        color_classes = {}
+
+        for v in graph.vs:
+            color = v['color']
+            if color not in color_classes:
+                color_classes[color] = []
+            color_classes[color].append(v.index)
+
+        return [(parent_index, color, nodes) for color, nodes in color_classes.items()]
+
+    # Calcular el arreglo de clase de colores para cada padre
+    parent_1_color_classes = compute_color_classes(parent_1_graph, 1)
+    parent_2_color_classes = compute_color_classes(parent_2_graph, 2)
+    parent_3_color_classes = compute_color_classes(parent_3_graph, 3)
+
+    all_color_classes = (parent_1_color_classes +
+                         parent_2_color_classes + parent_3_color_classes)
+
+    while True:
+        # Decrementar la cantidad de veces que se ha seleccionado un padre
+        for p in blacklist:
+            blacklist[p] = max(0, blacklist[p] - 1)
+
+        # Obtener la clase de color con más nodos
+        options = [
+            (p, c, vs)
+            for p, c, vs in all_color_classes
+            if blacklist[p] < M
+        ]
+        if len(options) == 0:  # Si no hay opciones,
+            # Si no hay elementos porque estan en el blacklist, se resetea el blacklist
+            if any(blacklist[p] != 0 for p in blacklist):
+                for p in blacklist:
+                    blacklist[p] = 0
+                # Y se intenta de nuevo
+                continue
+
+            # Si no hay elementos porque ya se han seleccionado todos los colores, se termina
+            break
+
+        selected_class = max(
+            [
+                (p, c, vs)
+                for p, c, vs in all_color_classes
+                if blacklist[p] < M
+            ],
+            key=lambda x: len(x[2])
+        )
+        selected_parent, selected_color, selected_nodes = selected_class
+
+        # Eliminar la clases del mismo color que el seleccionado
+        # Eliminar los nodos que ya han sido seleccionados
+        all_color_classes = [
+            (p, c, [v for v in vs if v not in selected_nodes])
+            for p, c, vs in all_color_classes
+            if c != selected_color
+        ]
+        all_color_classes = [
+            (p, c, vs)
+            for p, c, vs in all_color_classes
+            if len(vs) > 0
+        ]
+
+        # Incrementar la cantidad de veces que se ha seleccionado el padre
+        blacklist[selected_parent] += M
+
+        # Asignar el color a los nodos
+        for v in selected_nodes:
+            result_graph.vs[v]['color'] = selected_color
+
+    # En este punto, tenemos un grafo parcialmente coloreado
+    # El resto de nodos se colorean con D-Satur
+    result_graph.refresh_saturations()
+    result_graph.d_satur()
+
+    return result_graph.coloring_as_dict()
+
+
 def get_parent_triplets(population: List[Dict[int, str]],
                         K: int,
                         eval_sol: Callable[[Dict[int, str]], int],
@@ -149,7 +256,7 @@ def enhance_sol(graph: ig.Graph, sol: Dict[int, str], i: int, K: int):
 
     # En este punto, tenemos una solución válida, aplicamos una busqueda local estricta
     # Con el objetivo de mejorar la solución
-    graph.local_search_without_d_satur(strict=True, max_strict_iters=2)
+    # graph.local_search_without_d_satur(strict=True, max_strict_iters=2)
 
     # Retornar la solución mejorada
     return graph.coloring_as_dict()
@@ -186,7 +293,7 @@ def memetic_algorithm(self: ig.Graph,
 
         # Cruzar las tripletas de padres para obtener K hijos
         children: List[Dict[int, str]] = [
-            triple_point_crossover(self, p) for p in parents]
+            triple_partition_crossover(self, p) for p in parents]
 
         # Mutar a los K hijos
         children = [mutate(self, c, mutation_rate) for c in children]

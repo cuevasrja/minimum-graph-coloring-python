@@ -200,8 +200,8 @@ def ant_colony(self: ig.Graph) -> None:
     # Definir el target de los threads
     def thread_fn(ants_group: List[Ant], i: int, epoch: int):
         for _ in range(len(self.vs) - 1):
-            print(f"Epoch {epoch + 1}: Thread {i + 1} moving ants, step {_ +
-                  1} / {len(self.vs) - 1}, best n colors: {best_n_colors}")
+            # print(f"Epoch {epoch + 1}: Thread {i + 1} moving ants, step {_ +
+            #       1} / {len(self.vs) - 1}, best n colors: {best_n_colors}")
 
             for ant in ants_group:
                 ant.move(
