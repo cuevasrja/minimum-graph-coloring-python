@@ -77,3 +77,18 @@ Además, se realizaron pruebas para evaluar el desempeño de los algoritmos impl
 
 > [!NOTE] Nota:
 > Se realizó una comparación de los algoritmos implementados en la primera y segunda entrega. Para más información sobre la comparación, se puede consultar el archivo `explain.md` en la carpeta de este corte. Puede acceder a este archivo [aquí](src/corte2/explain.md#comparación-con-corte-anterior)
+
+## Entrega 3
+
+Para la tercera entrega, se implementaron los siguientes algoritmos:
+
+- **Algoritmo Memético**: El algoritmo memético es una técnica de optimización que combina la búsqueda local con la evolución de una población de soluciones. En este algoritmo, se mantiene una población de soluciones, y en cada iteración se seleccionan las mejores soluciones para aplicarles operadores de búsqueda local y evolución. Además, se pueden aplicar operadores de diversificación para explorar el espacio de soluciones.
+
+- **Algoritmo Memético con Búsqueda Dispersa**: El algoritmo memético con búsqueda dispersa es una variante del algoritmo memético que utiliza una población de soluciones dispersas en el espacio de soluciones. En este algoritmo, se mantiene una población de soluciones, y en cada iteración se seleccionan las mejores soluciones para aplicarles operadores de búsqueda local y evolución. Además, se pueden aplicar operadores de diversificación para explorar el espacio de soluciones.
+
+- **Algoritmo de Optimización por Enjambre de Partículas (PSO)**: El algoritmo de optimización por enjambre de partículas es una técnica de optimización inspirada en el comportamiento social de los pájaros. En este algoritmo, se mantiene una población de soluciones (partículas), y en cada iteración se actualizan las soluciones siguiendo reglas de movimiento basadas en la mejor solución encontrada por el enjambre.
+
+Además, se realizaron pruebas para evaluar el desempeño de los algoritmos implementados. Para más información sobre los algoritmos y las pruebas realizadas, se puede consultar el archivo `explain.md` en la carpeta de este corte. Puede acceder a este archivo [aquí](src/corte3/explain.md)
+
+> [!NOTE] Nota:
+> Se realizó una comparación de los algoritmos implementados en la primera, segunda y tercera entrega. Para más información sobre la comparación, se puede consultar el archivo `explain.md` en la carpeta de este corte. Puede acceder a este archivo [aquí](src/corte3/explain.md#comparación-con-cortes-anteriores)
