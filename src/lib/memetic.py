@@ -2,9 +2,8 @@ from typing import List
 import igraph as ig
 import random
 from typing import Dict, Callable, List
-from src.lib.eval_functions import eval_scaled_number_of_conflics, eval_sum_of_squared_color_sizes
+from src.lib.eval_functions import eval_scaled_number_of_conflics
 from src.lib.genetic import mutate, create_population
-
 
 def triple_common_crossover(self: ig.Graph, parents: List[Dict[int, str]]) -> Dict[int, str]:
     """
@@ -214,7 +213,7 @@ def get_parent_triplets(population: List[Dict[int, str]],
     return parent_triplets
 
 
-def enhance_sol(graph: ig.Graph, sol: Dict[int, str], i: int, K: int):
+def enhance_sol(graph: ig.Graph, sol: Dict[int, str], i: int, K: int, last_gen: bool):
     """
     Mejora una solución de coloración aplicando D-Satur y búsqueda local limitada.
 
@@ -256,7 +255,8 @@ def enhance_sol(graph: ig.Graph, sol: Dict[int, str], i: int, K: int):
 
     # En este punto, tenemos una solución válida, aplicamos una busqueda local estricta
     # Con el objetivo de mejorar la solución
-    # graph.local_search_without_d_satur(strict=True, max_strict_iters=2)
+    if last_gen:
+        graph.local_search_without_d_satur(strict=True, max_strict_iters=3)
 
     # Retornar la solución mejorada
     return graph.coloring_as_dict()
@@ -299,7 +299,7 @@ def memetic_algorithm(self: ig.Graph,
         children = [mutate(self, c, mutation_rate) for c in children]
 
         # Mejorar a los hijos
-        children = [enhance_sol(self, c, i, K) for i, c in enumerate(children)]
+        children = [enhance_sol(self, c, i, K, i == generations - 1) for i, c in enumerate(children)]
 
         # Agregar a la población a los K hijos
         population.extend(children)
@@ -320,7 +320,7 @@ def memetic_algorithm(self: ig.Graph,
             best_score = generation_best_score
 
         # Agregar a la mejor solución a la población (intensificación)
-        # population.append(best_solution)
+        population.append(best_solution)
 
     # Aplicar mejor solución
     self.apply_coloring_dict(best_solution)
