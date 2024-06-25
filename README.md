@@ -82,11 +82,13 @@ Además, se realizaron pruebas para evaluar el desempeño de los algoritmos impl
 
 Para la tercera entrega, se implementaron los siguientes algoritmos:
 
-- **Algoritmo Memético**: El algoritmo memético es una técnica de optimización que combina la búsqueda local con la evolución de una población de soluciones. En este algoritmo, se mantiene una población de soluciones, y en cada iteración se seleccionan las mejores soluciones para aplicarles operadores de búsqueda local y evolución. Además, se pueden aplicar operadores de diversificación para explorar el espacio de soluciones.
+- **Algoritmo Memético**: El algoritmo memético es una técnica de optimización computacional que combina la búsqueda heurística local con la búsqueda evolutiva basada en poblaciones, inspirada en los procesos de evolución biológica.
 
-- **Algoritmo Memético con Búsqueda Dispersa**: El algoritmo memético con búsqueda dispersa es una variante del algoritmo memético que utiliza una población de soluciones dispersas en el espacio de soluciones. En este algoritmo, se mantiene una población de soluciones, y en cada iteración se seleccionan las mejores soluciones para aplicarles operadores de búsqueda local y evolución. Además, se pueden aplicar operadores de diversificación para explorar el espacio de soluciones.
+    Los algoritmos meméticos funcionan de manera similar a los algoritmos genéticos, pero incorporan un paso adicional de búsqueda local para refinar las soluciones individuales. Esto les permite superar algunas de las limitaciones de los algoritmos genéticos, como la convergencia prematura a soluciones subóptimas y la dificultad para encontrar soluciones de alta calidad en espacios de búsqueda complejos.
 
-- **Algoritmo de Optimización por Enjambre de Partículas (PSO)**: El algoritmo de optimización por enjambre de partículas es una técnica de optimización inspirada en el comportamiento social de los pájaros. En este algoritmo, se mantiene una población de soluciones (partículas), y en cada iteración se actualizan las soluciones siguiendo reglas de movimiento basadas en la mejor solución encontrada por el enjambre.
+- **Búsqueda Dispersa**: La búsqueda dispersa es una técnica de optimización metaheurística basada en la búsqueda iterativa de mejores soluciones dentro de un conjunto de soluciones factibles. A diferencia de los algoritmos de búsqueda local, que se enfocan en mejorar una solución individual, la búsqueda dispersa explora el espacio de búsqueda de manera más amplia mediante la combinación y diversificación de soluciones existentes.
+
+- **Algoritmo de la Colonia de Hormigas**: El algoritmo de optimización por enjambre de partículas es una técnica de optimización inspirada en el comportamiento social de los pájaros. En este algoritmo, se mantiene una población de soluciones (partículas), y en cada iteración se actualizan las soluciones siguiendo reglas de movimiento basadas en la mejor solución encontrada por el enjambre.
 
 Además, se realizaron pruebas para evaluar el desempeño de los algoritmos implementados. Para más información sobre los algoritmos y las pruebas realizadas, se puede consultar el archivo `explain.md` en la carpeta de este corte. Puede acceder a este archivo [aquí](src/corte3/explain.md)
 

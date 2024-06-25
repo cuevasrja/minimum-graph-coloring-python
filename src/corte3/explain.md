@@ -1,4 +1,4 @@
-# Corte 2 - Minimum Graph Coloring
+# Corte 3 - Minimum Graph Coloring
 
 **Realizado Por:**
 - Joao Pinto. (17-10490)
@@ -8,8 +8,8 @@
 En este corte se implementaron soluciones para el problema de coloración mínima de grafos. En particular, se implementaron los siguientes algoritmos:
 
 - Algoritmo Memético
-- Algoritmo Memético con Búsqueda Dispersa
-- Algoritmo de Optimización por Enjambre de Partículas (PSO)
+- Búsqueda Dispersa
+- Algoritmo de la Colonia de Hormigas
 
 Para la implementación de estos algoritmos se utilizó el lenguaje de programación Python, y se utilizó la librería iGraph para la representación de grafos y algunas operaciones sobre estos.
 
@@ -52,21 +52,20 @@ Los grafos seleccionados se encuentran en la carpeta [data](../../data/) y se de
 
 ### Algoritmo Memético
 
-El algoritmo memético es una técnica de optimización que combina la búsqueda local con la evolución de una población de soluciones. En este algoritmo, se mantiene una población de soluciones, y en cada iteración se seleccionan las mejores soluciones para aplicarles operadores de búsqueda local y evolución. Además, se pueden aplicar operadores de diversificación para explorar el espacio de soluciones.
+Un Algoritmo Memético es una técnica de optimización computacional que combina la búsqueda heurística local con la búsqueda evolutiva basada en poblaciones, inspirada en los procesos de evolución biológica.
 
-En el algoritmo memético implementado, se utilizó una población de soluciones, y en cada iteración se seleccionan las mejores soluciones para aplicarles una búsqueda local basada en la heurística DSatur. Además, se aplicó un operador de diversificación basado en la mutación de soluciones.
+Los algoritmos meméticos funcionan de manera similar a los algoritmos genéticos, pero incorporan un paso adicional de búsqueda local para refinar las soluciones individuales. Esto les permite superar algunas de las limitaciones de los algoritmos genéticos, como la convergencia prematura a soluciones subóptimas y la dificultad para encontrar soluciones de alta calidad en espacios de búsqueda complejos.
 
-### Algoritmo Memético con Búsqueda Dispersa
+### Búsqueda Dispersa
 
-El algoritmo memético con búsqueda dispersa es una variante del algoritmo memético que utiliza una población de soluciones dispersas en el espacio de soluciones. En este algoritmo, se mantiene una población de soluciones, y en cada iteración se seleccionan las mejores soluciones para aplicarles operadores de búsqueda local y evolución. Además, se pueden aplicar operadores de diversificación para explorar el espacio de soluciones.
+La Búsqueda Dispersa es una técnica de optimización metaheurística basada en la búsqueda iterativa de mejores soluciones dentro de un conjunto de soluciones factibles. A diferencia de los algoritmos de búsqueda local, que se enfocan en mejorar una solución individual, la búsqueda dispersa explora el espacio de búsqueda de manera más amplia mediante la combinación y diversificación de soluciones existentes.
 
-En el algoritmo memético con búsqueda dispersa implementado, se utilizó una población de soluciones dispersas, y en cada iteración se seleccionan las mejores soluciones para aplicarles una búsqueda local basada en la heurística DSatur. Además, se aplicó un operador de diversificación basado en la mutación de soluciones.
 
-### Algoritmo de Optimización por Enjambre de Partículas (PSO)
 
-El algoritmo de optimización por enjambre de partículas (PSO) es una técnica de optimización que se inspira en el comportamiento social de los enjambres de aves o peces. En este algoritmo, se mantiene una población de soluciones (partículas) que se mueven en el espacio de soluciones siguiendo la mejor solución encontrada por el enjambre y la mejor solución encontrada por cada partícula.
+### Algoritmo de la Colonia de Hormigas
 
-En el algoritmo PSO implementado, se utilizó una población de partículas que se mueven en el espacio de soluciones, y en cada iteración se actualizan las velocidades y posiciones de las partículas siguiendo la mejor solución encontrada por el enjambre y la mejor solución encontrada por cada partícula. Además, se aplicó un operador de diversificación basado en la mutación de soluciones.
+El Algoritmo de la Colonia de Hormigas es una técnica de optimización metaheurística inspirada en el comportamiento de las hormigas en su búsqueda de alimento. Las hormigas, a través de la comunicación mediante feromonas, logran encontrar caminos eficientes entre su nido y las fuentes de alimento. El ACO simula este comportamiento para resolver problemas complejos, especialmente aquellos que pueden representarse como un grafo, como la búsqueda de rutas óptimas o la asignación eficiente de recursos.
+
 
 ## Experimentos y Resultados
 
