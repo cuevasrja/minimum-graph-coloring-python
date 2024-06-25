@@ -1,6 +1,7 @@
 # Corte 3 - Minimum Graph Coloring
 
 **Realizado Por:**
+
 - Joao Pinto. (17-10490)
 - Jhonaiker Blanco. (18-10784)
 - Juan Cuevas. (19-10056)
@@ -119,7 +120,70 @@ def memetic_algorithm(graph: Graph):
 
 La Búsqueda Dispersa es una técnica de optimización metaheurística basada en la búsqueda iterativa de mejores soluciones dentro de un conjunto de soluciones factibles. A diferencia de los algoritmos de búsqueda local, que se enfocan en mejorar una solución individual, la búsqueda dispersa explora el espacio de búsqueda de manera más amplia mediante la combinación y diversificación de soluciones existentes.
 
+En nuestra implementación, tenemos como función de evaluacion:
 
+```python
+def disperse_search(G: grafo):
+    # Generar población inicial
+    population: List[Dict[int, str]] = create_population(self, population_size)
+
+    # Evaluar la población inicial
+    best_solution: Dict[int, str] = find_best_solution(population)
+    best_score: int = eval_sol(best_solution)
+
+    # Evolución de la población
+    for i in range(generations):
+        # Generar population_size // 2 soluciones diversas
+        diverse_solutions = pro_diverse_gen(
+            G, population, population_size // 2)
+
+        # Agregar las soluciones diversas a la población
+        population.extend(diverse_solutions)
+
+        # Aplica re-enlazado de caminos a un porcentaje de las soluciones
+        n_tracing = int(TRACING_PCT * len(population))
+        tracing_pairs = select_tracing_pairs(population, n_tracing)
+
+        # Aplicar reenlazado de caminos
+        traced_solutions = []
+        for [sol_a, sol_b] in tracing_pairs:
+            traced_solutions.extend(trace_path(G, sol_a, sol_b))
+
+        # Agregar las soluciones re-enlazadas a la población
+        population.extend(traced_solutions)
+
+        # Seleccionar K tripletas de padres
+        K = population_size // 3
+        parents = get_parent_triplets(population, K, lambda sol: eval_index(
+            self, sol, population, ALPHA, BETA), 'MAX')
+
+        # Cruzar las tripletas de padres para obtener K hijos
+        children = [triple_point_crossover(self, p) for p in parents]
+
+        # Mutar a los K hijos
+        children = [mutate(self, c, mutation_rate) for c in children]
+
+        # Mejorar a los hijos
+        children = [enhance_sol(G, c, i, K) for i, c in enumerate(children)]
+
+        # Agregar a la población a los K hijos
+        population.extend(children)
+
+        # Seleccionar len(population) - population_size individuos de la población según que tan malo es su eval_index
+        killed = random.choices(population, k=len(population) - population_size, weights=[
+            1 / eval_index(self, c, population, ALPHA, BETA) for c in population
+        ])
+        population = [p for p in population if p not in killed]
+
+        # Actualizar la mejor solución
+        generation_best = find_best_solution(population)
+        generation_best_score = eval_sol(generation_best)
+
+        best_solution, best_score = mejor_coloracion(generation_best, generation_best_score)
+
+    # Aplicar mejor solución
+    self.apply_coloring_dict(best_solution)
+```
 
 ### Algoritmo de la Colonia de Hormigas
 
