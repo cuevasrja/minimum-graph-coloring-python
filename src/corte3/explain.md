@@ -57,6 +57,10 @@ Un Algoritmo Memético es una técnica de optimización computacional que combin
 
 Los algoritmos meméticos funcionan de manera similar a los algoritmos genéticos, pero incorporan un paso adicional de búsqueda local para refinar las soluciones individuales. Esto les permite superar algunas de las limitaciones de los algoritmos genéticos, como la convergencia prematura a soluciones subóptimas y la dificultad para encontrar soluciones de alta calidad en espacios de búsqueda complejos.
 
+En nuestra implementación, tenemos como función de evaluacion: $f(S) = |C|*\text{conf}(S)$
+
+Donde $C$ es el conjunto de colores usados en la coloración, mientras que la función conf es la cantidad de conflictos que hay en el estado S. $\text{conf}(S) = |\{e | e \in E : e = \space <v,w> \and \space v.color = w.color \}|$
+
 #### Pseudocódigo
 
 ```python
@@ -120,7 +124,11 @@ def memetic_algorithm(graph: Graph):
 
 La Búsqueda Dispersa es una técnica de optimización metaheurística basada en la búsqueda iterativa de mejores soluciones dentro de un conjunto de soluciones factibles. A diferencia de los algoritmos de búsqueda local, que se enfocan en mejorar una solución individual, la búsqueda dispersa explora el espacio de búsqueda de manera más amplia mediante la combinación y diversificación de soluciones existentes.
 
-En nuestra implementación, tenemos como función de evaluacion:
+En nuestra implementación, tenemos como función de evaluacion: $f(S) = |C|*\text{conf}(S)$
+
+Donde $C$ es el conjunto de colores usados en la coloración, mientras que la función conf es la cantidad de conflictos que hay en el estado S. $\text{conf}(S) = |\{e | e \in E : e = \space <v,w> \and \space v.color = w.color \}|$
+
+#### Pseudocódigo
 
 ```python
 def disperse_search(G: grafo):
@@ -188,6 +196,65 @@ def disperse_search(G: grafo):
 ### Algoritmo de la Colonia de Hormigas
 
 El Algoritmo de la Colonia de Hormigas es una técnica de optimización metaheurística inspirada en el comportamiento de las hormigas en su búsqueda de alimento. Las hormigas, a través de la comunicación mediante feromonas, logran encontrar caminos eficientes entre su nido y las fuentes de alimento. El ACO simula este comportamiento para resolver problemas complejos, especialmente aquellos que pueden representarse como un grafo, como la búsqueda de rutas óptimas o la asignación eficiente de recursos.
+
+#### Pseudocódigo
+
+```python
+def ant_colony(G: grafo) -> None:
+    pheromones_nodes = [ # [node][color]
+        [1.0 / (len(G.vs) ** 2) for _ in range(len(self.vs))]
+        for _ in range(len(self.vs))
+    ]
+    pheromones_pairs = [ # [node1][node2]
+        [1.0 / (len(G.vs) ** 2) for _ in range(len(G.vs))]
+        for _ in range(len(self.vs))
+    ]
+    ants_solutions = inicializar_hormigas(N_ANTS, G)
+
+    # Agrupar las hormigas N_THREADS grupos
+    ants_groups = agrupar_hormigas(N_ANTS, N_THREADS)
+
+    best_solution, best_n_colors = None, float('inf')
+
+    # Definir el target de los threads
+    def thread_fn(ants_group: List[Ant], i: int, epoch: int):
+        for _ in range(len(G.vs) - 1):
+            for ant in ants_group:
+                ant.move(pheromones_nodes, pheromones_pairs, ALPHA, BETA)
+
+    for epoch in range(N_ITERATIONS):
+        # Crear threads para mover las hormigas
+        threads = []
+        for i, ants_group in enumerate(ants_groups):
+            crear_hilo_grupo(ants_group, i, epoch, thread_fn)
+            threads.append(thread)
+        for thread in threads:
+            thread.esperar_hilo()
+
+        # Actualizar las feromonas
+        actualizar_feromonas(pheromones_nodes,  pheromones_pairs, 1 - RHO)
+        for ant in ants_solutions:
+            n_colors = ant.graph.number_of_colors()
+            for prev_node, next_node, color in ant.movements:
+                factor = len(ant.all_colors) / (n_colors)
+                pheromones_nodes[next_node][int(color)] += factor
+                pheromones_pairs[prev_node][next_node] += factor
+
+        # Obtener la mejor solución
+        for ant in ants_solutions:
+            if not ant.graph.is_valid_coloring():
+                continue
+            if ant.graph.number_of_colors() < best_n_colors:
+                best_solution = ant.graph.coloring_as_dict()
+                best_n_colors = ant.graph.number_of_colors()
+                
+        reiniciar_hotmigas(ants_solutions)
+
+    # Aplicar la mejor solución
+    if best_solution:
+        G.apply_coloring_dict(best_solution)
+```
+
 
 
 ## Experimentos y Resultados
