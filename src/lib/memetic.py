@@ -255,6 +255,7 @@ def enhance_sol(graph: ig.Graph, sol: Dict[int, str], i: int, K: int, last_gen: 
 
     # En este punto, tenemos una solución válida, aplicamos una busqueda local estricta
     # Con el objetivo de mejorar la solución
+    # Esto solo se aplica si en el caso del algoritmo memetico, en busqueda dispersa no se aplica
     if last_gen:
         graph.local_search_without_d_satur(strict=True, max_strict_iters=3)
 

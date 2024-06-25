@@ -56,6 +56,65 @@ Un Algoritmo Memético es una técnica de optimización computacional que combin
 
 Los algoritmos meméticos funcionan de manera similar a los algoritmos genéticos, pero incorporan un paso adicional de búsqueda local para refinar las soluciones individuales. Esto les permite superar algunas de las limitaciones de los algoritmos genéticos, como la convergencia prematura a soluciones subóptimas y la dificultad para encontrar soluciones de alta calidad en espacios de búsqueda complejos.
 
+#### Pseudocódigo
+
+```python
+def memetic_algorithm(graph: Graph):
+    # Hiperparámetros del algoritmo memetico
+    population_size: int = 100
+    generations: int = 3
+    mutation_rate: float = 0.5
+
+    def find_best_solution(population):
+        return min(
+            population, key=eval_sol) if mode == 'MIN' else max(population, key=eval_sol)
+    # Generar población inicial
+    population: List[Dict[int, str]] = create_population(graph, population_size)
+    # Evaluar la población inicial
+    best_solution: Dict[int, str] = find_best_solution(population)
+    best_score: int = eval_sol(best_solution)
+    # Evolución de la población
+    for i in range(generations):
+        # Seleccionar K  tripletas de padres
+        K = population_size // 6
+        parents: List[List[Dict[int, str]]] = get_parent_triplets(
+            population, K, eval_sol, mode)
+
+        # Cruzar las tripletas de padres para obtener K hijos
+        children: List[Dict[int, str]] = [triple_partition_crossover(self, p) for p in parents]
+
+        # Mutar a los K hijos
+        children = [mutate(graph, c, mutation_rate) for c in children]
+
+        # Mejorar a los hijos, se usa solo DSatur en todas las generaciones menos en la ultima, ahi tambien se usa busqueda local
+        children = [enhance_sol(self, c, i, K, i == generations - 1) for i, c in enumerate(children)]
+
+        # Agregar a la población a los K hijos
+        population.extend(children)
+
+        # Seleccionar K // 2 individuos de la población según que tan malo es su desempeño
+        killed = random.choices(population, k=K // 2, weights=[
+            eval_sol(c) if mode == 'MIN' else 1 / eval_sol(c)
+            for c in population
+        ])
+
+        # Eliminar los K // 2 seleccionados
+        population = [p for p in population if p not in killed]
+
+        # Actualizar la mejor solución
+        generation_best = find_best_solution(population)
+        generation_best_score = eval_sol(generation_best)
+        if generation_best_score < best_score:
+            best_solution = generation_best
+            best_score = generation_best_score
+        # Agregar a la mejor solución a la población (intensificación)
+        population.append(best_solution)
+        
+    # Aplicar mejor solución
+    graph.apply_coloring_dict(best_solution)
+```
+
+
 ### Búsqueda Dispersa
 
 La Búsqueda Dispersa es una técnica de optimización metaheurística basada en la búsqueda iterativa de mejores soluciones dentro de un conjunto de soluciones factibles. A diferencia de los algoritmos de búsqueda local, que se enfocan en mejorar una solución individual, la búsqueda dispersa explora el espacio de búsqueda de manera más amplia mediante la combinación y diversificación de soluciones existentes.

@@ -246,7 +246,7 @@ def disperse_search(self: ig.Graph,
         children = [mutate(self, c, mutation_rate) for c in children]
 
         # Mejorar a los hijos
-        children = [enhance_sol(self, c, i, K) for i, c in enumerate(children)]
+        children = [enhance_sol(self, c, i, K, False) for i, c in enumerate(children)]
 
         # Agregar a la población a los K hijos
         population.extend(children)
