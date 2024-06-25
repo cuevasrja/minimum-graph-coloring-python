@@ -267,18 +267,18 @@ Las pruebas fueron realizadas en un equipo con las siguientes características:
 - **Memoria RAM**: 32GB 
 - **SO**: Windows 11 con WSL
 
-|Nombre del grafo |	Numero de nodos | Numero de aristas |	Numero cromatico |	Tiempo Memético |	Resultado Memético |	Tiempo Busqueda Dispersa |	Resultado Busqueda Dispersa |	Tiempo Ant Colony |	Resultado Ant Colony |
+|Nombre del grafo |	Numero de nodos | Numero de aristas |	Numero cromatico |  Tiempo Dsatur |	Resultado D_Satur |	Tiempo Memético |	Resultado Memético |	Tiempo Busqueda Dispersa |	Resultado Busqueda Dispersa |	Tiempo Ant Colony |	Resultado Ant Colony |
 |-----------------|------------------|-------------------|------------------|----------------|-------------------|----------------------|-------------------------|--------------|------------------|
-DSJC250.5.col |	250 | 15668 | 31 | 121,253 |  40   | 195,901        | 40 | 623,218          | 40 |
-DSJC250.9.col | 250 | 27897 | 75 | 189,173 |  91   | 427,642        | 91 | 878,744          | 89 |
-le450_15b.col | 450 | 8169  | 15 |	130,936|	18 | Mas de 20 min  | ?  | Mas de 20 min    | ?  |
-le450_15c.col | 450 | 16680 | 15 |	74,953 |	26 | Mas de 20 min  | ?  | Mas de 20 min    | ?  |
-le450_25c.col | 450 | 17343 | 25 |	114,26 |	31 | Mas de 20 min	| ?  | Mas de 20 min    | ?  |
-queen5_5.col  | 25  | 320   | 5	 |  1,308  |	7  | 7,719	        | 7	 | 1,158            | 5  |
-fpsol2.i.1.col| 496 | 11654 | 65 |	374,592|	65 | Mas de 20 min  | ?  | Mas de 20 min    | ?  |
-zeroin.i.3.col| 206 | 3540	| 30 |	32,085 |	30 | 473,614	    | 30 | 486,546          | 51 |
-mulsol.i.1.col| 197	| 3925	| 49 |	31,332 |	49 | 512,685	    | 49 | 318,995          | 61 |
-fpsol2.i.2.col| 425 | 8688	| 30 |	128,567|	30 | Mas de 20 min	| ?  | Mas de 20 min    | ?  |
+DSJC250.5.col |	250 | 15668 | 31 | 0,1034  |   42  | 121,253 |  40 | 195,901        | 40 | 623,218          | 40 |
+DSJC250.9.col | 250 | 27897 | 75 | 0,237   |   97  | 189,173 |  91 | 427,642        | 91 | 878,744          | 89 |
+le450_15b.col | 450 | 8169  | 15 | 0,2379  |   18  | 130,936 |	18 | Mas de 20 min  | ?  | Mas de 20 min    | ?  |
+le450_15c.col | 450 | 16680 | 15 | 0,2136  |   26  | 74,953  |	26 | Mas de 20 min  | ?  | Mas de 20 min    | ?  |
+le450_25c.col | 450 | 17343 | 25 | 0,213   |   31  | 114,26  |	31 | Mas de 20 min	| ?  | Mas de 20 min    | ?  |
+queen5_5.col  | 25  | 320   | 5	 | 0,003   |   8   | 1,308   |	7  | 7,719	        | 7	 | 1,158            | 5  |
+fpsol2.i.1.col| 496 | 11654 | 65 | 0,1567  |   65  | 374,592 |	65 | Mas de 20 min  | ?  | Mas de 20 min    | ?  |
+zeroin.i.3.col| 206 | 3540	| 30 | 0,088   |   30  | 32,085  |	30 | 473,614	    | 30 | 486,546          | 51 |
+mulsol.i.1.col| 197	| 3925	| 49 | 0,091   |   49  | 31,332  |	49 | 512,685	    | 49 | 318,995          | 61 |
+fpsol2.i.2.col| 425 | 8688	| 30 | 0,2381  |   30  | 128,567 |	30 | Mas de 20 min	| ?  | Mas de 20 min    | ?  |
 
 ## Comparación con Corte Anterior
 
