@@ -200,7 +200,7 @@ El Algoritmo de la Colonia de Hormigas es una técnica de optimización metaheur
 #### Pseudocódigo
 
 ```python
-def ant_colony(G: grafo) -> None:
+def ant_colony(G: grafo):
     pheromones_nodes = [ # [node][color]
         [1.0 / (len(G.vs) ** 2) for _ in range(len(self.vs))]
         for _ in range(len(self.vs))
