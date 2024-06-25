@@ -268,7 +268,7 @@ Las pruebas fueron realizadas en un equipo con las siguientes características:
 - **SO**: Windows 11 con WSL
 
 |Nombre del grafo |	Numero de nodos | Numero de aristas |	Numero cromatico |  Tiempo Dsatur |	Resultado D_Satur |	Tiempo Memético |	Resultado Memético |	Tiempo Busqueda Dispersa |	Resultado Busqueda Dispersa |	Tiempo Ant Colony |	Resultado Ant Colony |
-|-----------------|------------------|-------------------|------------------|----------------|-------------------|----------------------|-------------------------|--------------|------------------|
+|-----------------|------------------|-------------------|------------------|----------------|-------------------|----------------------|-------------------------|--------------|------------------|------------------|------------------|
 DSJC250.5.col |	250 | 15668 | 31 | 0,1034  |   42  | 121,253 |  40 | 195,901        | 40 | 623,218          | 40 |
 DSJC250.9.col | 250 | 27897 | 75 | 0,237   |   97  | 189,173 |  91 | 427,642        | 91 | 878,744          | 89 |
 le450_15b.col | 450 | 8169  | 15 | 0,2379  |   18  | 130,936 |	18 | Mas de 20 min  | ?  | Mas de 20 min    | ?  |
