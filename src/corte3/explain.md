@@ -282,7 +282,7 @@ fpsol2.i.2.col| 425 | 8688	| 30 | 0,2381  |   30  | 128,567 |	30 | Mas de 20 min
 
 ## Comparación con Corte Anterior
 
-Con la implementación de los nuevos algoritmos pudimos mejorar nuestra solución previa en algunos de los casos. Sin embargo, por lo general, estas mejoras no fueron muy significativas y, en la mayoria de los casos, requirieron una mayor cantidad de recursos computacionales. El motivo principal por el cual las mejoras no fueron tan destacadas es porque algoritmos como Busqueda Tabu y DSatur que usamos para obtener el caso base en la mayoria de las casos, ya nos daban soluciones bastante buenas.
+Con la implementación de los nuevos algoritmos pudimos mejorar nuestra solución previa en algunos de los casos. Sin embargo, por lo general, estas mejoras no fueron muy significativas y, en la mayoria de los casos, requirieron una mayor cantidad de recursos computacionales. El motivo principal por el cual las mejoras no fueron tan destacadas es porque algoritmos como Busqueda Tabu y DSatur ya nos daban soluciones bastante buenas.
 
 Particularmente, el algoritmo de la colonia de hormigas fue el que más se destacó en comparación con los algoritmos anteriores, ya que en algunos casos logró obtener soluciones más cercanas al número cromático real del grafo. Sin embargo, este algoritmo también fue el que requirió más tiempo de ejecución en la mayoría de los casos. Además, en algunos casos, como en los grafos de la fuente LEI, el algoritmo de la colonia de hormigas no logró encontrar una solución en el tiempo asignado.
 
