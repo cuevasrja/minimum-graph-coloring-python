@@ -2,9 +2,9 @@ from typing import List
 import igraph as ig
 import random
 from typing import Dict, Callable, List
-from src.lib.eval_functions import eval_scaled_number_of_conflics, eval_sum_of_squared_color_sizes
+from src.lib.eval_functions import eval_scaled_number_of_conflics
 from src.lib.genetic import mutate, create_population
-from src.lib.memetic import triple_point_crossover, triple_partition_crossover, get_parent_triplets, enhance_sol
+from src.lib.memetic import triple_point_crossover, get_parent_triplets, enhance_sol
 
 
 def distance(sol_a: Dict[int, str], sol_b: Dict[int, str]) -> int:
