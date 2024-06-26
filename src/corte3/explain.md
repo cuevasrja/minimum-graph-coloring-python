@@ -257,15 +257,41 @@ Las feromonas se actualiza en cada epoca, se evapora y se deposita feromona en l
 
 En concreto, se utiliza la siguiente regla de evaporación y deposito de feromonas:
 
-$$\tau^{c}_{ij} = (1 - \rho) \cdot \tau_{ij} + \sum_{k=1}^{n} $$
+$$\tau_1(i,j) = (1 - \rho) \cdot \tau_1(i,j) + \sum_{k=1}^{m} \frac{n}{\chi_k} \cdot \epsilon(k, i, j)$$
+
+donde $\rho$ es el factor de evaporación, $\tau_1(i,j)$ es la feromona asociada a colorear el nodo $j$ inmediatamente despues de $i$, $n$ es el número de nodos, $m$ es el numero de hormigas, $\chi_k$ es el número de colores en la solución de la hormiga $k$, y $\epsilon(k, i, j)$ es una función que indica si la hormiga $k$ coloreó el nodo $j$ inmediatamente después del nodo $i$.
+
+y de forma analoga:
+
+$$\tau_2(i, color) = (1 - \rho) \cdot \tau_2(i,color) + \sum_{k=1}^{n} \frac{n}{\chi_k} \cdot \delta(k, i, color)$$
+
+donde $\tau_2(i, color)$ es la feromona asociada a colorear el nodo $i$ de un color específico, y $\delta(k, i, color)$ es una función que indica si la hormiga $k$ coloreó el nodo $i$ con el color $color$.
 
 #### Componente heurístico
 
-TODO
+El componente heurístico utilizado depende del nodo a colorear y del color seleccionado. En nuestra implementación, se utilizó la siguiente función heurística:
+
+$$\eta(i, color) = \lambda(color) \sqrt{S_i^2 + D_i^2}$$
+
+Donde:
+
+$$
+\lambda(color) =
+\begin{cases}
+    \frac{1}{n} & \text{si } \text{$color$ no está presente en la solucion} \\
+    1 & \text{en otro caso}
+\end{cases}
+$$
+
+$S_i$ es el grado de saturación de D-satur del nodo $i$ y $D_i$ es el grado del nodo $i$.
+
+Esto significa que el componente heurístico favorece la selección de colores que no aunmenten el número de colores en la solución, y que favorece la selección de nodos que maximizen tanto el grado de saturación de D-satur como el grado del nodo.
+
+En el algoritmo no se consideran aquellos colores que causen conflictos en la solución parcial.
 
 #### Optimización multi-hilo
 
-TODO
+Para mejorar el rendimiento del algoritmo, se implementó una versión multi-hilo del algoritmo de la colonia de hormigas. En esta versión, las hormigas se dividen en `N_THREADS` grupos, y cada grupo se ejecuta en un hilo separado. Cada hilo se encarga de mover las hormigas en paralelo, y al final de cada iteración, se actualizan las feromonas en un hilo principal.
 
 #### Pseudocódigo
 
