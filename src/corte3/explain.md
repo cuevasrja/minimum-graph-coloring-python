@@ -53,7 +53,7 @@ Los grafos seleccionados se encuentran en la carpeta [data](../../data/) y se de
 
 ### Algoritmo Memético
 
-Un Algoritmo Memético es una técnica de optimización computacional que combina la búsqueda heurística local con la búsqueda evolutiva basada en poblaciones, inspirada en los procesos de evolución biológica.
+Un Algoritmo Memético es una técnica de optimización computacional que combina la búsqueda heurística local con la búsqueda evolutiva basada en poblaciónes, inspirada en los procesos de evolución biológica.
 
 Los algoritmos meméticos funcionan de manera similar a los algoritmos genéticos, pero incorporan un paso adicional de mejora para refinar las soluciones individuales, asi como tambien extienden la noción de cruce para permitir combinación entre mas de dos padres. Esto les permite superar algunas de las limitaciones de los algoritmos genéticos, como la convergencia prematura a soluciones subóptimas y la dificultad para encontrar soluciones de alta calidad en espacios de búsqueda complejos.
 
@@ -69,7 +69,7 @@ Esta función de evaluación penaliza las soluciones con conflictos y favorece l
 
 En este proyecto se utilizó el operador de cruce voraz de particiones con lista tabú tal como se vio en clases para el caso de `n = 3`. 
 
-Este operador obtiene la clase de color con mayor cardinalidad, colorea esa clase en la solucion hija, elimina los nodos de la clase de color de los padres, elimina el color de las clase de color de los padres y repite el proceso hasta que la solución hija este completa.
+Este operador obtiene la clase de color con mayor cardinalidad, colorea esa clase en la solución hija, elimina los nodos de la clase de color de los padres, elimina el color de las clase de color de los padres y repite el proceso hasta que la solución hija este completa.
 
 Para no tomar el mismo padre en la siguiente iteración, se utiliza una lista tabú que almacena los padres que ya han sido seleccionados, esta lista garantiza que no se seleccione el padre seleccionado por tres iteraciones.
 
@@ -152,31 +152,31 @@ $$f(\text{coloring}) = \left(\left(\sum_{v \in N} \text{conflicts}(v, \text{colo
 
 En nuestra implementación de busqueda dispersa, definimos la distancia entre dos soluciones como la cantidad de nodos que tienen colores diferentes en ambas soluciones luego de hacer un re-etiquetado voraz de los colores.
 
-Se toma la primera solucion y se re-etiqueta los colores de manera voraz de forma que coincidan con los colores de la segunda solucion, luego se cuentan los nodos que tienen colores diferentes en ambas soluciones.
+Se toma la primera solución y se re-etiqueta los colores de manera voraz de forma que coincidan con los colores de la segunda solución, luego se cuentan los nodos que tienen colores diferentes en ambas soluciones.
 
 #### Índice de diversidad
 
-El indice de diversidad es una medida de que tan diversa es una solucion con respecto a las demas soluciones en la poblacion. En nuestra implementacion, el indice de diversidad se calcula como la suma de las distancias entre la solucion y todas las demas soluciones en la poblacion dividido por el tamaño de la poblacion.
+El índice de diversidad es una medida de que tan diversa es una solución con respecto a las demas soluciones en la población. En nuestra implementacion, el índice de diversidad se calcula como la suma de las distancias entre la solución y todas las demas soluciones en la población dividido por el tamaño de la población.
 
 #### Índice de evaluación
 
-El indice de evaluación combina la funcion de evaluacion con el indice de diversidad para obtener una medida de que tan buena es una solucion con respecto a las demas soluciones en la poblacion. En nuestra implementacion, el indice de evaluacion se calcula como:
+El índice de evaluación combina la función de evaluación con el índice de diversidad para obtener una medida de que tan buena es una solución con respecto a las demas soluciones en la población. En nuestra implementacion, el índice de evaluacion se calcula como:
 
 $$\text{eval}(s) = f(s)^\alpha \cdot d(s)^\beta$$
 
-donde $f(s)$ es la funcion de evaluacion de la solucion $s$, $d(s)$ es el indice de diversidad de la solucion $s$, y $\alpha$ y $\beta$ son hiperparametros que controlan la importancia de la funcion de evaluacion y el indice de diversidad, respectivamente.
+donde $f(s)$ es la función de evaluación de la solución $s$, $d(s)$ es el índice de diversidad de la solución $s$, y $\alpha$ y $\beta$ son hiperparametros que controlan la importancia de la función de evaluación y el índice de diversidad, respectivamente.
 
 #### Generación de soluciones pro-diversidad
 
-En cada iteración se generan soluciones pro-diversidad, que son soluciones que se obtienen a partir de contruir soluciones que maximicen su indice de diversidad para la poblacion actual, en concreto, para cada nodo, se selecciona un color aleatorio entre los observados en la población segun que tan poco aparece en la poblacion. Al tener todos los nodos coloreados se descolorean los nodos que tengan conflictos y se aplica D-Satur para colorear los nodos descoloreados.
+En cada iteración se generan soluciones pro-diversidad, que son soluciones que se obtienen a partir de contruir soluciones que maximicen su índice de diversidad para la población actual, en concreto, para cada nodo, se selecciona un color aleatorio entre los observados en la población segun que tan poco aparece en la población. Al tener todos los nodos coloreados se decoloran los nodos que tengan conflictos y se aplica D-Satur para colorear los nodos descoloridos.
 
-Esto garantiza que las soluciones pro-diversidad sean soluciones validas y que tengan colores poco comunes en la poblacion.
+Esto garantiza que las soluciones pro-diversidad sean soluciones validas y que tengan colores poco comunes en la población.
 
 #### Operador de re-enlazado de caminos
 
 En cada iteración se seleccionan un porcentaje de las soluciones de la población y se seleccionan pares de soluciones para aplicar el operador de re-enlazado de caminos. 
 
-Este operador utiliza la vecinidad $\text{1-intercambio}$, esto es, intercambia uno a uno los colores de una solucion con los colores de la otra solucion, cuando todos los nodos hayan sido intercambiados entonces se llegó a la segunda solucion. 
+Este operador utiliza la vecinidad $\text{1-intercambio}$, esto es, intercambia uno a uno los colores de una solución con los colores de la otra solución, cuando todos los nodos hayan sido intercambiados entonces se llegó a la segunda solución. 
 
 Aquellas soluciones intermedias que sean coloraciones válidas se agregan a la población.
 
@@ -290,14 +290,14 @@ Donde:
 $$
 \lambda(color) =
 \begin{cases}
-    \frac{1}{n} & \text{si } \text{$color$ no está presente en la solucion} \\
+    \frac{1}{n} & \text{si } \text{$color$ no está presente en la solución} \\
     1 & \text{en otro caso}
 \end{cases}
 $$
 
 $S_i$ es el grado de saturación de D-satur del nodo $i$ y $D_i$ es el grado del nodo $i$.
 
-Esto significa que el componente heurístico favorece la selección de colores que no aunmenten el número de colores en la solución, y que favorece la selección de nodos que maximizen tanto el grado de saturación de D-satur como el grado del nodo.
+Esto significa que el componente heurístico favorece la selección de colores que no aumenten el número de colores en la solución, y que favorece la selección de nodos que maximizan tanto el grado de saturación de D-satur como el grado del nodo.
 
 En el algoritmo no se consideran aquellos colores que causen conflictos en la solución parcial.
 
