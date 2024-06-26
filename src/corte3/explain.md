@@ -150,23 +150,35 @@ $$f(\text{coloring}) = \left(\left(\sum_{v \in N} \text{conflicts}(v, \text{colo
 
 #### Nocion de distancia
 
-TODO
+En nuestra implementación de busqueda dispersa, definimos la distancia entre dos soluciones como la cantidad de nodos que tienen colores diferentes en ambas soluciones luego de hacer un re-etiquetado voraz de los colores.
+
+Se toma la primera solucion y se re-etiqueta los colores de manera voraz de forma que coincidan con los colores de la segunda solucion, luego se cuentan los nodos que tienen colores diferentes en ambas soluciones.
 
 #### Indice de diversidad
 
-TODO
+El indice de diversidad es una medida de que tan diversa es una solucion con respecto a las demas soluciones en la poblacion. En nuestra implementacion, el indice de diversidad se calcula como la suma de las distancias entre la solucion y todas las demas soluciones en la poblacion dividido por el tamaño de la poblacion.
 
 #### Indice de evaluacion
 
-TODO
+El indice de evaluación combina la funcion de evaluacion con el indice de diversidad para obtener una medida de que tan buena es una solucion con respecto a las demas soluciones en la poblacion. En nuestra implementacion, el indice de evaluacion se calcula como:
+
+$$\text{eval}(s) = f(s)^\alpha \cdot d(s)^\beta$$
+
+donde $f(s)$ es la funcion de evaluacion de la solucion $s$, $d(s)$ es el indice de diversidad de la solucion $s$, y $\alpha$ y $\beta$ son hiperparametros que controlan la importancia de la funcion de evaluacion y el indice de diversidad, respectivamente.
 
 #### Generación de soluciones pro-diversidad
 
-TODO
+En cada iteración se generan soluciones pro-diversidad, que son soluciones que se obtienen a partir de contruir soluciones que maximicen su indice de diversidad para la poblacion actual, en concreto, para cada nodo, se selecciona un color aleatorio entre los observados en la población segun que tan poco aparece en la poblacion. Al tener todos los nodos coloreados se descolorean los nodos que tengan conflictos y se aplica D-Satur para colorear los nodos descoloreados.
+
+Esto garantiza que las soluciones pro-diversidad sean soluciones validas y que tengan colores poco comunes en la poblacion.
 
 #### Operador de re-enlazado de caminos
 
-TODO
+En cada iteración se seleccionan un porcentaje de las soluciones de la población y se seleccionan pares de soluciones para aplicar el operador de re-enlazado de caminos. 
+
+Este operador utiliza la vecinidad $\text{1-intercambio}$, esto es, intercambia uno a uno los colores de una solucion con los colores de la otra solucion, cuando todos los nodos hayan sido intercambiados entonces se llegó a la segunda solucion. 
+
+Aquellas soluciones intermedias que sean coloraciones válidas se agregan a la población.
 
 #### Pseudocódigo
 
