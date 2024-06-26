@@ -55,7 +55,7 @@ Los grafos seleccionados se encuentran en la carpeta [data](../../data/) y se de
 
 Un Algoritmo Memético es una técnica de optimización computacional que combina la búsqueda heurística local con la búsqueda evolutiva basada en poblaciones, inspirada en los procesos de evolución biológica.
 
-Los algoritmos meméticos funcionan de manera similar a los algoritmos genéticos, pero incorporan un paso adicional de mejora para refinar las soluciones individuales, asi como tambien extienden la nocion de cruce para permitir combinacion entre mas de dos padres. Esto les permite superar algunas de las limitaciones de los algoritmos genéticos, como la convergencia prematura a soluciones subóptimas y la dificultad para encontrar soluciones de alta calidad en espacios de búsqueda complejos.
+Los algoritmos meméticos funcionan de manera similar a los algoritmos genéticos, pero incorporan un paso adicional de mejora para refinar las soluciones individuales, asi como tambien extienden la noción de cruce para permitir combinación entre mas de dos padres. Esto les permite superar algunas de las limitaciones de los algoritmos genéticos, como la convergencia prematura a soluciones subóptimas y la dificultad para encontrar soluciones de alta calidad en espacios de búsqueda complejos.
 
 En nuestra implementación, se utilizó la siguiente función de evaluación la suma de los conflictos de cada nodo:
 
@@ -67,19 +67,19 @@ Esta función de evaluación penaliza las soluciones con conflictos y favorece l
 
 #### Operador de combinación de padres
 
-En este proyecto se utilizo el operador de cruce voraz de particiones con lista tabú tal como se vio en clases para el caso de `n = 3`. 
+En este proyecto se utilizó el operador de cruce voraz de particiones con lista tabú tal como se vio en clases para el caso de `n = 3`. 
 
-Este operador obtiene la clase de color con mayor cardinalidad, colorea esa clase en la solucion hija, elimina los nodos de la clase de color de los padres, elimina el color de las clase de color de los padres y repite el proceso hasta que la solucion hija este completa.
+Este operador obtiene la clase de color con mayor cardinalidad, colorea esa clase en la solucion hija, elimina los nodos de la clase de color de los padres, elimina el color de las clase de color de los padres y repite el proceso hasta que la solución hija este completa.
 
-Para no tomar el mismo padre en la siguiente iteracion, se utiliza una lista tabú que almacena los padres que ya han sido seleccionados, esta lista garantiza que no se seleccione el padre seleccionado por tres iteraciones.
+Para no tomar el mismo padre en la siguiente iteración, se utiliza una lista tabú que almacena los padres que ya han sido seleccionados, esta lista garantiza que no se seleccione el padre seleccionado por tres iteraciones.
 
 #### Metodo de mejora
 
-Nuestro metodo de mejora asegura que todos los hijos sean soluciones validas, ademas de esto, mejora su aptitud ejecutando busqueda local.
+Nuestro método de mejora asegura que todos los hijos sean soluciones válidas, ademas de esto, mejora su aptitud ejecutando busqueda local.
 
 Para asegurar que todos los hijos sean validos, descolorea todos los nodos que tengan conflictos y aplica D-Satur para colorear los nodos descoloreados.
 
-Por limitaciones de tiempo de ejecucion, la mejora de busqueda local solo se aplica en la ultima iteracion del algoritmo.
+Por limitaciones de tiempo de ejecución, la mejora de búsqueda local solo se aplica en la última iteración del algoritmo.
 
 #### Pseudocódigo
 
@@ -148,15 +148,15 @@ En nuestra implementación, se utilizó la misma función de evaluación que en 
 
 $$f(\text{coloring}) = \left(\left(\sum_{v \in N} \text{conflicts}(v, \text{coloring})\right) + 1\right) \cdot \text{ncolors}(\text{coloring})$$
 
-#### Nocion de distancia
+#### Noción de distancia
 
 TODO
 
-#### Indice de diversidad
+#### Índice de diversidad
 
 TODO
 
-#### Indice de evaluacion
+#### Índice de evaluación
 
 TODO
 
@@ -249,9 +249,9 @@ En cada epoca, una vez que todas las hormigas han completado su ciclo de vida, s
 
 En este proyecto se mantienen dos formas de feromonas, una asociada a los componentes de la solucion y otra al orden en el que se construyen los componentes (transicion entre nodos).
 
-Las feromonas asociadas a los componentes de la solucion se almacenan en una matriz de tamaño `n x n` donde `n` es el numero de nodos, cada celda `(i, j)` representa la feromona asociada al nodo `i` y al color `j`. Esto escencialmente representa la feromona asociada a colorear un nodo de un color especifico.
+Las feromonas asociadas a los componentes de la solución se almacenan en una matriz de tamaño `n x n` donde `n` es el número de nodos, cada celda `(i, j)` representa la feromona asociada al nodo `i` y al color `j`. Esto escencialmente representa la feromona asociada a colorear un nodo de un color específico.
 
-Las feromonas asociadas a las transiciones entre nodos se almacenan en una matriz de tamaño `n x n` donde `n` es el numero de nodos, cada celda `(i, j)` representa la feromona asociada a la transicion entre los nodos `i` y `j`. Esto esencialmente representa la feromona asociada a colorear un nodo despues de colorear otro nodo.
+Las feromonas asociadas a las transiciones entre nodos se almacenan en una matriz de tamaño `n x n` donde `n` es el número de nodos, cada celda `(i, j)` representa la feromona asociada a la transición entre los nodos `i` y `j`. Esto esencialmente representa la feromona asociada a colorear un nodo despues de colorear otro nodo.
 
 Las feromonas se actualiza en cada epoca, se evapora y se deposita feromona en las celdas correspondientes a los movimientos de las hormigas.
 
