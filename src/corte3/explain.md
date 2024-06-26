@@ -251,19 +251,19 @@ El Algoritmo de la Colonia de Hormigas es una técnica de optimización metaheur
 
 #### Ciclo de vida de una hormiga
 
-En nuestra implementación, una hormiga se mueve entre los componentes de una solucion que mantiene. La hormiga cumple con su ciclo de vida cuando una solución completa ha sido construida. 
+En nuestra implementación, una hormiga se mueve entre los componentes de una solución que mantiene. La hormiga cumple con su ciclo de vida cuando una solución completa ha sido construida. 
 
-La hormiga comienza con una solucion vacia y en cada paso selecciona un par `(nodo, color)` segun la probabilidad de movimiento tal como se explico en clase.
+La hormiga comienza con una solución vacía y en cada paso selecciona un par `(nodo, color)` segun la probabilidad de movimiento tal como se explicó en clase.
 
-En cada epoca, una vez que todas las hormigas han completado su ciclo de vida, se actualizan las feromonas y se reinician las hormigas.
+En cada época, una vez que todas las hormigas han completado su ciclo de vida, se actualizan las feromonas y se reinician las hormigas.
 
 #### Representación de feromonas
 
-En este proyecto se mantienen dos formas de feromonas, una asociada a los componentes de la solucion y otra al orden en el que se construyen los componentes (transicion entre nodos).
+En este proyecto se mantienen dos formas de feromonas, una asociada a los componentes de la solución y otra al orden en el que se construyen los componentes (transicion entre nodos).
 
 Las feromonas asociadas a los componentes de la solución se almacenan en una matriz de tamaño `n x n` donde `n` es el número de nodos, cada celda `(i, j)` representa la feromona asociada al nodo `i` y al color `j`. Esto escencialmente representa la feromona asociada a colorear un nodo de un color específico.
 
-Las feromonas asociadas a las transiciones entre nodos se almacenan en una matriz de tamaño `n x n` donde `n` es el número de nodos, cada celda `(i, j)` representa la feromona asociada a la transición entre los nodos `i` y `j`. Esto esencialmente representa la feromona asociada a colorear un nodo despues de colorear otro nodo.
+Las feromonas asociadas a las transiciones entre nodos se almacenan en una matriz de tamaño `n x n` donde `n` es el número de nodos, cada celda `(i, j)` representa la feromona asociada a la transición entre los nodos `i` y `j`. Esto esencialmente representa la feromona asociada a colorear un nodo después de colorear otro nodo.
 
 Las feromonas se actualiza en cada epoca, se evapora y se deposita feromona en las celdas correspondientes a los movimientos de las hormigas.
 
@@ -271,9 +271,9 @@ En concreto, se utiliza la siguiente regla de evaporación y deposito de feromon
 
 $$\tau_1(i,j) = (1 - \rho) \cdot \tau_1(i,j) + \sum_{k=1}^{m} \frac{n}{\chi_k} \cdot \epsilon(k, i, j)$$
 
-donde $\rho$ es el factor de evaporación, $\tau_1(i,j)$ es la feromona asociada a colorear el nodo $j$ inmediatamente despues de $i$, $n$ es el número de nodos, $m$ es el numero de hormigas, $\chi_k$ es el número de colores en la solución de la hormiga $k$, y $\epsilon(k, i, j)$ es una función que indica si la hormiga $k$ coloreó el nodo $j$ inmediatamente después del nodo $i$.
+donde $\rho$ es el factor de evaporación, $\tau_1(i,j)$ es la feromona asociada a colorear el nodo $j$ inmediatamente despues de $i$, $n$ es el número de nodos, $m$ es el número de hormigas, $\chi_k$ es el número de colores en la solución de la hormiga $k$, y $\epsilon(k, i, j)$ es una función que indica si la hormiga $k$ coloreó el nodo $j$ inmediatamente después del nodo $i$.
 
-y de forma analoga:
+y de forma análoga:
 
 $$\tau_2(i, color) = (1 - \rho) \cdot \tau_2(i,color) + \sum_{k=1}^{m} \frac{n}{\chi_k} \cdot \delta(k, i, color)$$
 
