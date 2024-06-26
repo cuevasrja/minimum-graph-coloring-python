@@ -263,7 +263,7 @@ donde $\rho$ es el factor de evaporación, $\tau_1(i,j)$ es la feromona asociada
 
 y de forma analoga:
 
-$$\tau_2(i, color) = (1 - \rho) \cdot \tau_2(i,color) + \sum_{k=1}^{n} \frac{n}{\chi_k} \cdot \delta(k, i, color)$$
+$$\tau_2(i, color) = (1 - \rho) \cdot \tau_2(i,color) + \sum_{k=1}^{m} \frac{n}{\chi_k} \cdot \delta(k, i, color)$$
 
 donde $\tau_2(i, color)$ es la feromona asociada a colorear el nodo $i$ de un color específico, y $\delta(k, i, color)$ es una función que indica si la hormiga $k$ coloreó el nodo $i$ con el color $color$.
 
