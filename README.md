@@ -94,3 +94,10 @@ Además, se realizaron pruebas para evaluar el desempeño de los algoritmos impl
 
 > [!NOTE] Nota:
 > Se realizó una comparación de los algoritmos implementados en la primera, segunda y tercera entrega. Para más información sobre la comparación, se puede consultar el archivo `explain.md` en la carpeta de este corte. Puede acceder a este archivo [aquí](src/corte3/explain.md#comparación-con-cortes-anteriores)
+
+## Entrega 4
+
+Para esta última entrega, se realizó una metaheurística propia, la cual se llama "" y se explica detalladamente en el informa de este corte. Además, se realizaron pruebas para evaluar el desempeño del algoritmo implementado. Para más información sobre el algoritmo y las pruebas realizadas, se puede consultar el archivo `explain.md` en la carpeta de este corte. Puede acceder a este archivo [aquí](src/corte4/explain.md)
+
+> [!NOTE] Nota:
+> Se realizó una comparación de los algoritmos implementados en todas entregas. Para más información sobre la comparación, se puede consultar el archivo `explain.md` en la carpeta de este corte. Puede acceder a este archivo [aquí](src/corte4/explain.md#comparación-con-cortes-anteriores)
