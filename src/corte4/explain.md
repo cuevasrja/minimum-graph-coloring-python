@@ -47,6 +47,105 @@ Los grafos seleccionados se encuentran en la carpeta [data](../../data/) y se de
 
 ## Solución Implementada
 
+### Algoritmo del ave cleptomana
+
+El algoritmo del ave cleptomana es una técnica de optimización computacional creada por nosotros que combina los algoritmos meméticos con los métodos de apareamiento de algunas especies de ave
+
+Ese algoritmo se diferencia de un algoritmo memético convencional en que usa un método que se encarga de colorear la mayor cantidad de de nodos posibles dentro del grafo con n colores posibles (esto debido a que las aves por lo general empiezan un nido usando las ramas más grandes como base) y luego usamos DSatur para coloreas los otros nodos con el fin de tapar las "agujeros" que quedaron en el grafo
+
+Otra característica especial de este algoritmo es que la clase color más grande que posea cualquiera de los padres siempre se heredará
+
+En nuestra implementación, se utilizó la siguiente función de evaluación la suma de los conflictos de cada nodo:
+
+$$f(\text{coloring}) = \left(\left(\sum_{v \in N} \text{conflicts}(v, \text{coloring})\right) + 1\right) \cdot \text{ncolors}(\text{coloring})$$
+
+Donde $N$ es el conjunto de nodos del grafo, $\text{conflicts}(v, \text{coloring})$ es el número de conflictos del nodo $v$ en la coloración, es decir, el número de nodos adyacentes al nodo $v$ que tienen el mismo color, y $\text{ncolors}(\text{coloring})$ es el número de colores utilizados en la coloración.
+
+Esta función de evaluación penaliza las soluciones con conflictos y favorece las soluciones con menos colores. 
+
+#### Operador de combinación de padres
+
+En este proyecto se utilizó una versión modificada del operador de cruce voraz de particiones con lista tabú tal como se vio en clases para el caso de `n = 3`. 
+
+Tomaremos la clase color más grande que posea cualquiera de los padres, a partir de ahí procedemos de manera convencional
+
+Este operador obtiene la clase de color con mayor cardinalidad, colorea esa clase en la solución hija, elimina los nodos de la clase de color de los padres, elimina el color de las clase de color de los padres y repite el proceso hasta que la solución hija este completa.
+
+Para no tomar el mismo padre en la siguiente iteración, se utiliza una lista tabú que almacena los padres que ya han sido seleccionados, esta lista garantiza que no se seleccione el padre seleccionado por tres iteraciones.
+
+#### Metodo de mejora
+
+Nuestro método de mejora asegura que todos los hijos sean soluciones válidas, ademas de esto, mejora su aptitud ejecutando busqueda local.
+
+Para asegurar que todos los hijos sean validos, descolorea todos los nodos que tengan conflictos y aplica D-Satur para colorear los nodos descoloreados.
+
+Por limitaciones de tiempo de ejecución, la mejora de búsqueda local solo se aplica en la última iteración del algoritmo.
+
+#### Pseudocódigo
+
+```python
+
+def kleptomaniac_bird(graph: Graph):
+    # Hiperparámetros del algoritmo memetico
+    population_size: int = 100
+    generations: int = 3
+    mutation_rate: float = 0.5
+    min_initial_colors: int = 4
+    max_initial_colors: int = 10
+    
+
+    def find_best_solution(population):
+        return min(
+            population, key=eval_sol) if mode == 'MIN' else max(population, key=eval_sol)
+
+    # Generar población inicial
+    population: List[Dict[int, str]] = create_population(graph, population_size, min_initial_colors, max_initial_colors)
+    # Evaluar la población inicial
+
+    best_solution: Dict[int, str] = find_best_solution(population)
+    best_score: int = eval_sol(best_solution)
+
+    # Evolución de la población
+    for i in range(generations):
+        # Seleccionar K  tripletas de padres
+        K = population_size // 6
+        parents: List[List[Dict[int, str]]] = get_parent_triplets(
+            population, K, eval_sol, mode)
+
+        # Cruzar las tripletas de padres para obtener K hijos
+        children: List[Dict[int, str]] = [triple_partition_crossover(self, p) for p in parents]
+
+        # Mutar a los K hijos
+        children = [mutate(graph, c, mutation_rate) for c in children]
+
+        # Mejorar a los hijos, se usa metodo del nido en todas las generaciones menos en la ultima, ahi tambien se usa busqueda local
+        children = [enhance_sol(self, c, i, K, i == generations - 1) for i, c in enumerate(children)]
+
+        # Agregar a la población a los K hijos
+        population.extend(children)
+
+        # Seleccionar K // 2 individuos de la población según que tan malo es su desempeño
+        killed = random.choices(population, k=K // 2, weights=[
+            eval_sol(c) if mode == 'MIN' else 1 / eval_sol(c)
+            for c in population
+        ])
+
+        # Eliminar los K // 2 seleccionados
+        population = [p for p in population if p not in killed]
+
+        # Actualizar la mejor solución
+        generation_best = find_best_solution(population)
+        generation_best_score = eval_sol(generation_best)
+        if generation_best_score < best_score:
+            best_solution = generation_best
+            best_score = generation_best_score
+        # Agregar a la mejor solución a la población (intensificación)
+        population.append(best_solution)
+        
+    # Aplicar mejor solución
+    graph.apply_coloring_dict(best_solution)
+```
+
 
 
 ## Experimentos y Resultados
