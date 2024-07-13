@@ -97,7 +97,7 @@ Además, se realizaron pruebas para evaluar el desempeño de los algoritmos impl
 
 ## Entrega 4
 
-Para esta última entrega, se realizó una metaheurística propia, la cual se llama "" y se explica detalladamente en el informa de este corte. Además, se realizaron pruebas para evaluar el desempeño del algoritmo implementado. Para más información sobre el algoritmo y las pruebas realizadas, se puede consultar el archivo `explain.md` en la carpeta de este corte. Puede acceder a este archivo [aquí](src/corte4/explain.md)
+Para esta última entrega, se realizó una metaheurística propia, la cual se llama "Heurística del Ave Cleptómana" y se explica detalladamente en el informa de este corte. Además, se realizaron pruebas para evaluar el desempeño del algoritmo implementado. Para más información sobre el algoritmo y las pruebas realizadas, se puede consultar el archivo `explain.md` en la carpeta de este corte. Puede acceder a este archivo [aquí](src/corte4/explain.md)
 
 > [!NOTE] Nota:
 > Se realizó una comparación de los algoritmos implementados en todas entregas. Para más información sobre la comparación, se puede consultar el archivo `explain.md` en la carpeta de este corte. Puede acceder a este archivo [aquí](src/corte4/explain.md#comparación-con-cortes-anteriores)
