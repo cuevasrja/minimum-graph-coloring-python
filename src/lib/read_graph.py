@@ -11,6 +11,7 @@ from src.lib.tabu_search import tabu_search
 from src.lib.ant_colony import ant_colony
 from src.lib.memetic import memetic_algorithm
 from src.lib.disperse_search import disperse_search
+from src.lib.kleptom_bird import kleptom_bird
 
 ig.Graph.count_colors = count_colors
 ig.Graph.local_search_without_d_satur = local_search_without_d_satur
@@ -46,6 +47,7 @@ ig.Graph.ant_colony = ant_colony
 ig.Graph.refresh_saturations = refresh_saturations
 ig.Graph.memetic_algorithm = memetic_algorithm
 ig.Graph.disperse_search = disperse_search
+ig.Graph.kleptom_bird = kleptom_bird
 
 
 def read_graph(file_path: str) -> ig.Graph:
