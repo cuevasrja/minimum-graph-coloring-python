@@ -90,8 +90,8 @@ def kleptomaniac_bird(graph: Graph):
     population_size: int = 100
     generations: int = 3
     mutation_rate: float = 0.5
-    min_initial_colors: int = 4
-    max_initial_colors: int = 10
+    min_initial_colors_amount: float = 0.01,
+    max_initial_colors_amount: float = 0.05
     
 
     def find_best_solution(population):
@@ -99,7 +99,7 @@ def kleptomaniac_bird(graph: Graph):
             population, key=eval_sol) if mode == 'MIN' else max(population, key=eval_sol)
 
     # Generar población inicial
-    population: List[Dict[int, str]] = create_population(graph, population_size, min_initial_colors, max_initial_colors)
+    population: List[Dict[int, str]] = create_population(graph, population_size, min_initial_colors_amount, max_initial_colors_amount)
     # Evaluar la población inicial
 
     best_solution: Dict[int, str] = find_best_solution(population)

@@ -1,86 +1,67 @@
 from typing import List
 import igraph as ig
 import random
-from typing import Dict, Callable, List
+import math
+from typing import Dict, Callable, List, Tuple
 from src.lib.eval_functions import eval_scaled_number_of_conflics
-from src.lib.genetic import mutate, create_population
+from src.lib.genetic import mutate
+from collections import Counter
 
-def triple_common_crossover(self: ig.Graph, parents: List[Dict[int, str]]) -> Dict[int, str]:
+
+import igraph as ig
+import random
+
+
+def create_population_with_initial_colors(self: ig.Graph, population_size: int, min_initial_colors_amount: float, max_initial_colors_amount: float) -> List[Dict[int, str]]:
+    population: List[Dict[int, str]] = []
+    
+    def random_initial_color_amount():
+        random_value = random.uniform(min_initial_colors_amount, max_initial_colors_amount)
+        number_of_nodes = self.vcount()
+        initial_colors_amount = math.ceil(random_value * number_of_nodes)
+        return initial_colors_amount
+
+    # Random color graph 90% of the initial population
+    for _ in range(90 * population_size // 100):
+        initial_colors_to_use = random_initial_color_amount()
+        self.color_graph_with_multiple_colors_random_order(initial_colors_to_use)
+        self.random_color_graph()
+        population.append(self.coloring_as_dict())
+        self.reset_colors()
+
+    # D-Satur rest of the initial population
+    for _ in range(population_size - len(population)):
+        initial_colors_to_use = random_initial_color_amount()
+        self.color_graph_with_multiple_colors_random_order(initial_colors_to_use)        
+        self.d_satur()
+        population.append(self.coloring_as_dict())
+        self.reset_colors()
+
+    return population
+
+
+def most_common_color(parents: List[Dict[int, str]]) -> Tuple[str, int]:
     """
-    Cruza a tres padres para obtener un hijo.
+    Devuelve el color más común entre los tres padres y el índice del padre que lo tiene más veces.
     """
-    # Seleccionar los padres
-    parent1, parent2, parent3 = parents
+    color_parent_count = []
 
-    # Crear hijo
-    child: Dict[int, str] = {}
+    for i, parent in enumerate(parents):
+        color_counts = Counter(parent.values())
+        most_common_color, count = color_counts.most_common(1)[0]
+        color_parent_count.append((most_common_color, count, i))
 
-    # Iterar sobre los vértices
-    for vertex in self.vs:
-        vertex_index = vertex.index
+    most_common_color, _, most_common_parent_index = max(color_parent_count, key=lambda x: x[1])
 
-        # Seleccionar el color que más se repite en los padres
-        color1 = parent1[vertex_index]
-        color2 = parent2[vertex_index]
-        color3 = parent3[vertex_index]
-
-        # Si los colores son iguales, se selecciona ese color
-        if color1 == color2 == color3:
-            child[vertex_index] = color1
-        # Si existe un color común entre dos padres, se selecciona ese color
-        elif color1 == color2:
-            child[vertex_index] = color1
-        elif color1 == color3:
-            child[vertex_index] = color1
-        elif color2 == color3:
-            child[vertex_index] = color2
-        else:
-            # Si no hay colores comunes, se selecciona un color aleatorio
-            child[vertex_index] = random.choice([color1, color2, color3])
-
-    return child
-
-
-def triple_point_crossover(self: ig.Graph, parents: List[Dict[int, str]]) -> Dict[int, str]:
-    """
-    Cruza a tres padres para obtener un hijo.
-
-    Se seleccionan tres puntos de corte aleatorios y se asigna un padre a cada segmento.
-    """
-    # Seleccionar los padres
-    parent1, parent2, parent3 = parents
-
-    # Crear hijo
-    child: Dict[int, str] = {}
-
-    # Seleccionar dos puntos de corte
-    cut_points = random.sample(range(self.vcount()), 2)
-    cut_points.sort()
-    p1, p2 = cut_points
-
-    # Iterar sobre los vértices
-    for vertex in self.vs:
-        vertex_index = vertex.index
-
-        color1 = parent1[vertex_index]
-        color2 = parent2[vertex_index]
-        color3 = parent3[vertex_index]
-
-        if vertex_index < p1:
-            child[vertex_index] = color1
-        elif vertex_index < p2:
-            child[vertex_index] = color2
-        else:
-            child[vertex_index] = color3
-
-    return child
-
+    return most_common_color, most_common_parent_index
 
 def triple_partition_crossover(self: ig.Graph, parents: List[Dict[int, str]]) -> Dict[int, str]:
     """
     Cruza a tres padres utilizando el metodo de cruze voraz de particiones.
 
     Adicionalmente, mantiene un blacklist que asegura que no se use un padre m veces seguidas.
+    
+    Se usa una funcion para verificar cual es el padre que posea la clase color mas alta y esta siempre se hereda en el hijo
 
     Esto representa una implementación sencilla de AMPaX para n = 3.
     """
@@ -103,6 +84,15 @@ def triple_partition_crossover(self: ig.Graph, parents: List[Dict[int, str]]) ->
     result_graph = self.copy()
     for v in result_graph.vs:
         v['color'] = ''
+
+    # Calcular el color más común entre los tres padres
+    common_color, common_parent_index = most_common_color(parents)
+
+    # Asignar el color más común a todos los vértices del hijo que están en el padre con el color más común
+    common_parent = parents[common_parent_index]
+    for vertex, color in common_parent.items():
+        if color == common_color:
+            result_graph.vs[vertex]['color'] = common_color
 
     def compute_color_classes(graph: ig.Graph, parent_index: int) -> Dict[str, List[int]]:
         color_classes = {}
@@ -132,7 +122,7 @@ def triple_partition_crossover(self: ig.Graph, parents: List[Dict[int, str]]) ->
         options = [
             (p, c, vs)
             for p, c, vs in all_color_classes
-            if blacklist[p] < M
+            if blacklist[p] < M and c != common_color
         ]
         if len(options) == 0:  # Si no hay opciones,
             # Si no hay elementos porque estan en el blacklist, se resetea el blacklist
@@ -149,7 +139,7 @@ def triple_partition_crossover(self: ig.Graph, parents: List[Dict[int, str]]) ->
             [
                 (p, c, vs)
                 for p, c, vs in all_color_classes
-                if blacklist[p] < M
+                if blacklist[p] < M and c != common_color
             ],
             key=lambda x: len(x[2])
         )
@@ -182,7 +172,6 @@ def triple_partition_crossover(self: ig.Graph, parents: List[Dict[int, str]]) ->
 
     return result_graph.coloring_as_dict()
 
-
 def get_parent_triplets(population: List[Dict[int, str]],
                         K: int,
                         eval_sol: Callable[[Dict[int, str]], int],
@@ -211,7 +200,6 @@ def get_parent_triplets(population: List[Dict[int, str]],
         parent_triplets.append([parent1, parent2, parent3])
 
     return parent_triplets
-
 
 def enhance_sol(graph: ig.Graph, sol: Dict[int, str], i: int, K: int, last_gen: bool):
     """
@@ -264,23 +252,25 @@ def enhance_sol(graph: ig.Graph, sol: Dict[int, str], i: int, K: int, last_gen: 
 
 
 def kleptom_bird(self: ig.Graph,
-                      population_size: int = 100,
+                      nests_amount: int = 100,
                       generations: int = 3,
-                      mutation_rate: float = 0.5):
+                      mutation_rate: float = 0.5,
+                      min_initial_colors_amount: float = 0.01,
+                      max_initial_colors_amount: float = 0.05):
     eval_sol: Callable[[Dict[int, str]],
                        int] = eval_scaled_number_of_conflics(self)
     mode = 'MIN'
 
-    def find_best_solution(population):
+    def find_best_solution(nest_population):
         return min(
-            population, key=eval_sol) if mode == 'MIN' else max(population, key=eval_sol)
+            nest_population, key=eval_sol) if mode == 'MIN' else max(nest_population, key=eval_sol)
 
-    # Generar población inicial
-    population: List[Dict[int, str]] = create_population(self, population_size)
+    # Generar población inicial de nidos
+    nest_population: List[Dict[int, str]] = create_population_with_initial_colors(self, nests_amount, min_initial_colors_amount, max_initial_colors_amount)
 
-    # Evaluar la población inicial
-    best_solution: Dict[int, str] = find_best_solution(population)
-    best_score: int = eval_sol(best_solution)
+    # Evaluar los nidos iniciales
+    best_nest: Dict[int, str] = find_best_solution(nest_population)
+    best_score: int = eval_sol(best_nest)
 
     # Evolución de la población
     for i in range(generations):
@@ -288,9 +278,9 @@ def kleptom_bird(self: ig.Graph,
         #       f"Mejor solución: {best_score}")
 
         # Seleccionar K tripletas de padres
-        K = population_size // 6
+        K = nests_amount // 6
         parents: List[List[Dict[int, str]]] = get_parent_triplets(
-            population, K, eval_sol, mode)
+            nest_population, K, eval_sol, mode)
 
         # Cruzar las tripletas de padres para obtener K hijos
         children: List[Dict[int, str]] = [
@@ -303,25 +293,25 @@ def kleptom_bird(self: ig.Graph,
         children = [enhance_sol(self, c, i, K, i == generations - 1) for i, c in enumerate(children)]
 
         # Agregar a la población a los K hijos
-        population.extend(children)
+        nest_population.extend(children)
 
         # Seleccionar K // 2 individuos de la población según que tan malo es su desempeño
-        killed = random.choices(population, k=K // 2, weights=[
+        killed = random.choices(nest_population, k=K // 2, weights=[
             eval_sol(c) if mode == 'MIN' else 1 / eval_sol(c)
-            for c in population
+            for c in nest_population
         ])
-        population = [p for p in population if p not in killed]
+        nest_population = [n for n in nest_population if n not in killed]
 
         # Actualizar la mejor solución
-        generation_best = find_best_solution(population)
+        generation_best = find_best_solution(nest_population)
         generation_best_score = eval_sol(generation_best)
 
         if (mode == 'MIN' and generation_best_score < best_score) or (mode == 'MAX' and generation_best_score > best_score):
-            best_solution = generation_best
+            best_nest = generation_best
             best_score = generation_best_score
 
         # Agregar a la mejor solución a la población (intensificación)
-        population.append(best_solution)
+        nest_population.append(best_nest)
 
     # Aplicar mejor solución
-    self.apply_coloring_dict(best_solution)
+    self.apply_coloring_dict(best_nest)

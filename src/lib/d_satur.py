@@ -7,6 +7,9 @@ def d_satur(self: ig.Graph):
     """
     Colorea el grafo utilizando el algoritmo heuristico D-Satur.
     """
+    
+    self.refresh_saturations()
+    
     colors = [str(x) for x in range(len(self.vs))]
 
     while True:

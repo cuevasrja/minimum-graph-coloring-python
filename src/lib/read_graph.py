@@ -1,5 +1,5 @@
 import igraph as ig
-from src.lib.methods_for_graph import vertex_with_max_saturation, adjacent_colors, change_color_and_increase_saturation, group_nodes_by_color, is_colored, is_safe_to_color, reset_colors, is_valid_coloring, number_of_colors, coloring_as_dict, apply_coloring_dict, count_and_sort_colors, uncolor, get_amount_of_colors, random_color_graph, colors_used, save_vertex_state, load_vertex_state, count_colors, refresh_saturations
+from src.lib.methods_for_graph import vertex_with_max_saturation, adjacent_colors, change_color_and_increase_saturation, group_nodes_by_color, is_colored, is_safe_to_color, reset_colors, is_valid_coloring, number_of_colors, coloring_as_dict, apply_coloring_dict, count_and_sort_colors, uncolor, get_amount_of_colors, random_color_graph, colors_used, save_vertex_state, load_vertex_state, count_colors, refresh_saturations, color_graph_with_multiple_colors_random_order
 from src.lib.d_satur import d_satur
 from src.lib.ils import ils
 from src.lib.backtracking import backtracking
@@ -29,6 +29,7 @@ ig.Graph.reset_colors = reset_colors
 ig.Graph.is_colored = is_colored
 ig.Graph.is_safe_to_color = is_safe_to_color
 ig.Graph.vertex_with_max_saturation = vertex_with_max_saturation
+ig.Graph.color_graph_with_multiple_colors_random_order = color_graph_with_multiple_colors_random_order
 ig.Graph.adjacent_colors = adjacent_colors
 ig.Graph.change_color_and_increase_saturation = change_color_and_increase_saturation
 ig.Graph.d_satur = d_satur

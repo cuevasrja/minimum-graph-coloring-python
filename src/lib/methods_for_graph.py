@@ -57,7 +57,7 @@ def load_vertex_state(self, new_vertex_state):
 
 
 def random_color_graph(self: ig.Graph) -> None:
-    nodes_indexes = list(range(self.vcount()))
+    nodes_indexes = [v.index for v in self.vs if v['color'] == '']  # Obtener índices de nodos no coloreados
 
     while len(nodes_indexes) > 0:
         node_to_color = delete_random_value_from_list(nodes_indexes)
@@ -272,3 +272,31 @@ def get_amount_of_colors(self: ig.Graph) -> int:
 
     total_colors: int = len(nodes_by_color)
     return total_colors
+
+def color_graph_with_multiple_colors_random_order(self: ig.Graph, colors: int) -> None:
+    """
+    Colorea todos los nodos posibles del grafo con varios colores distintos, asegurando que no haya nodos vecinos con el mismo color.
+    El orden de coloreado de los nodos es aleatorio.
+    """
+    if colors <= 0:
+        raise ValueError("El número de colores debe ser mayor que cero.")
+
+    # Convertir el número de colores a una lista de strings numéricos ["0", "1", ..., str(colors-1)]
+    color_labels = [str(i) for i in range(colors)]
+
+    for color in color_labels:
+        # Inicializar la lista de nodos coloreables que no están ya coloreados con 'color'
+        colorable_nodes = [v.index for v in self.vs if v['color'] == '']
+
+        # Colorear todos los nodos posibles con el mismo color en orden aleatorio
+        while colorable_nodes:
+            # Elegir un nodo aleatorio de los nodos coloreables
+            node = random.choice(colorable_nodes)
+            self.vs[node]['color'] = color
+
+            # Eliminar este nodo y sus vecinos de la lista de coloreables
+            colorable_nodes.remove(node)
+            neighbors = self.neighbors(node)
+            for neighbor in neighbors:
+                if neighbor in colorable_nodes:
+                    colorable_nodes.remove(neighbor)
