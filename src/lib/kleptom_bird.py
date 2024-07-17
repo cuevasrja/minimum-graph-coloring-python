@@ -272,8 +272,8 @@ def kleptom_bird(self: ig.Graph,
     best_nest: Dict[int, str] = find_best_solution(nest_population)
     best_score: int = eval_sol(best_nest)
 
-    # Evolución de la población
-    for i in range(generations):
+    # Evolución de la población de nidos
+    for _ in range(generations):
         # print(f"Generación {i + 1}/{generations}",
         #       f"Mejor solución: {best_score}")
 
