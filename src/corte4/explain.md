@@ -166,7 +166,7 @@ Las pruebas fueron realizadas en un equipo con las siguientes características:
 
 En el corte anterior se implementó un algoritmo memético para el problema de coloración de grafos. En este corte se implementó un algoritmo de coloración de grafos basado en la heurística del ave cleptómana. Podemos ver que el algoritmo del ave cleptómana es más rápido que el algoritmo memético en la mayoría de los casos, y en algunos casos también obtiene mejores resultados. Sin embargo, en algunos casos el algoritmo memético obtiene mejores resultados que el algoritmo del ave cleptómana.
 
-Como se puede ver, el algoritmo del ave cleptómana retorna soluciones muy buenas y cercanas al número cromático en la mayoría de los casos, con un tiempo de ejecución bastante razonable. Si bien, dicho algoritmo no es tan rápido como DSatur, es una buena alternativa para obtener soluciones de calidad en un tiempo razonable, y en algunos casos hasta mejores que DSatur.
+Como se puede ver, el algoritmo del ave cleptómana retorna soluciones muy buenas y cercanas al número cromático en la mayoría de los casos, con un tiempo de ejecución bastante razonable. Si bien, dicho algoritmo no es tan rápido como DSatur, es una buena alternativa para obtener soluciones de calidad en un tiempo razonable, y en algunos casos hasta mejores que DSatur. Algo a destacar es que con este pudimos obtener el numero cromatico del grafo basado en el problema de las n reinas, cosa que solo habiamos podido lograr hacer con ant colony
 
 ## Conclusiones
 
