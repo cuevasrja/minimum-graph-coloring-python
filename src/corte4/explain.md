@@ -149,8 +149,6 @@ Las pruebas fueron realizadas en un equipo con las siguientes características:
 - **Memoria RAM**: 32GB 
 - **SO**: Windows 11 con WSL
 
-## Comparación con Corte Anterior
-
 | Nombre del grafo  | Numero de nodos | Numero de aristas | Numero cromatico | Tiempo Dsatur | Resultado D_Satur | Tiempo memetico | Resultado memetico | Tiempo Cleptomano | Resultado Cleptomano |
 |-------------------|-----------------|-------------------|------------------|---------------|-------------------|------------------|--------------------|-------------------|----------------------|
 | DSJC250.5.col     | 250             | 15668             | ?                | 0.1034        | 42                | 121.253          | 40                 | 82.402            | 40                   |
@@ -164,7 +162,14 @@ Las pruebas fueron realizadas en un equipo con las siguientes características:
 | mulsol.i.1.col    | 197             | 3925              | 49               | 0.091         | 49                | 31.332           | 49                 | 25.205            | 49                   |
 | fpsol2.i.2.col    | 425             | 8688              | 30               | 0.2381        | 30                | 128.567          | 30                 | 47.79             | 30                   |
 
+## Comparación con Corte Anterior
 
+En el corte anterior se implementó un algoritmo memético para el problema de coloración de grafos. En este corte se implementó un algoritmo de coloración de grafos basado en la heurística del ave cleptómana. Podemos ver que el algoritmo del ave cleptómana es más rápido que el algoritmo memético en la mayoría de los casos, y en algunos casos también obtiene mejores resultados. Sin embargo, en algunos casos el algoritmo memético obtiene mejores resultados que el algoritmo del ave cleptómana.
+
+Como se puede ver, el algoritmo del ave cleptómana retorna soluciones muy buenas y cercanas al número cromático en la mayoría de los casos, con un tiempo de ejecución bastante razonable. Si bien, dicho algoritmo no es tan rápido como DSatur, es una buena alternativa para obtener soluciones de calidad en un tiempo razonable, y en algunos casos hasta mejores que DSatur.
 
 ## Conclusiones
 
+- La metaheurística del ave cleptómana creada por nosotros, es una derivación del algorithm memético que mejora su rendimiento en la mayoría de los casos, manteniendo la calidad de las soluciones obtenidas.
+- Al igual que en el corte anterior, este tipo de algoritmos son muy sensibles a los hiperparámetros, por lo que es importante ajustarlos correctamente para obtener buenos resultados.
+- El algoritmo memético y el algoritmo del ave cleptómana tienen mayor facilidad para encontrar soluciones de calidad en grafos usados para el problema de las n-reinas, esto se debe a que estos grafos tienen una estructura regular que facilita la coloración.
