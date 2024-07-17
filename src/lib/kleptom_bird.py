@@ -7,12 +7,7 @@ from src.lib.eval_functions import eval_scaled_number_of_conflics
 from src.lib.genetic import mutate
 from collections import Counter
 
-
-import igraph as ig
-import random
-
-
-def create_population_with_initial_colors(self: ig.Graph, population_size: int, min_initial_colors_amount: float, max_initial_colors_amount: float) -> List[Dict[int, str]]:
+def create_nests_with_initial_colors(self: ig.Graph, population_size: int, min_initial_colors_amount: float, max_initial_colors_amount: float) -> List[Dict[int, str]]:
     population: List[Dict[int, str]] = []
     
     def random_initial_color_amount():
@@ -38,7 +33,6 @@ def create_population_with_initial_colors(self: ig.Graph, population_size: int, 
         self.reset_colors()
 
     return population
-
 
 def most_common_color(parents: List[Dict[int, str]]) -> Tuple[str, int]:
     """
@@ -266,7 +260,7 @@ def kleptom_bird(self: ig.Graph,
             nest_population, key=eval_sol) if mode == 'MIN' else max(nest_population, key=eval_sol)
 
     # Generar población inicial de nidos
-    nest_population: List[Dict[int, str]] = create_population_with_initial_colors(self, nests_amount, min_initial_colors_amount, max_initial_colors_amount)
+    nest_population: List[Dict[int, str]] = create_nests_with_initial_colors(self, nests_amount, min_initial_colors_amount, max_initial_colors_amount)
 
     # Evaluar los nidos iniciales
     best_nest: Dict[int, str] = find_best_solution(nest_population)
