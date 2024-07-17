@@ -151,6 +151,18 @@ Las pruebas fueron realizadas en un equipo con las siguientes características:
 
 ## Comparación con Corte Anterior
 
+| Nombre del grafo  | Numero de nodos | Numero de aristas | Numero cromatico | Tiempo Dsatur | Resultado D_Satur | Tiempo memetico | Resultado memetico | Tiempo Cleptomano | Resultado Cleptomano |
+|-------------------|-----------------|-------------------|------------------|---------------|-------------------|------------------|--------------------|-------------------|----------------------|
+| DSJC250.5.col     | 250             | 15668             | ?                | 0.1034        | 42                | 121.253          | 40                 | 82.402            40                   |
+| DSJC250.9.col     | 250             | 27897             | ?                | 0.237         | 97                | 189.173          | 91                 | 169.092           |91                   |
+| le450_15b.col     | 450             | 8169              | 15               | 0.2379        | 18                | 130.936          | 18                 | 56.679            | 19                   |
+| le450_15c.col     | 450             | 16680             | 15               | 0.2136        | 26                | 74.953           | 26                 | 93.725            | 27                   |
+| le450_25c.col     | 450             | 17343             | 25               | 0.213         | 31                | 114.26           | 31                 | 105.904           | 31                   |
+| queen5_5.col      | 25              | 320               | 5                | 0.003         | 8                 | 1.308            | 7                  | 0.871             | 5                    |
+| fpsol2.i.1.col    | 496             | 11654             | 65               | 0.1567        | 65                | 374.592          | 65                 | 115.742           | 65                   |
+| zeroin.i.3.col    | 206             | 3540              | 30               | 0.088         | 30                | 32.085           | 30                 | 16.822            | 30                   |
+| mulsol.i.1.col    | 197             | 3925              | 49               | 0.091         | 49                | 31.332           | 49                 | 25.205            | 49                   |
+| fpsol2.i.2.col    | 425             | 8688              | 30               | 0.2381        | 30                | 128.567          | 30                 | 47.79             | 30                   |
 
 
 ## Conclusiones
