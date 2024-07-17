@@ -166,10 +166,10 @@ Las pruebas fueron realizadas en un equipo con las siguientes características:
 
 En el corte anterior se implementó un algoritmo memético para el problema de coloración de grafos. En este corte se implementó un algoritmo de coloración de grafos basado en la heurística del ave cleptómana. Podemos ver que el algoritmo del ave cleptómana es más rápido que el algoritmo memético en la mayoría de los casos, y en algunos casos también obtiene mejores resultados. Sin embargo, en algunos casos el algoritmo memético obtiene mejores resultados que el algoritmo del ave cleptómana.
 
-Como se puede ver, el algoritmo del ave cleptómana retorna soluciones muy buenas y cercanas al número cromático en la mayoría de los casos, con un tiempo de ejecución bastante razonable. Si bien, dicho algoritmo no es tan rápido como DSatur, es una buena alternativa para obtener soluciones de calidad en un tiempo razonable, y en algunos casos hasta mejores que DSatur. Algo a destacar es que con este pudimos obtener el numero cromatico del grafo basado en el problema de las n reinas, cosa que solo habiamos podido lograr hacer con ant colony
+Como se puede ver, el algoritmo del ave cleptómana retorna soluciones muy buenas y cercanas al número cromático en la mayoría de los casos, con un tiempo de ejecución bastante razonable. Si bien, dicho algoritmo no es tan rápido como DSatur, es una buena alternativa para obtener soluciones de calidad en un tiempo razonable, y en algunos casos hasta mejores que DSatur. Algo a destacar es que con este pudimos obtener el número cromático del grafo basado en el problema de las n reinas, cosa que solo habíamos podido lograr hacer con ant colony.
 
 ## Conclusiones
 
-- La metaheurística del ave cleptómana creada por nosotros, es una derivación del algorithm memético que mejora su rendimiento en la mayoría de los casos, manteniendo la calidad de las soluciones obtenidas.
+- La metaheurística del ave cleptómana creada por nosotros, es una derivación del algoritmo memético que mejora su rendimiento en la mayoría de los casos, manteniendo la calidad de las soluciones obtenidas.
 - Al igual que en el corte anterior, este tipo de algoritmos son muy sensibles a los hiperparámetros, por lo que es importante ajustarlos correctamente para obtener buenos resultados.
 - El algoritmo memético y el algoritmo del ave cleptómana tienen mayor facilidad para encontrar soluciones de calidad en grafos usados para el problema de las n-reinas, esto se debe a que estos grafos tienen una estructura regular que facilita la coloración.
